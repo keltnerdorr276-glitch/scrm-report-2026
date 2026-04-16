@@ -35,9 +35,85 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 .note-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
 .risk-box { background: #fef9f5; border: 1px solid #fed7aa; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
 .divider { border-top: 1px dashed #cbd5e1; margin: 26px 0; }
+
+/* 折叠详情块 */
+.collapsible-detail { border: 1px dashed #cbd5e1; border-radius: 8px; background: #fafafa; padding: 0; }
+.collapsible-detail[open] { background: #ffffff; border-color: #94a3b8; border-style: solid; }
+.collapsible-summary { list-style: none; cursor: pointer; padding: 12px 18px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #334155; user-select: none; border-radius: 8px; }
+.collapsible-summary::-webkit-details-marker { display: none; }
+.collapsible-summary:hover { background: #f1f5f9; }
+.collapsible-summary .collapsible-ico { display: inline-block; transition: transform .2s ease; font-size: 11px; color: #64748b; }
+.collapsible-detail[open] .collapsible-summary .collapsible-ico { transform: rotate(90deg); }
+.collapsible-hint { margin-left: auto; font-size: 12px; font-weight: 400; color: #94a3b8; }
+.collapsible-detail[open] .collapsible-hint { display: none; }
+.collapsible-detail > *:not(summary) { padding-left: 18px; padding-right: 18px; }
+.collapsible-detail > *:last-child { padding-bottom: 18px; }
+body.presentation .collapsible-summary { font-size: 17px; padding: 16px 22px; }
+body.presentation .collapsible-hint { font-size: 14px; }
+
+/* ============= 演示模式 ============= */
+.mode-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 1000;
+  background: #1e293b; color: #fff; border: none; border-radius: 999px;
+  padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15,23,42,.2);
+  font-family: inherit;
+}
+.mode-toggle:hover { background: #0f172a; }
+.mode-toggle .mode-ico { margin-right: 6px; }
+
+/* Presentation mode overrides */
+body.presentation .max-w-6xl { max-width: 1280px; }
+body.presentation h1 { font-size: 36px !important; line-height: 1.2; }
+body.presentation h2 { font-size: 28px !important; line-height: 1.25; }
+body.presentation .section-title { font-size: 24px; margin: 32px 0 18px; padding-left: 14px; border-left-width: 5px; }
+body.presentation .sub-section-title { font-size: 20px; margin: 26px 0 14px; }
+body.presentation p, body.presentation li, body.presentation .text-sm, body.presentation .text-slate-700, body.presentation .text-slate-800 { font-size: 17px !important; line-height: 1.75 !important; }
+body.presentation .text-xs { font-size: 14px !important; }
+body.presentation .subtle { font-size: 15px; }
+body.presentation table th, body.presentation table td { font-size: 16px !important; padding: 14px 16px; }
+body.presentation .amt-big { font-size: 40px; }
+body.presentation .label-tag { font-size: 14px; padding: 4px 14px; }
+body.presentation .tab-active, body.presentation .tab-inactive { font-size: 17px; padding: 14px 22px; }
+body.presentation .subtab-active, body.presentation .subtab-inactive { font-size: 15px; padding: 10px 18px; }
+body.presentation .recommend-box, body.presentation .note-box, body.presentation .risk-box, body.presentation .highlight-box { padding: 20px 26px; font-size: 17px; line-height: 1.8; }
+body.presentation .recommend-box .title { font-size: 18px; }
+body.presentation .card { padding: 20px; }
+body.presentation .amt-big + div { font-size: 14px; }
+
+/* 演示模式下：三栏卡片拉大 */
+body.presentation .grid.grid-cols-3 > div .text-sm.font-bold { font-size: 20px !important; }
+body.presentation .grid.grid-cols-3 > div .text-\[12px\], body.presentation .grid.grid-cols-3 > div .text-\[13px\] { font-size: 16px !important; }
+body.presentation .grid.grid-cols-3 > div .text-\[11px\] { font-size: 13px !important; }
+
+/* 演示模式强调色块 */
+body.presentation .text-rose-600, body.presentation .text-rose-700, body.presentation .text-red-600 { font-weight: 700; }
+body.presentation .text-emerald-700, body.presentation .text-green-700 { font-weight: 700; }
+
+/* 响应式：手机 + 小屏幕 · 自动单列 + 放大 */
+@media (max-width: 900px) {
+  .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
+  body .max-w-6xl { padding: 12px !important; }
+  body h1 { font-size: 22px !important; }
+  body h2 { font-size: 19px !important; }
+  body table th, body table td { font-size: 13px !important; padding: 8px 10px; }
+  .tab-active, .tab-inactive { font-size: 13px; padding: 10px 12px; }
+  .amt-big { font-size: 24px !important; }
+  .mode-toggle { top: 8px; right: 8px; padding: 8px 14px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  body .text-sm, body p, body li { font-size: 14px !important; }
+  body table { font-size: 12px !important; }
+  body table th, body table td { padding: 6px 8px; }
+}
 </style>
 </head>
 <body class="bg-slate-100">
+
+<button class="mode-toggle" id="modeToggle" onclick="togglePresentation()">
+<span class="mode-ico">🎤</span><span id="modeLabel">演示模式</span>
+</button>
 
 <div class="max-w-6xl mx-auto p-6">
 
@@ -79,7 +155,7 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <span class="text-xs text-slate-500">三项事项的建议决策一览（详见下方分标签展开）</span>
 </div>
 <div class="text-slate-900 text-[15px] leading-relaxed mb-4">
-<strong>本次汇报共 3 项，建议合计年度新增支出 15 万元（在主合同 55 万之外）</strong>。核心判断是：① 年度续签按合同推进；② 支付方案切换<strong>首选"银联方案"（切换银联商务，15 万元）</strong>，建立独立、可控、合规的银联间连分账方案——<strong>备选"直连 + 星恒方案"（0 成本）的核心取舍在于是否放弃国企停车业务对接</strong>；③ 代运营收费选<strong>方案三（3000 元/项目/年，由各项目承担，集团 0 支出）</strong>。
+<strong>本次汇报共 3 项，建议合计年度新增支出 15 万元（在主合同 55 万之外）</strong>。核心判断是：① 年度续签按合同推进；② 支付方案切换<strong>首选"保业务方案"（切换银联商务，15 万元）</strong>，建立独立、可控、合规的银联间连分账方案——<strong>备选"控成本方案"（0 成本）的核心取舍在于是否放弃国企停车业务对接</strong>；③ 代运营收费选<strong>方案三（3000 元/项目/年，由各项目承担，集团 0 支出）</strong>。
 </div>
 <div class="grid grid-cols-3 gap-3">
 <div class="rounded-lg p-4 border border-slate-200 bg-white">
@@ -96,9 +172,9 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <span class="text-sm font-semibold text-slate-900">支付方案切换</span>
 </div>
 <div class="text-xs text-indigo-700 mb-2">新增需求 · 需决策</div>
-<div class="text-sm text-slate-800 leading-relaxed mb-3"><strong>首选 · 银联方案</strong>：切换至<strong>银联商务</strong>间连分账（影能 50% 补贴后 <strong>15 万元</strong>），建立一套独立、可控、合规的银联分账方案，覆盖国企 + 非国企全量项目，<strong>保留国企停车业务的对接可能</strong>。</div>
+<div class="text-sm text-slate-800 leading-relaxed mb-3"><strong>首选 · 保业务方案</strong>：切换至<strong>银联商务</strong>间连分账（影能 50% 补贴后 <strong>15 万元</strong>），建立一套独立、可控、合规的银联分账方案，覆盖国企 + 非国企全量项目，<strong>保住国企停车业务不缺角</strong>。</div>
 <div class="rounded border border-dashed border-slate-300 bg-white/70 p-2 text-xs text-slate-700 leading-relaxed">
-<strong class="text-slate-900">备选 · 直连 + 星恒方案（0 成本）</strong>：非国企走直连 + 国企卡券由星恒承接。<br>
+<strong class="text-slate-900">备选 · 控成本方案（0 成本）</strong>：非国企走直连 + 国企卡券由星恒承接。<br>
 <span class="text-rose-700"><strong>关键取舍：</strong>该方案等同于<strong>放弃国企停车业务的间连分账对接</strong></span>——国企停车因业主主体不愿开户、星恒又无法承接停车场景，将<strong>无解</strong>。是否接受此取舍，是两方案的决策分水岭。</div>
 </div>
 <div class="rounded-lg p-4 border-2 border-indigo-300 bg-indigo-50/60">
@@ -181,7 +257,7 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <div class="flex items-center justify-between px-6 py-5">
 <div>
 <div class="text-indigo-900 text-lg font-bold">前往查看：新增需求及费用事项</div>
-<div class="text-indigo-700 text-sm mt-1">支付方案切换（首选"银联方案" 15 万 / 备选"直连+星恒方案" 0 成本 / 兜底"联动+星恒方案" 0 成本） + 星恒代运营收费（三方案对比）</div>
+<div class="text-indigo-700 text-sm mt-1">支付方案切换（首选"保业务方案" 15 万 / 备选"控成本方案" 0 成本 / 兜底"观望方案" 0 成本） + 星恒代运营收费（三方案对比）</div>
 </div>
 <div class="text-indigo-600 text-5xl font-bold leading-none">→</div>
 </div>
@@ -198,11 +274,38 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <p class="subtle mt-1">两项新增事项均源于现有支付分账架构面临的外部变化，建议先明确支付方案再确定代运营收费模式</p>
 </div>
 
-<!-- Sub Tabs -->
-<div class="flex gap-1 mb-4 border-b border-slate-200">
-<button onclick="showSubTab('a')" id="subtab-a" class="subtab-active px-4 py-2 rounded-t-md text-sm font-medium transition">2.1 支付方案切换</button>
-<button onclick="showSubTab('b')" id="subtab-b" class="subtab-inactive px-4 py-2 rounded-t-md text-sm font-medium transition">2.2 星恒代运营收费</button>
+<!-- Sub Tabs · 卡片化大号入口 -->
+<div class="text-xs text-slate-500 mb-2">本标签含 <strong class="text-indigo-700">2 个子议题</strong>，点击卡片切换 ↓</div>
+<div class="grid grid-cols-2 gap-3 mb-5" id="subTabCards">
+<div onclick="showSubTab('a')" id="subcard-a" class="sub-card cursor-pointer rounded-xl p-5 border-2 transition select-none" style="border-color:#1e293b;background:linear-gradient(135deg,#1e293b,#334155);color:#fff;">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-bold rounded px-2 py-0.5" style="background:#fff;color:#1e293b;">议题 1</span>
+<span class="text-[11px] opacity-80" id="subcard-a-state">当前查看中</span>
 </div>
+<span class="text-xl" id="subcard-a-arrow">●</span>
+</div>
+<div class="text-lg font-bold mb-1">支付方案切换</div>
+<div class="text-[13px] opacity-90 leading-relaxed">三方案择一：保业务 / 控成本 / 观望</div>
+</div>
+<div onclick="showSubTab('b')" id="subcard-b" class="sub-card cursor-pointer rounded-xl p-5 border-2 transition select-none" style="border-color:#cbd5e1;background:#ffffff;color:#0f172a;">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-bold rounded px-2 py-0.5" style="background:#1e293b;color:#fff;">议题 2</span>
+<span class="text-[11px] text-slate-500" id="subcard-b-state">点击查看 →</span>
+</div>
+<span class="text-xl text-slate-400" id="subcard-b-arrow">○</span>
+</div>
+<div class="text-lg font-bold mb-1">星恒代运营收费</div>
+<div class="text-[13px] text-slate-600 leading-relaxed">三方案对比：集团承担 / 项目承担 / 均摊</div>
+</div>
+</div>
+<style>
+.sub-card:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(15,23,42,.12); }
+body.presentation .sub-card { padding: 22px !important; }
+body.presentation .sub-card .text-lg { font-size: 22px !important; }
+body.presentation .sub-card .text-\[13px\] { font-size: 15px !important; }
+</style>
 
 <!-- Sub Tab A: 支付方案切换 -->
 <div id="subcontent-a" class="subtab-content">
@@ -224,10 +327,14 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 </div>
 </div>
 
-<!-- 展开 · 详细图示 -->
-<div class="sub-section-title">展开说明：资金流程图示</div>
-
-<div class="grid grid-cols-2 gap-4 my-3">
+<!-- 展开 · 详细图示（默认折叠，按需展开） -->
+<details class="collapsible-detail my-3">
+<summary class="collapsible-summary">
+<span class="collapsible-ico">▶</span>
+<span>展开说明：资金流程图示</span>
+<span class="collapsible-hint">点击展开 · 讲解"为什么国企必须走间连"时用</span>
+</summary>
+<div class="grid grid-cols-2 gap-4 mt-4">
 <!-- 直连 -->
 <div class="border-2 border-blue-200 rounded-lg p-4 bg-blue-50">
 <div class="text-blue-900 font-semibold text-sm mb-3">【直连】商场主体开户</div>
@@ -271,6 +378,7 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <div class="note-box text-sm text-slate-700">
 <strong>底层逻辑共通：</strong>两种方案都基于<strong>余额分账</strong>模式——网商银行始终负责最终的余额分账环节，按规则把收单归集到的资金拆分给各商户。直连与间连只是收单环节的主体差异。
 </div>
+</details>
 
 <div class="section-title">二、间连方案现状：联动支付已不具备持续服务能力</div>
 
@@ -348,9 +456,9 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <div class="px-4 py-3" style="background:#059669;color:#fff;">
 <div class="flex items-center gap-2">
 <span class="text-[11px] font-bold bg-white text-emerald-700 rounded px-2 py-0.5">首选</span>
-<span class="text-sm font-bold">银联方案（切换银联商务）</span>
+<span class="text-sm font-bold">保业务方案</span>
 </div>
-<div class="text-[12px] text-emerald-50 mt-1">业务全覆盖 · 合规延续 · 付费 15 万</div>
+<div class="text-[12px] text-emerald-50 mt-1">15 万保住国企停车，业务不缺角</div>
 </div>
 <div class="p-4 text-[13px] text-slate-700 leading-relaxed">
 影能对接<strong>银联商务</strong>作为新间连供应商，建立一套<strong>独立、可控、合规</strong>的银联分账方案。四象限业务全覆盖（含<strong>国企停车</strong>），维持集团间连合规口径。<br>
@@ -362,9 +470,9 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <div class="px-4 py-3" style="background:#4f46e5;color:#fff;">
 <div class="flex items-center gap-2">
 <span class="text-[11px] font-bold bg-white text-indigo-700 rounded px-2 py-0.5">备选</span>
-<span class="text-sm font-bold">直连 + 星恒方案</span>
+<span class="text-sm font-bold">控成本方案</span>
 </div>
-<div class="text-[12px] text-indigo-50 mt-1">0 成本 · 放弃国企停车对接</div>
+<div class="text-[12px] text-indigo-50 mt-1">0 成本，代价是放弃国企停车</div>
 </div>
 <div class="p-4 text-[13px] text-slate-700 leading-relaxed">
 非国企项目走<strong>直连</strong>（商场自开微信/支付宝商户户），国企卡券由<strong>星恒</strong>承接。集团需放宽"所有项目必须间连"的内部口径。<br>
@@ -376,9 +484,9 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <div class="px-4 py-3" style="background:#64748b;color:#fff;">
 <div class="flex items-center gap-2">
 <span class="text-[11px] font-bold bg-white text-slate-700 rounded px-2 py-0.5">兜底</span>
-<span class="text-sm font-bold">联动 + 星恒方案（增量触发）</span>
+<span class="text-sm font-bold">观望方案</span>
 </div>
-<div class="text-[12px] text-slate-200 mt-1">0 成本 · 维持合规 · 规模线性增长</div>
+<div class="text-[12px] text-slate-200 mt-1">0 成本，存量不动，边走边看</div>
 </div>
 <div class="p-4 text-[13px] text-slate-700 leading-relaxed">
 存量项目继续用<strong>联动</strong>，新开项目及联动故障后项目<strong>逐步迁入星恒代运营</strong>闭环。集团 0 切换费，维持间连合规。<br>
@@ -394,15 +502,15 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <th style="width:18%; background:#f1f5f9;">维度</th>
 <th style="background:#ecfdf5; color:#065f46;">
 <div class="text-[11px] font-bold">首选</div>
-<div>银联方案（切换银联商务）</div>
+<div>保业务方案</div>
 </th>
 <th style="background:#eef2ff; color:#3730a3;">
 <div class="text-[11px] font-bold">备选</div>
-<div>直连 + 星恒方案</div>
+<div>控成本方案</div>
 </th>
 <th style="background:#f1f5f9; color:#334155;">
 <div class="text-[11px] font-bold">兜底</div>
-<div>联动 + 星恒方案（增量触发）</div>
+<div>观望方案</div>
 </th>
 </tr>
 </thead>
@@ -434,11 +542,11 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <div class="title">决策判断锚点（两个问题即可定位方案）</div>
 <div class="text-slate-800 text-sm leading-relaxed mt-2">
 <strong>锚点①：是否放弃国企停车业务的对接方案？</strong><br>
-<span class="text-slate-700">—— 不放弃 → 必须选<strong>"银联方案"</strong>，这是目前国企停车唯一可行的对接路径；<br>
+<span class="text-slate-700">—— 不放弃 → 必须选<strong>"保业务方案"</strong>，这是目前国企停车唯一可行的对接路径；<br>
 —— 可放弃 → 进入锚点②。</span><br><br>
 <strong>锚点②：非国企项目是否改走直连（放宽间连口径）？</strong><br>
-<span class="text-slate-700">—— 改走直连 → 选<strong>"直连 + 星恒方案"</strong>，0 成本闭环；<br>
-—— 维持间连 → 选<strong>"联动 + 星恒方案"</strong>，0 成本但星恒代运营规模线性增长。</span>
+<span class="text-slate-700">—— 改走直连 → 选<strong>"控成本方案"</strong>，0 成本闭环；<br>
+—— 维持间连 → 选<strong>"观望方案"</strong>，0 成本但星恒代运营规模线性增长。</span>
 </div>
 </div>
 
@@ -469,7 +577,7 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 </div>
 
 <div class="section-title">四、三方案汇总对比</div>
-<div class="subtle mb-2">测算口径：以 2026 年为 Y1，假设"<strong>全部项目均纳入代运营</strong>"为上限口径——存量 6 家 + 每年新增 4 家，Y1=10、Y2=14、Y3=18、Y4=22、Y5=26。实际因星恒代运营仅覆盖国企类项目（Tab 2.1"银联方案"下），真实代运营规模会<strong>显著低于</strong>下表数字，此表仅用于对比三方案的相对差异。</div>
+<div class="subtle mb-2">测算口径：以 2026 年为 Y1，假设"<strong>全部项目均纳入代运营</strong>"为上限口径——存量 6 家 + 每年新增 4 家，Y1=10、Y2=14、Y3=18、Y4=22、Y5=26。实际因星恒代运营仅覆盖国企类项目（Tab 2.1"保业务方案"下），真实代运营规模会<strong>显著低于</strong>下表数字，此表仅用于对比三方案的相对差异。</div>
 
 <table class="mb-4">
 <thead>
@@ -616,7 +724,7 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <div class="grid grid-cols-3 gap-3">
 <div class="border-2 border-emerald-500 rounded-lg p-4 bg-emerald-50">
 <div class="text-xs text-emerald-700 font-bold mb-1">首选</div>
-<div class="font-bold text-emerald-900 mb-2">银联方案（切换银联商务）</div>
+<div class="font-bold text-emerald-900 mb-2">保业务方案</div>
 <div class="text-xs text-slate-700 leading-relaxed">
 <div><strong>集团支出：</strong>一次性 15 万</div>
 <div><strong>间连合规：</strong>维持</div>
@@ -626,7 +734,7 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 </div>
 <div class="border-2 border-indigo-400 rounded-lg p-4 bg-indigo-50">
 <div class="text-xs text-indigo-700 font-bold mb-1">备选</div>
-<div class="font-bold text-indigo-900 mb-2">直连 + 星恒方案</div>
+<div class="font-bold text-indigo-900 mb-2">控成本方案</div>
 <div class="text-xs text-slate-700 leading-relaxed">
 <div><strong>集团支出：</strong>0</div>
 <div><strong>间连口径：</strong><span class="text-amber-700">非国企放宽</span></div>
@@ -636,7 +744,7 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 </div>
 <div class="border border-slate-300 rounded-lg p-4 bg-slate-50">
 <div class="text-xs text-slate-600 font-bold mb-1">兜底</div>
-<div class="font-bold text-slate-900 mb-2">联动 + 星恒方案</div>
+<div class="font-bold text-slate-900 mb-2">观望方案</div>
 <div class="text-xs text-slate-700 leading-relaxed">
 <div><strong>集团支出：</strong>0</div>
 <div><strong>间连合规：</strong>维持</div>
@@ -646,13 +754,13 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 </div>
 </div>
 <div class="mt-3 text-xs text-slate-600 leading-relaxed px-1">
-<strong>判断锚点：</strong>① 是否放弃国企停车业务对接 → 决定"银联方案"是否刚需；② 非国企是否改走直连 → 区分"直连+星恒方案"与"联动+星恒方案"。
+<strong>判断锚点：</strong>① 是否放弃国企停车业务对接 → 决定"保业务方案"是否刚需；② 非国企是否改走直连 → 区分"控成本方案"与"观望方案"。
 </div>
 </div>
 
 <div class="section-title">影能需补齐的信息</div>
 <ol class="list-decimal ml-6 text-sm text-slate-700 space-y-1 mb-6">
-<li>银联商务切换费约 15 万元的明细构成（"银联方案"下需要：对接费、系统改造费、数据迁移费）</li>
+<li>银联商务切换费约 15 万元的明细构成（"保业务方案"下需要：对接费、系统改造费、数据迁移费）</li>
 </ol>
 
 <div class="section-title">落地执行安排</div>
@@ -671,15 +779,15 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <tr>
 <td><span class="label-tag info-badge">2</span></td>
 <td><strong>签署主合同补充协议</strong><div class="subtle mt-1">按需</div></td>
-<td>根据领导选定的方案决定是否签署。若确认启用代运营收费或选择"银联方案"，则签署补充协议约定：①星恒代运营（方案三：3,000 元/年/项目，集团零付费，2 年锁价）；②支付方案切换的选定方案及对应责任</td>
+<td>根据领导选定的方案决定是否签署。若确认启用代运营收费或选择"保业务方案"，则签署补充协议约定：①星恒代运营（方案三：3,000 元/年/项目，集团零付费，2 年锁价）；②支付方案切换的选定方案及对应责任</td>
 </tr>
 <tr>
 <td><span class="label-tag warn-badge">3</span></td>
 <td><strong>执行支付方案</strong><div class="subtle mt-1">依择定路径</div></td>
 <td>
-<strong>若选"银联方案"：</strong>与影能签署银联对接一次性付款协议（15 万）<br>
-<strong>若选"直连 + 星恒方案"：</strong>无新增合同，按补充协议执行——非国企走直连 + 国企卡券走星恒<br>
-<strong>若选"联动 + 星恒方案"：</strong>无新增合同，按补充协议执行——维持间连 + 新开项目迁入星恒
+<strong>若选"保业务方案"：</strong>与影能签署银联对接一次性付款协议（15 万）<br>
+<strong>若选"控成本方案"：</strong>无新增合同，按补充协议执行——非国企走直连 + 国企卡券走星恒<br>
+<strong>若选"观望方案"：</strong>无新增合同，按补充协议执行——维持间连 + 新开项目迁入星恒
 </td>
 </tr>
 </tbody>
@@ -693,7 +801,7 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 <br>
 一、<strong>主合同约定事项</strong>——请领导确认年度续签付款按合同安排。<br>
 二、<strong>新增需求原则</strong>——请领导确认代运营收费方案（方案三）及补充协议框架。<br>
-三、<strong>支付方案择定</strong>——请领导在"银联方案 / 直连+星恒方案 / 联动+星恒方案"三方案中择定一项。
+三、<strong>支付方案择定</strong>——请领导在"保业务方案 / 控成本方案 / 观望方案"三方案中择定一项。
 </div>
 </div>
 
@@ -716,13 +824,59 @@ function showTab(i) {
   document.getElementById('content' + i).classList.remove('hidden');
   document.getElementById('tab' + i).className = 'tab-active px-5 py-3 rounded-t-lg text-sm font-medium transition';
 }
+function togglePresentation() {
+  const body = document.body;
+  const label = document.getElementById('modeLabel');
+  const ico = document.querySelector('#modeToggle .mode-ico');
+  const isPresent = body.classList.toggle('presentation');
+  if (isPresent) {
+    label.textContent = '阅读模式';
+    ico.textContent = '📖';
+    try { localStorage.setItem('pres-mode', '1'); } catch(e) {}
+  } else {
+    label.textContent = '演示模式';
+    ico.textContent = '🎤';
+    try { localStorage.setItem('pres-mode', '0'); } catch(e) {}
+  }
+}
+// 手机端自动进入演示模式；历史偏好自动恢复
+(function(){
+  try {
+    const saved = localStorage.getItem('pres-mode');
+    const isMobile = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+    if (saved === '1' || (saved === null && isMobile)) {
+      document.body.classList.add('presentation');
+      const label = document.getElementById('modeLabel');
+      const ico = document.querySelector('#modeToggle .mode-ico');
+      if (label) label.textContent = '阅读模式';
+      if (ico) ico.textContent = '📖';
+    }
+  } catch(e) {}
+})();
 function showSubTab(s) {
-  document.getElementById('subcontent-a').classList.add('hidden');
-  document.getElementById('subcontent-b').classList.add('hidden');
-  document.getElementById('subtab-a').className = 'subtab-inactive px-4 py-2 rounded-t-md text-sm font-medium transition';
-  document.getElementById('subtab-b').className = 'subtab-inactive px-4 py-2 rounded-t-md text-sm font-medium transition';
+  ['a','b'].forEach(function(k){
+    document.getElementById('subcontent-' + k).classList.add('hidden');
+    var card = document.getElementById('subcard-' + k);
+    var state = document.getElementById('subcard-' + k + '-state');
+    var arrow = document.getElementById('subcard-' + k + '-arrow');
+    if (k === s) {
+      card.style.background = 'linear-gradient(135deg,#1e293b,#334155)';
+      card.style.color = '#fff';
+      card.style.borderColor = '#1e293b';
+      if (state) { state.textContent = '当前查看中'; state.style.color = ''; state.style.opacity = '0.8'; }
+      if (arrow) { arrow.textContent = '●'; arrow.style.color = ''; }
+      // tighten inner text colors for active card
+      card.querySelectorAll('.text-slate-600').forEach(function(n){ n.classList.remove('text-slate-600'); n.classList.add('opacity-90'); });
+      card.querySelectorAll('.text-slate-500').forEach(function(n){ n.classList.remove('text-slate-500'); n.classList.add('opacity-80'); });
+    } else {
+      card.style.background = '#ffffff';
+      card.style.color = '#0f172a';
+      card.style.borderColor = '#cbd5e1';
+      if (state) { state.textContent = '点击查看 →'; state.style.color = '#64748b'; state.style.opacity = '1'; }
+      if (arrow) { arrow.textContent = '○'; arrow.style.color = '#94a3b8'; }
+    }
+  });
   document.getElementById('subcontent-' + s).classList.remove('hidden');
-  document.getElementById('subtab-' + s).className = 'subtab-active px-4 py-2 rounded-t-md text-sm font-medium transition';
 }
 </script>
 
