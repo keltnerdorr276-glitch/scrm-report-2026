@@ -6,18 +6,23 @@
 <title>影能科技年度合作续签暨新增事项汇报</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
+/* ============= 统一配色方案 =============
+   主色：slate-800/900（标题、文字）
+   强调推荐：#059669 emerald-600（保业务、正向）
+   备选次级：#4f46e5 indigo-600（稳健过渡、备选）
+   警示/问题：#dc2626 rose-600（风险、缺口）
+   中性：#64748b slate-500（说明文字）
+   背景层次：白 → #f8fafc → #f1f5f9
+   ============================================ */
 body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
 .tab-active { background-color: #1e293b; color: white; }
 .tab-inactive { background-color: #f1f5f9; color: #334155; }
 .tab-inactive:hover { background-color: #e2e8f0; }
-.subtab-active { background-color: #334155; color: white; }
-.subtab-inactive { background-color: #f1f5f9; color: #475569; }
-.subtab-inactive:hover { background-color: #e2e8f0; }
 .card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; }
 .note-badge { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
-.info-badge { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
-.ok-badge { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
-.warn-badge { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.info-badge { background: #f0fdf4; color: #059669; border: 1px solid #a7f3d0; }
+.ok-badge { background: #f0fdf4; color: #059669; border: 1px solid #a7f3d0; }
+.warn-badge { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
 table { border-collapse: collapse; width: 100%; }
 th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; vertical-align: top; }
 th { background: #f8fafc; font-weight: 600; color: #475569; }
@@ -30,11 +35,10 @@ tr.dark-row td, tr.dark-row:hover td { background: #0f172a !important; color: #f
 .sub-section-title { font-size: 15px; font-weight: 600; color: #334155; margin: 18px 0 10px; }
 .subtle { color: #64748b; font-size: 13px; line-height: 1.7; }
 .highlight-box { background: #fafafa; border-left: 3px solid #1e293b; padding: 14px 18px; margin: 12px 0; font-size: 14px; line-height: 1.75; }
-.recommend-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 16px 20px; margin: 14px 0; }
-.recommend-box .title { color: #1e40af; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.recommend-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 16px 20px; margin: 14px 0; }
+.recommend-box .title { color: #0f172a; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
 .note-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
-.risk-box { background: #fef9f5; border: 1px solid #fed7aa; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
-.divider { border-top: 1px dashed #cbd5e1; margin: 26px 0; }
+.risk-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-size: 14px; line-height: 1.7; }
 
 /* 折叠详情块 */
 .collapsible-detail { border: 1px dashed #cbd5e1; border-radius: 8px; background: #fafafa; padding: 0; }
@@ -56,13 +60,11 @@ body.presentation .collapsible-hint { font-size: 14px; }
   position: fixed; top: 14px; right: 14px; z-index: 1000;
   background: #1e293b; color: #fff; border: none; border-radius: 999px;
   padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
-  box-shadow: 0 4px 12px rgba(15,23,42,.2);
-  font-family: inherit;
+  box-shadow: 0 4px 12px rgba(15,23,42,.2); font-family: inherit;
 }
 .mode-toggle:hover { background: #0f172a; }
 .mode-toggle .mode-ico { margin-right: 6px; }
 
-/* Presentation mode overrides */
 body.presentation .max-w-6xl { max-width: 1280px; }
 body.presentation h1 { font-size: 36px !important; line-height: 1.2; }
 body.presentation h2 { font-size: 28px !important; line-height: 1.25; }
@@ -75,90 +77,41 @@ body.presentation table th, body.presentation table td { font-size: 16px !import
 body.presentation .amt-big { font-size: 40px; }
 body.presentation .label-tag { font-size: 14px; padding: 4px 14px; }
 body.presentation .tab-active, body.presentation .tab-inactive { font-size: 17px; padding: 14px 22px; }
-body.presentation .subtab-active, body.presentation .subtab-inactive { font-size: 15px; padding: 10px 18px; }
 body.presentation .recommend-box, body.presentation .note-box, body.presentation .risk-box, body.presentation .highlight-box { padding: 20px 26px; font-size: 17px; line-height: 1.8; }
 body.presentation .recommend-box .title { font-size: 18px; }
 body.presentation .card { padding: 20px; }
-body.presentation .amt-big + div { font-size: 14px; }
+body.presentation .grid.grid-cols-2 > div .text-sm.font-bold { font-size: 20px !important; }
 
-/* 演示模式下：三栏卡片拉大 */
-body.presentation .grid.grid-cols-3 > div .text-sm.font-bold { font-size: 20px !important; }
-body.presentation .grid.grid-cols-3 > div .text-\[12px\], body.presentation .grid.grid-cols-3 > div .text-\[13px\] { font-size: 16px !important; }
-body.presentation .grid.grid-cols-3 > div .text-\[11px\] { font-size: 13px !important; }
-
-/* 演示模式强调色块 */
-body.presentation .text-rose-600, body.presentation .text-rose-700, body.presentation .text-red-600 { font-weight: 700; }
-body.presentation .text-emerald-700, body.presentation .text-green-700 { font-weight: 700; }
-
-/* ============= 响应式：手机端全面适配 ============= */
+/* ============= 响应式 ============= */
 @media (max-width: 900px) {
-  /* 全局容器 */
   body .max-w-6xl { padding: 10px !important; }
   body .card { padding: 14px !important; }
-
-  /* 所有多列网格 → 单列 */
   .grid.grid-cols-3, .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
   .grid { gap: 10px !important; }
-
-  /* 标题 */
   body h1 { font-size: 20px !important; line-height: 1.3 !important; }
   body h2 { font-size: 18px !important; }
   .section-title { font-size: 16px !important; margin: 16px 0 8px !important; }
   .sub-section-title { font-size: 15px !important; margin: 14px 0 8px !important; }
-
-  /* 正文 */
   body p, body li, body .text-sm, body .text-slate-700, body .text-slate-800 { font-size: 14px !important; line-height: 1.7 !important; }
   body .text-xs { font-size: 12px !important; }
   body .subtle { font-size: 13px !important; }
-
-  /* 金额数字 */
   .amt-big { font-size: 26px !important; }
-
-  /* Tab 按钮：允许横向滚动，不挤压 */
   .flex.gap-1.mb-0 { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; gap: 2px !important; }
   .tab-active, .tab-inactive { font-size: 13px !important; padding: 10px 14px !important; white-space: nowrap; flex-shrink: 0; }
-
-  /* 表格：横向滚动 */
   table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; }
   thead, tbody, tr { display: table; width: 100%; table-layout: auto; }
   table th, table td { font-size: 12px !important; padding: 7px 8px !important; }
-
-  /* 演示模式切换按钮 */
   .mode-toggle { top: 6px; right: 6px; padding: 6px 12px; font-size: 11px; }
-
-  /* 执行摘要卡片 */
-  .card[style*="border:2px solid #6366f1"] { padding: 14px !important; }
-  .card[style*="border:2px solid #6366f1"] .text-\[15px\] { font-size: 14px !important; }
-
-  /* 三方案卡片 */
-  .rounded-lg.overflow-hidden .px-4.py-3 { padding: 10px 14px !important; }
-  .rounded-lg.overflow-hidden .p-4 { padding: 12px 14px !important; }
-
-  /* 子议题卡片 */
   .sub-card { padding: 14px !important; }
   .sub-card .text-lg { font-size: 16px !important; }
-
-  /* Note / Recommend / Highlight box */
   .recommend-box, .note-box, .risk-box, .highlight-box { padding: 12px 14px !important; font-size: 14px !important; }
-
-  /* 点击跳转块 */
-  .rounded-xl.overflow-hidden .px-6.py-5 { padding: 14px !important; }
-  .rounded-xl.overflow-hidden .text-lg { font-size: 15px !important; }
-  .rounded-xl.overflow-hidden .text-5xl { font-size: 32px !important; }
-
-  /* Header flex 布局 */
   .flex.justify-between.items-start { flex-direction: column; gap: 8px; }
   .flex.justify-between.items-start .text-right { text-align: left; }
-
-  /* 折叠详情 */
   .collapsible-summary { font-size: 14px !important; padding: 10px 14px !important; }
   .collapsible-hint { display: none; }
   .collapsible-detail > *:not(summary) { padding-left: 12px !important; padding-right: 12px !important; }
-
-  /* label tag */
   .label-tag { font-size: 11px !important; padding: 2px 8px !important; }
 }
-
 @media (max-width: 420px) {
   body .max-w-6xl { padding: 6px !important; }
   body h1 { font-size: 18px !important; }
@@ -176,7 +129,7 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 
 <div class="max-w-6xl mx-auto p-6">
 
-<!-- Header -->
+<!-- ========== Header ========== -->
 <div class="card p-6 mb-4">
 <div class="flex justify-between items-start">
 <div>
@@ -207,14 +160,26 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 </div>
 </div>
 
-<!-- 全局执行摘要 · 以终为始：先结论 -->
-<div class="card p-6 mb-4" style="border:2px solid #6366f1; background:linear-gradient(135deg,#eef2ff 0%,#ffffff 60%);">
+<!-- ========== Main Tabs ========== -->
+<div class="flex gap-1 mb-0">
+<button onclick="showTab(0)" id="tab0" class="tab-active px-5 py-3 rounded-t-lg text-sm font-medium transition">执行摘要</button>
+<button onclick="showTab(1)" id="tab1" class="tab-inactive px-5 py-3 rounded-t-lg text-sm font-medium transition">① 年度续签</button>
+<button onclick="showTab(2)" id="tab2" class="tab-inactive px-5 py-3 rounded-t-lg text-sm font-medium transition">② 新增需求及费用</button>
+<button onclick="showTab(3)" id="tab3" class="tab-inactive px-5 py-3 rounded-t-lg text-sm font-medium transition">③ 汇总与决策</button>
+</div>
+
+<div class="card p-8 rounded-tl-none">
+
+<!-- ==================== Tab 0: 执行摘要 ==================== -->
+<div id="content0" class="tab-content">
+
+<div class="mb-4" style="border:2px solid #059669; border-radius:8px; background:linear-gradient(135deg,#f0fdf4 0%,#ffffff 60%); padding:24px;">
 <div class="flex items-center gap-2 mb-3">
-<span class="label-tag" style="background:#4338ca;color:#fff;border:none;">执行摘要 · 一页结论</span>
-<span class="text-xs text-slate-500">三项事项的建议决策一览（详见下方分标签展开）</span>
+<span class="label-tag" style="background:#059669;color:#fff;border:none;">执行摘要 · 一页结论</span>
+<span class="text-xs text-slate-500">三项事项的建议决策一览</span>
 </div>
 <div class="text-slate-900 text-[15px] leading-relaxed mb-4">
-<strong>本次汇报共 3 项，建议合计年度新增支出 15 万元（在主合同 55 万之外）</strong>。核心判断是：① 年度续签按合同推进；② 支付方案切换<strong>首选"保业务方案"（切换银联商务，15 万元）</strong>，建立独立、可控、合规的银联间连分账方案——<strong>备选"控成本方案"（0 成本）的核心取舍在于是否放弃国企停车业务对接</strong>；③ 代运营收费选<strong>方案三（3000 元/项目/年，由各项目承担，集团 0 支出）</strong>。
+<strong>本次汇报共 3 项，建议合计年度新增支出 15 万元（在主合同 55 万之外）</strong>。核心判断：① 年度续签按合同推进；② 支付方案切换<strong>首选"保业务方案"（切换银联商务，15 万元，系统性解决）</strong>，备选"稳健过渡方案"（0 成本，存量不动，国企停车通过逐项沟通推进）；③ 代运营收费选<strong>方案三（3,000 元/项目/年，仅使用星恒代运营的项目承担，集团 0 支出）</strong>。
 </div>
 <div class="grid grid-cols-3 gap-3">
 <div class="rounded-lg p-4 border border-slate-200 bg-white">
@@ -225,24 +190,32 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 <div class="text-xs text-slate-500 mb-2">主合同约定事项</div>
 <div class="text-sm text-slate-800 leading-relaxed"><strong>建议</strong>：按合同条款尽快安排 <strong>55 万元</strong> 付款到位，不与新增事项决策进度绑定。</div>
 </div>
-<div class="rounded-lg p-4 border-2 border-indigo-300 bg-indigo-50/60">
+<div class="rounded-lg p-4 border-2 border-emerald-400 bg-emerald-50/60">
 <div class="flex items-center gap-2 mb-2">
-<span class="text-xs font-bold text-white bg-indigo-600 rounded px-2 py-0.5">事项②</span>
+<span class="text-xs font-bold text-white bg-emerald-700 rounded px-2 py-0.5">事项②</span>
 <span class="text-sm font-semibold text-slate-900">支付方案切换</span>
+<span class="text-xs text-emerald-700">新增需求 · 需决策</span>
 </div>
-<div class="text-xs text-indigo-700 mb-2">新增需求 · 需决策</div>
-<div class="text-sm text-slate-800 leading-relaxed mb-3"><strong>首选 · 保业务方案</strong>：切换至<strong>银联商务</strong>间连分账（影能 50% 补贴后 <strong>15 万元</strong>），建立一套独立、可控、合规的银联分账方案，覆盖国企 + 非国企全量项目，<strong>保住国企停车业务不缺角</strong>。</div>
-<div class="rounded border border-dashed border-slate-300 bg-white/70 p-2 text-xs text-slate-700 leading-relaxed">
-<strong class="text-slate-900">备选 · 控成本方案（0 成本）</strong>：非国企走直连 + 国企卡券由星恒承接。<br>
-<span class="text-rose-700"><strong>关键取舍：</strong>该方案等同于<strong>放弃国企停车业务的间连分账对接</strong></span>——国企停车因业主主体不愿开户、星恒又无法承接停车场景，将<strong>无解</strong>。是否接受此取舍，是两方案的决策分水岭。</div>
+<div class="grid grid-cols-2 gap-2 mt-1">
+<div class="rounded bg-emerald-100/80 p-2 text-xs text-slate-800 leading-relaxed">
+<strong class="text-emerald-800">首选 · 保业务方案</strong><br>
+银联商务 · <strong>15 万</strong>（一次性）<br>
+国企停车<strong class="text-emerald-700">系统性覆盖</strong>
 </div>
-<div class="rounded-lg p-4 border-2 border-indigo-300 bg-indigo-50/60">
+<div class="rounded bg-white/70 border border-dashed border-slate-300 p-2 text-xs text-slate-700 leading-relaxed">
+<strong class="text-slate-900">备选 · 稳健过渡（0 成本）</strong><br>
+国企停车逐项沟通业主开户过渡<br>
+<span class="text-rose-600">已知枣庄、水街、威海均被业主拒绝</span>
+</div>
+</div>
+</div>
+<div class="rounded-lg p-4 border-2 border-emerald-400 bg-emerald-50/60">
 <div class="flex items-center gap-2 mb-2">
-<span class="text-xs font-bold text-white bg-indigo-600 rounded px-2 py-0.5">事项③</span>
+<span class="text-xs font-bold text-white bg-emerald-700 rounded px-2 py-0.5">事项③</span>
 <span class="text-sm font-semibold text-slate-900">星恒代运营收费</span>
 </div>
-<div class="text-xs text-indigo-700 mb-2">新增需求 · 需决策</div>
-<div class="text-sm text-slate-800 leading-relaxed"><strong>建议方案三</strong>：<strong>3000 元/项目/年</strong>，由各项目自行承担，集团层面 <strong>0 支出</strong>，规模扩张下单位成本可控。</div>
+<div class="text-xs text-emerald-700 mb-2">新增需求 · 需决策</div>
+<div class="text-sm text-slate-800 leading-relaxed"><strong>建议方案三</strong>：<strong>3,000 元/项目/年</strong>，<strong>仅使用星恒代运营的项目承担</strong>，自行开户的项目无需付费。集团层面 <strong>0 支出</strong>。</div>
 </div>
 </div>
 <div class="mt-4 text-xs text-slate-500 border-t border-slate-200 pt-3 leading-relaxed">
@@ -250,26 +223,17 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 </div>
 </div>
 
-<!-- Main Tabs -->
-<div class="flex gap-1 mb-0">
-<button onclick="showTab(0)" id="tab0" class="tab-active px-5 py-3 rounded-t-lg text-sm font-medium transition">① 年度续签</button>
-<button onclick="showTab(1)" id="tab1" class="tab-inactive px-5 py-3 rounded-t-lg text-sm font-medium transition">② 新增需求及费用</button>
-<button onclick="showTab(2)" id="tab2" class="tab-inactive px-5 py-3 rounded-t-lg text-sm font-medium transition">③ 汇总与决策</button>
 </div>
 
-<!-- Tab Content Container -->
-<div class="card p-8 rounded-tl-none">
+<!-- ==================== Tab 1: 年度续签 ==================== -->
+<div id="content1" class="tab-content hidden">
 
-<!-- Tab 0: 年度续签 -->
-<div id="content0" class="tab-content">
-
-<div class="mb-5">
+<div class="flex items-center gap-3 mb-4">
 <span class="label-tag note-badge">主合同约定事项</span>
-<h2 class="text-xl font-bold text-slate-900 mt-2">年度续签付款</h2>
-<p class="subtle mt-1">全域会员经营中台（影能科技）年度服务费续签及新增项目实施费</p>
+<h2 class="text-xl font-bold text-slate-900">年度续签付款</h2>
 </div>
 
-<div class="grid grid-cols-3 gap-4 mb-6">
+<div class="grid grid-cols-3 gap-4 mb-4">
 <div class="card p-4">
 <div class="subtle">会员中台年费</div>
 <div class="amt-big">¥500,000</div>
@@ -287,11 +251,16 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 </div>
 </div>
 
-<div class="section-title">费用明细</div>
-<table class="mb-6">
-<thead>
-<tr><th>项目</th><th>内容</th><th>单位</th><th class="text-right">金额（元）</th></tr>
-</thead>
+<!-- 费用明细 · 默认折叠 -->
+<details class="collapsible-detail mb-4">
+<summary class="collapsible-summary">
+<span class="collapsible-ico">▶</span>
+<span>费用明细</span>
+<span class="collapsible-hint">点击展开</span>
+</summary>
+<div style="padding:0 18px 18px;">
+<table>
+<thead><tr><th>项目</th><th>内容</th><th>单位</th><th class="text-right">金额（元）</th></tr></thead>
 <tbody>
 <tr><td>集团版会员系统</td><td>标准功能、双平台会员小程序、业财一体化、智慧停车</td><td>每年/集团</td><td class="text-right num">250,000</td></tr>
 <tr><td>抖音生服解决方案</td><td>抖音小程序及抖音原生团购交易核销能力</td><td>每年/集团</td><td class="text-right num">250,000</td></tr>
@@ -299,33 +268,17 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 <tr class="bg-slate-50 font-semibold"><td colspan="3">合计</td><td class="text-right num">550,000</td></tr>
 </tbody>
 </table>
+</div>
+</details>
 
-<div class="note-box">
-<strong class="text-slate-900">付款节点说明</strong><br>
-<span class="text-slate-700">本项费用为主合同既定约定的年度续签支出，目前付款节点较上年同期有所延后。考虑到年度服务已在持续交付中，建议按合同约定尽快安排付款到位，以保障与核心服务商的稳定合作关系与后续议价空间。</span>
-</div>
-
-<div class="recommend-box">
-<div class="title">核心建议</div>
-<div class="text-slate-800 text-sm leading-relaxed">
-<strong>年度续签属于主合同约定事项，建议与新增需求事项并行推进</strong>。新增事项（支付方案切换、代运营收费）在本汇报 Tab ② 中单列说明，供领导评估择定；年度续签付款不建议与新增事项决策进度绑定，以避免影响主合同执行。
-</div>
-</div>
-
-<div onclick="showTab(1)" class="mt-5 cursor-pointer transition rounded-xl overflow-hidden border-2 border-indigo-400 bg-gradient-to-r from-indigo-50 via-indigo-100 to-indigo-50 hover:from-indigo-100 hover:to-indigo-100 hover:shadow-lg" style="cursor:pointer">
-<div class="flex items-center justify-between px-6 py-5">
-<div>
-<div class="text-indigo-900 text-lg font-bold">前往查看：新增需求及费用事项</div>
-<div class="text-indigo-700 text-sm mt-1">支付方案切换（首选"保业务方案" 15 万 / 备选"控成本方案" 0 成本 / 兜底"观望方案" 0 成本） + 星恒代运营收费（三方案对比）</div>
-</div>
-<div class="text-indigo-600 text-5xl font-bold leading-none">→</div>
-</div>
+<div class="text-sm text-slate-700 leading-relaxed" style="background:#f8fafc;border-radius:6px;padding:12px 16px;">
+<strong>建议：</strong>年度续签属于主合同约定事项，<strong>建议尽快安排付款到位</strong>，不与新增事项的决策进度绑定。目前付款节点较上年同期有所延后，尽快付款有利于保障合作稳定性。
 </div>
 
 </div>
 
-<!-- Tab 1: 新增需求及费用 -->
-<div id="content1" class="tab-content hidden">
+<!-- ==================== Tab 2: 新增需求及费用 ==================== -->
+<div id="content2" class="tab-content hidden">
 
 <div class="mb-5">
 <span class="label-tag info-badge">新增需求及费用</span>
@@ -333,8 +286,8 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 <p class="subtle mt-1">两项新增事项均源于现有支付分账架构面临的外部变化，建议先明确支付方案再确定代运营收费模式</p>
 </div>
 
-<!-- Sub Tabs · 卡片化大号入口 -->
-<div class="text-xs text-slate-500 mb-2">本标签含 <strong class="text-indigo-700">2 个子议题</strong>，点击卡片切换 ↓</div>
+<!-- Sub Tabs -->
+<div class="text-xs text-slate-500 mb-2">本标签含 <strong class="text-emerald-700">2 个子议题</strong>，点击卡片切换 ↓</div>
 <div class="grid grid-cols-2 gap-3 mb-5" id="subTabCards">
 <div onclick="showSubTab('a')" id="subcard-a" class="sub-card cursor-pointer rounded-xl p-5 border-2 transition select-none" style="border-color:#1e293b;background:linear-gradient(135deg,#1e293b,#334155);color:#fff;">
 <div class="flex items-center justify-between mb-2">
@@ -345,7 +298,7 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 <span class="text-xl" id="subcard-a-arrow">●</span>
 </div>
 <div class="text-lg font-bold mb-1">支付方案切换</div>
-<div class="text-[13px] opacity-90 leading-relaxed">三方案择一：保业务 / 控成本 / 观望</div>
+<div class="text-[13px] opacity-90 leading-relaxed">两方案择一：保业务 / 稳健过渡</div>
 </div>
 <div onclick="showSubTab('b')" id="subcard-b" class="sub-card cursor-pointer rounded-xl p-5 border-2 transition select-none" style="border-color:#cbd5e1;background:#ffffff;color:#0f172a;">
 <div class="flex items-center justify-between mb-2">
@@ -356,7 +309,7 @@ body.presentation .text-emerald-700, body.presentation .text-green-700 { font-we
 <span class="text-xl text-slate-400" id="subcard-b-arrow">○</span>
 </div>
 <div class="text-lg font-bold mb-1">星恒代运营收费</div>
-<div class="text-[13px] text-slate-600 leading-relaxed">三方案对比：集团承担 / 项目承担 / 均摊</div>
+<div class="text-[13px] text-slate-600 leading-relaxed">三方案对比 · 仅代运营项目承担</div>
 </div>
 </div>
 <style>
@@ -366,364 +319,418 @@ body.presentation .sub-card .text-lg { font-size: 22px !important; }
 body.presentation .sub-card .text-\[13px\] { font-size: 15px !important; }
 </style>
 
-<!-- Sub Tab A: 支付方案切换 -->
+<!-- ===== Sub Tab A: 支付方案切换 ===== -->
 <div id="subcontent-a" class="subtab-content">
 
-<div class="section-title">一、历史沿革</div>
-<div class="highlight-box">
+<div class="section-title">一、支付架构概览</div>
+<div class="text-sm text-slate-700 leading-relaxed mb-3">
+会员系统的核心能力是<strong>支付分账</strong>：顾客付款后，系统自动把款项拆分到各商户。分账分两步——<strong>第一步收钱</strong>（谁来开收款和分账账户）、<strong>第二步分钱</strong>（网商银行拆账，所有方案一样）。关键差异只在第一步。涉及<strong>卡券</strong>（有价券交易分账）和<strong>停车</strong>（停车缴费分账）两类业务场景。
+</div>
+
+<div class="recommend-box" style="padding:12px 16px;">
+<div class="title">国企 vs 非国企：谁能怎么开户？</div>
+<div class="mt-2 mb-2" style="overflow-x:auto;">
+<table style="border-collapse:separate;border-spacing:0;width:100%;min-width:520px;font-size:13px;">
+<thead>
+<tr>
+<th style="width:15%;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px 0 0 0;"></th>
+<th style="width:28%;background:#f8fafc;border:1px solid #e2e8f0;text-align:center;padding:12px;">
+<div class="font-bold text-sm text-slate-800">商场自己开户</div>
+<div class="text-[11px] text-slate-500">（直连）· 无额外费用</div>
+</th>
+<th style="width:28%;background:#f8fafc;border:1px solid #e2e8f0;text-align:center;padding:12px;">
+<div class="font-bold text-sm text-slate-800">找中间商代开户</div>
+<div class="text-[11px] text-slate-500">（间连）· 需付费</div>
+</th>
+<th style="width:29%;background:#f8fafc;border:1px solid #e2e8f0;text-align:center;padding:12px;border-radius:0 8px 0 0;">
+<div class="font-bold text-sm text-slate-800">星恒全权代办</div>
+<div class="text-[11px] text-slate-500">（代运营）· 商场零操作</div>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px 12px;font-weight:700;color:#0f172a;vertical-align:middle;">国企项目</td>
+<td style="background:#fff;border:1px solid #e2e8f0;text-align:center;padding:10px;">
+<div class="text-xl text-rose-600">✗</div>
+<div class="text-[12px] mt-1 text-slate-600">业主<strong class="text-rose-600">拒绝</strong>自行开户<br><span class="text-slate-400">（但可逐项沟通争取）</span></div>
+</td>
+<td style="background:#fff;border:1px solid #e2e8f0;text-align:center;padding:10px;">
+<div class="text-xl text-rose-600">✗</div>
+<div class="text-[12px] mt-1 text-slate-600">业主也<strong class="text-rose-600">拒绝</strong>注册<br>任何第三方账户</div>
+</td>
+<td style="background:#f0fdf4;border:2px solid #059669;text-align:center;padding:10px;border-radius:0 0 8px 0;">
+<div class="text-xl text-emerald-600">✓ 唯一可行</div>
+<div class="text-[12px] mt-1 text-slate-700">由星恒注册全部账户<br>完成收款与分账闭环</div>
+</td>
+</tr>
+<tr>
+<td style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px 12px;font-weight:700;color:#0f172a;vertical-align:middle;border-radius:0 0 0 8px;">非国企项目</td>
+<td style="background:#f0fdf4;border:2px solid #059669;text-align:center;padding:10px;">
+<div class="text-xl text-emerald-600">✓ 阻力很小</div>
+<div class="text-[12px] mt-1 text-slate-700">业主<strong>不抵触</strong>自行开户<br>只需集团放宽间连口径</div>
+</td>
+<td style="background:#fff;border:1px solid #e2e8f0;text-align:center;padding:10px;">
+<div class="text-xl text-slate-500">◉ 现行方案</div>
+<div class="text-[12px] mt-1 text-slate-600">集团内部合规要求<br><strong>非业主方诉求</strong></div>
+</td>
+<td style="background:#fff;border:1px solid #e2e8f0;text-align:center;padding:10px;color:#94a3b8;">
+<div class="text-xl">—</div>
+<div class="text-[12px] mt-1">非国企无需星恒代办</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="text-[12px] text-slate-500 mt-1 mb-1">✓ = 可行 &nbsp; ✗ = 不可行（默认态度，可逐项争取） &nbsp; ◉ = 当前使用中</div>
+
+<!-- 联动支付 · 当前中间商 -->
+<div class="mt-3 rounded bg-rose-50 border border-rose-300 p-3 text-xs text-slate-700 leading-relaxed">
+<strong class="text-rose-700">注意：</strong>上表"找中间商代开户"列，当前用的是<strong>联动支付</strong>——<strong class="text-rose-700">已出严重状况</strong>（见下方第二节）。
+</div>
+
+<!-- 折叠备查 -->
+<div class="mt-4 pt-3 border-t border-slate-200 flex flex-col gap-2">
+<details class="collapsible-detail">
+<summary class="collapsible-summary" style="padding:8px 12px;font-size:13px;">
+<span class="collapsible-ico">▶</span>
+<span>历史沿革：间连方案的来龙去脉</span>
+<span class="collapsible-hint">点击展开</span>
+</summary>
+<div class="highlight-box" style="margin:10px 12px 12px;">
 <ul class="space-y-2 text-sm text-slate-700">
 <li><strong>原方案</strong>：与影能科技合作初期，会员系统最初采用直连分账（微信/支付宝 + 网商银行）。</li>
-<li><strong>前年调整</strong>：<strong>出于集团合规与资金风险管控的内部要求</strong>（而非业主方要求），公司统一拒用直连方案，要求影能另行开发<strong>间连分账方案</strong>，并由我方推荐引入 <strong>联动支付</strong> 作为间连支付供应商。</li>
-<li><strong>当前结构</strong>：支付分账体系支持双路径并行——<strong>直连</strong>（商户直接签约微信/支付宝）+ <strong>间连</strong>（通过第三方收单机构聚合收款），图示对比见下方。除国企项目外，各商场项目自行与联动支付 + 网商银行申请分账服务，集团层面不介入具体分账运营；国企项目由 <strong>星恒（影能 CEO 关联企业，非影能旗下企业）</strong>以自身主体完成收款分账闭环，覆盖现有 <strong>6 个国企项目</strong>（具体名单详见 Tab 2.2）。</li>
+<li><strong>前年调整</strong>：<strong>出于集团合规与资金风险管控的内部要求</strong>（而非业主方要求），公司统一拒用直连方案，要求影能另行开发<strong>间连分账方案</strong>。当时<strong>银联商务尚不支持此类合作方案</strong>，因此团队选择了 <strong>联动支付</strong> 作为间连收单供应商。</li>
+<li><strong>实际执行</strong>：集团坚持的"统一间连"口径，<strong>实际只服务了非国企项目的卡券业务和所有项目的停车业务</strong>。国企项目因业主拒绝注册任何第三方账户，卡券分账始终由 <strong>星恒（影能 CEO 关联企业，非影能旗下企业）</strong>以自身主体代运营闭环，覆盖现有 <strong>6 个国企项目</strong>（名单详见议题 2）。</li>
 </ul>
 </div>
-
-<!-- 以终为始：先结论 -->
-<div class="recommend-box">
-<div class="title">直连 vs 间连 · 一句话结论</div>
-<div class="text-slate-800 text-sm leading-relaxed mt-2">
-<strong>直连与间连的本质差异只有一个——收单环节由"商场"还是"第三方收单机构"开立微信/支付宝商户账户</strong>。两者的"余额分账"环节（由网商银行按规则拆分给各商户）完全一致。国企项目因商场主体不愿开户，必须走间连。
-</div>
-</div>
-
-<!-- 展开 · 详细图示（默认折叠，按需展开） -->
-<details class="collapsible-detail my-3">
-<summary class="collapsible-summary">
+</details>
+<details class="collapsible-detail">
+<summary class="collapsible-summary" style="padding:8px 12px;font-size:13px;">
 <span class="collapsible-ico">▶</span>
-<span>展开说明：资金流程图示</span>
-<span class="collapsible-hint">点击展开 · 讲解"为什么国企必须走间连"时用</span>
+<span>资金流程图示：直连 vs 间连 vs 星恒代运营</span>
+<span class="collapsible-hint">点击展开</span>
 </summary>
 <div class="grid grid-cols-2 gap-4 mt-4">
-<!-- 直连 -->
-<div class="border-2 border-blue-200 rounded-lg p-4 bg-blue-50">
-<div class="text-blue-900 font-semibold text-sm mb-3">【直连】商场主体开户</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-white">
+<div class="text-slate-900 font-semibold text-sm mb-3">【直连】商场主体开户</div>
 <div class="flex flex-col items-center space-y-1 text-xs">
-<div class="px-3 py-2 bg-white border border-blue-300 rounded-md w-full text-center">顾客支付</div>
-<div class="text-blue-500">↓</div>
-<div class="px-3 py-2 bg-white border border-blue-300 rounded-md w-full text-center"><strong>微信 / 支付宝</strong><div class="text-xs text-blue-700">（由<strong>商场主体</strong>开户）</div></div>
-<div class="text-blue-500">↓</div>
-<div class="px-3 py-2 bg-white border border-blue-300 rounded-md w-full text-center"><strong>网商银行</strong><div class="text-xs text-blue-700">（余额分账给各商户）</div></div>
-<div class="text-blue-500">↓</div>
-<div class="px-3 py-2 bg-blue-100 border border-blue-400 rounded-md w-full text-center font-semibold">各商户结算账户</div>
+<div class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-md w-full text-center">顾客支付</div>
+<div class="text-slate-400">↓</div>
+<div class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-md w-full text-center"><strong>微信 / 支付宝</strong><div class="text-xs text-slate-500">（由<strong>商场主体</strong>开户）</div></div>
+<div class="text-slate-400">↓</div>
+<div class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-md w-full text-center"><strong>网商银行</strong><div class="text-xs text-slate-500">（余额分账给各商户）</div></div>
+<div class="text-slate-400">↓</div>
+<div class="px-3 py-2 bg-slate-100 border border-slate-300 rounded-md w-full text-center font-semibold">各商户结算账户</div>
 </div>
-<div class="mt-3 text-xs text-blue-800 leading-relaxed">
-<strong>特点：</strong>由商场主体以自身身份开立微信/支付宝商户账户完成收单，网商银行再做余额分账；流程短、成本低。<br>
-<strong>局限：</strong>国企业主（商场）通常不接受以自身名义开户，故国企项目无法走直连。
+<div class="mt-3 text-xs text-slate-600 leading-relaxed">
+<strong>特点：</strong>流程短、成本低。由商场主体自行开户完成收单。<br>
+<strong>局限：</strong>国企业主不接受自行注册任何账户，故国企项目只能由星恒代运营承接。
 </div>
 </div>
-
-<!-- 间连 -->
-<div class="border-2 border-amber-200 rounded-lg p-4 bg-amber-50">
-<div class="text-amber-900 font-semibold text-sm mb-3">【间连】第三方收单机构开户</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-white">
+<div class="text-slate-900 font-semibold text-sm mb-3">【间连】第三方收单机构开户</div>
 <div class="flex flex-col items-center space-y-1 text-xs">
-<div class="px-3 py-2 bg-white border border-amber-300 rounded-md w-full text-center">顾客支付</div>
-<div class="text-amber-500">↓</div>
-<div class="px-3 py-2 bg-white border border-amber-300 rounded-md w-full text-center">微信 / 支付宝</div>
-<div class="text-amber-500">↓</div>
-<div class="px-3 py-2 bg-white border border-amber-300 rounded-md w-full text-center"><strong>第三方收单机构</strong><div class="text-xs text-amber-700">（联动支付 / 银联商务 <strong>代开户</strong>）</div></div>
-<div class="text-amber-500">↓</div>
-<div class="px-3 py-2 bg-white border border-amber-300 rounded-md w-full text-center"><strong>网商银行</strong><div class="text-xs text-amber-700">（余额分账给各商户）</div></div>
-<div class="text-amber-500">↓</div>
-<div class="px-3 py-2 bg-amber-100 border border-amber-400 rounded-md w-full text-center font-semibold">各商户结算账户</div>
+<div class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-md w-full text-center">顾客支付</div>
+<div class="text-slate-400">↓</div>
+<div class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-md w-full text-center">微信 / 支付宝</div>
+<div class="text-slate-400">↓</div>
+<div class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-md w-full text-center"><strong>第三方收单机构</strong><div class="text-xs text-slate-500">（联动支付 / 银联商务 代开户）</div></div>
+<div class="text-slate-400">↓</div>
+<div class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-md w-full text-center"><strong>网商银行</strong><div class="text-xs text-slate-500">（余额分账给各商户）</div></div>
+<div class="text-slate-400">↓</div>
+<div class="px-3 py-2 bg-slate-100 border border-slate-300 rounded-md w-full text-center font-semibold">各商户结算账户</div>
 </div>
-<div class="mt-3 text-xs text-amber-800 leading-relaxed">
-<strong>特点：</strong>商场无须自开微信/支付宝商户户——由第三方收单机构以其主体开户代收，资金再经网商银行余额分账给各商户。<br>
-<strong>适用：</strong>国企项目合规必选；集团为统一资金风险管控，前年起要求所有项目均走间连。
+<div class="mt-3 text-xs text-slate-600 leading-relaxed">
+<strong>特点：</strong>商场无须自行开户——由第三方收单机构代收，网商银行再做分账。<br>
+<strong>适用：</strong>国企合规必选；集团为统一风控，前年起要求所有项目均走间连。
 </div>
 </div>
 </div>
-
-<!-- 底层逻辑共通提示 -->
 <div class="note-box text-sm text-slate-700">
-<strong>底层逻辑共通：</strong>两种方案都基于<strong>余额分账</strong>模式——网商银行始终负责最终的余额分账环节，按规则把收单归集到的资金拆分给各商户。直连与间连只是收单环节的主体差异。
+<strong>底层逻辑共通：</strong>两种方案都基于<strong>余额分账</strong>模式——网商银行始终负责最终分账。直连与间连只是收单环节的主体差异。
+</div>
+</details>
+</div>
+</div>
+
+<!-- 二、联动支付问题 -->
+<div class="section-title">二、现状：联动支付出了什么问题？</div>
+<div class="grid grid-cols-3 gap-3 mb-4">
+<div class="rounded-lg border border-slate-200 bg-white p-4 text-center">
+<div class="text-rose-600 text-2xl mb-1">⚠</div>
+<div class="text-slate-900 font-bold text-sm">被收购 · 团队解散</div>
+<div class="text-xs text-slate-600 mt-1">联动科技被抖音收购<br>原团队已解散，需求无法迭代</div>
+</div>
+<div class="rounded-lg border border-slate-200 bg-white p-4 text-center">
+<div class="text-rose-600 text-2xl mb-1">🚫</div>
+<div class="text-slate-900 font-bold text-sm">新项目无法开户</div>
+<div class="text-xs text-slate-600 mt-1">受金融政策影响<br>已无法支持新项目入网</div>
+</div>
+<div class="rounded-lg border border-slate-200 bg-white p-4 text-center">
+<div class="text-slate-500 text-2xl mb-1">⏳</div>
+<div class="text-slate-900 font-bold text-sm">存量项目暂可用</div>
+<div class="text-xs text-slate-600 mt-1">已上线的项目短期内还能跑<br>但故障后无人维护</div>
+</div>
+</div>
+
+<!-- 三、影响范围 -->
+<div class="section-title">三、影响范围：哪些业务受影响？</div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="rounded-lg border border-slate-200 bg-white overflow-hidden">
+<div class="px-4 py-3 bg-slate-800 text-white">
+<div class="text-sm font-bold">卡券业务</div>
+<div class="text-[11px] text-slate-300 mt-0.5">有价券发行、核销、分账</div>
+</div>
+<div class="p-4">
+<div class="flex items-start gap-3 mb-3 pb-3 border-b border-slate-100">
+<div class="flex-shrink-0 w-16 text-center"><div class="text-xs font-bold text-slate-500">国企</div></div>
+<div class="flex-1">
+<span class="text-emerald-600 font-bold">✓ 不受影响</span>
+<div class="text-xs text-slate-600 mt-1">现方案：星恒代运营（不依赖联动支付）</div>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="flex-shrink-0 w-16 text-center"><div class="text-xs font-bold text-slate-500">非国企</div></div>
+<div class="flex-1">
+<span class="text-emerald-600 font-bold">✓ 不受影响</span>
+<div class="text-xs text-slate-600 mt-1">可切直连（商场自开户），阻力小</div>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-lg border border-slate-200 bg-white overflow-hidden">
+<div class="px-4 py-3 bg-slate-800 text-white">
+<div class="text-sm font-bold">停车业务</div>
+<div class="text-[11px] text-slate-300 mt-0.5">停车缴费、分账结算</div>
+</div>
+<div class="p-4">
+<div class="flex items-start gap-3 mb-3 pb-3 border-b border-slate-100">
+<div class="flex-shrink-0 w-16 text-center"><div class="text-xs font-bold text-slate-500">国企</div></div>
+<div class="flex-1">
+<span class="text-rose-600 font-bold">⚠ 核心难点</span>
+<div class="text-xs text-slate-600 mt-1">业主默认拒绝开户，星恒无法承接停车场景<br><strong>保业务方案</strong>：切银联一步到位<br><strong>过渡方案</strong>：逐项沟通业主开通微信/支付宝（<span class="text-rose-600">枣庄、水街、威海已被拒绝</span>）</div>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="flex-shrink-0 w-16 text-center"><div class="text-xs font-bold text-slate-500">非国企</div></div>
+<div class="flex-1">
+<span class="text-emerald-600 font-bold">✓ 不受影响</span>
+<div class="text-xs text-slate-600 mt-1">可切直连（商场自开户），阻力小</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="text-sm text-slate-700 mb-2">
+<strong>一句话：</strong>四块业务里<strong class="text-rose-600">「国企停车」是核心难点</strong>——保业务方案花 15 万系统性解决，过渡方案靠逐个项目沟通推进（<span class="text-rose-600">枣庄、水街、威海均已尝试，业主全部拒绝</span>）。其余三块都有现成方案。
+</div>
+
+<!-- 四、两方案对比 -->
+<div class="section-title">四、解决路径：两方案对比</div>
+
+<div class="grid grid-cols-2 gap-4 mb-4">
+<!-- 首选 -->
+<div class="rounded-lg overflow-hidden border-2 border-emerald-500 bg-white shadow-sm">
+<div class="px-5 py-4" style="background:#059669;color:#fff;">
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-bold bg-white text-emerald-700 rounded px-2 py-0.5">首选</span>
+<span class="text-base font-bold">保业务方案</span>
+</div>
+<div class="text-[13px] text-emerald-50 mt-1">花 15 万，系统性解决，一步到位</div>
+</div>
+<div class="p-5 text-[13px] text-slate-700 leading-relaxed">
+影能对接<strong>银联商务</strong>作为新间连供应商，建立一套<strong>独立、可控、合规</strong>的银联分账方案。<br><br>
+<strong>核心价值：</strong><br>
+<div class="mt-1 ml-1">
+· 国企停车<strong class="text-emerald-700">自动覆盖</strong>，无须逐项沟通业主<br>
+· 四象限业务全覆盖，业务不缺角<br>
+· 维持集团间连合规口径<br>
+· 不依赖联动支付，无后续风险<br>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-200">
+<strong>费用：</strong>124 人天定制开发，<strong>执行价 15 万</strong>（一次性）
+</div>
+</div>
+</div>
+<!-- 备选 -->
+<div class="rounded-lg overflow-hidden border-2 border-indigo-400 bg-white shadow-sm">
+<div class="px-5 py-4" style="background:#4f46e5;color:#fff;">
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-bold bg-white text-indigo-700 rounded px-2 py-0.5">备选</span>
+<span class="text-base font-bold">稳健过渡方案</span>
+</div>
+<div class="text-[13px] text-indigo-50 mt-1">0 成本，存量不动，灵活推进</div>
+</div>
+<div class="p-5 text-[13px] text-slate-700 leading-relaxed">
+存量项目继续用联动支付（暂可用），新项目根据实际情况灵活选路径。<br><br>
+<strong>具体操作：</strong><br>
+<div class="mt-1 ml-1">
+· 存量联动项目<strong>保持不动</strong>，不主动迁移<br>
+· 新项目：愿意自开户的走<strong>直连</strong>（免代运营费），不愿意的接<strong>星恒代运营</strong><br>
+· 国企停车：<strong>通过项目层逐个沟通</strong>国企业主，争取其开通微信/支付宝<br>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-200">
+<strong>费用：</strong>集团 0 成本<br>
+<strong class="text-rose-600">代价：国企停车推进难度大、周期长、结果不确定</strong><br>
+<span class="text-xs text-rose-500">实测：枣庄、水街、威海项目均已尝试沟通，业主全部拒绝开户</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 维度对比 · 默认折叠 -->
+<details class="collapsible-detail mt-4">
+<summary class="collapsible-summary">
+<span class="collapsible-ico">▶</span>
+<span>维度对比：两方案详细对照</span>
+<span class="collapsible-hint">点击展开</span>
+</summary>
+<div style="padding:0 18px 18px;">
+<table class="mb-2" style="font-size:13px;">
+<thead>
+<tr>
+<th style="width:22%; background:#f8fafc;">维度</th>
+<th style="background:#f0fdf4; color:#065f46;">
+<div class="text-[11px] font-bold">首选</div>保业务方案
+</th>
+<th style="background:#eef2ff; color:#3730a3;">
+<div class="text-[11px] font-bold">备选</div>稳健过渡方案
+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-slate-50"><td colspan="3" class="font-semibold text-slate-700">集团侧</td></tr>
+<tr><td>一次性现金支出</td><td class="num text-rose-600">约 150,000</td><td class="num text-emerald-700">0</td></tr>
+<tr><td>间连合规口径</td><td class="text-emerald-700">维持</td><td class="text-slate-500">非国企可灵活放宽</td></tr>
+
+<tr class="bg-slate-50"><td colspan="3" class="font-semibold text-slate-700">国企项目</td></tr>
+<tr><td>卡券业务</td><td>星恒代运营（不变）</td><td>星恒代运营（不变）</td></tr>
+<tr><td><strong>停车业务</strong></td><td class="text-emerald-700"><strong>银联间连覆盖 ✓</strong><br><span class="text-slate-500 text-xs">系统自动解决</span></td><td><strong>逐项沟通推进</strong><br><span class="text-rose-600 text-xs">可行但难度大、周期长</span></td></tr>
+
+<tr class="bg-slate-50"><td colspan="3" class="font-semibold text-slate-700">非国企项目</td></tr>
+<tr><td>卡券业务</td><td>走银联间连</td><td>存量联动 / 新增灵活（直连或星恒）</td></tr>
+<tr><td>停车业务</td><td>走银联间连</td><td>存量联动 / 新增灵活（直连或星恒）</td></tr>
+
+<tr class="bg-slate-50"><td colspan="3" class="font-semibold text-slate-700">实施与运维</td></tr>
+<tr><td>商户签约影响</td><td>无须重新签约</td><td>新项目按实际情况签约</td></tr>
+<tr><td>星恒代运营规模</td><td>仅国企卡券（小）</td><td>视新项目选择而定（弹性）</td></tr>
+<tr><td>代运营费用</td><td>仅代运营项目付费</td><td>仅代运营项目付费，自开户的不付</td></tr>
+<tr><td>联动支付依赖</td><td class="text-emerald-700">完全脱离</td><td class="text-slate-500">存量仍依赖（有后续风险）</td></tr>
+</tbody>
+</table>
 </div>
 </details>
 
-<div class="section-title">二、间连方案现状：联动支付已不具备持续服务能力</div>
-
-<!-- 视觉：间连方案 = 联动支付 + 网商银行 -->
-<div class="mb-4 p-4 rounded-lg border-2 border-slate-300 bg-slate-50">
-<div class="text-center text-slate-500 text-xs mb-2">间连分账方案 = 联动支付（收单） + 网商银行（分账）</div>
-<div class="flex items-center justify-center gap-3 text-sm">
-<div class="px-4 py-2 bg-red-100 border-2 border-red-400 rounded-md text-red-800 line-through decoration-red-500">
-<strong>联动支付</strong><div class="text-xs">（已失能）</div>
+<!-- 决策树 -->
+<div class="recommend-box" style="padding:16px 20px;">
+<div class="title">一个问题定方案</div>
+<div class="mt-3" style="overflow-x:auto;">
+<div style="min-width:400px;font-size:13px;">
+<div class="flex items-center gap-3 mb-3">
+<div class="rounded-full px-3 py-1 bg-slate-800 text-white text-xs font-bold flex-shrink-0">Q</div>
+<div><strong>愿不愿意花 15 万，一步到位系统性解决？</strong></div>
 </div>
-<div class="text-2xl text-slate-400">+</div>
-<div class="px-4 py-2 bg-white border-2 border-slate-300 rounded-md text-slate-700">
-<strong>网商银行</strong><div class="text-xs">（可用）</div>
+<div class="flex gap-4 ml-10">
+<div class="flex-1 rounded-lg border-2 border-emerald-400 bg-emerald-50 p-4 text-center">
+<div class="text-emerald-800 font-bold text-base mb-2">愿意 →</div>
+<div class="text-emerald-700 text-sm"><strong>保业务方案</strong></div>
+<div class="text-emerald-600 text-xs mt-2">15 万一次性投入<br>银联间连全覆盖<br>国企停车自动解决<br>不再依赖联动支付</div>
 </div>
-<div class="text-2xl text-slate-400">=</div>
-<div class="px-4 py-2 bg-red-600 text-white rounded-md">
-<strong>间连方案瓦解</strong>
-</div>
-</div>
-<div class="text-center mt-2 text-xs text-slate-500">联动支付一旦退出，"联动 + 网商银行"的间连闭环即无法成立，非国企项目将失去可用的间连路径。</div>
-</div>
-
-<div class="risk-box">
-<strong class="text-slate-900">联动支付已失去作为间连分账主供应商的持续服务能力：</strong>
-<ul class="list-disc ml-5 mt-2 text-sm text-slate-700 space-y-1">
-<li>联动科技前年被抖音公司收购后，对新老客户的维护投入明显减弱，<strong>提的需求无法迭代，原团队已经解散</strong></li>
-<li>去年年底受金融政策影响，<strong>联动已无法支持新项目入网开户</strong></li>
-<li>两点叠加，联动作为主间连供应商已不再具备延续能力</li>
-</ul>
-<div class="mt-3 pt-3 border-t border-orange-200 text-sm text-slate-700">
-<strong>供应商生态提示</strong>：支付分账行业供应商整体处于动荡期，即使切换至新供应商，未来仍可能因收购、政策或合规变动而重现类似情况。方案设计需兼顾<strong>当前可落地</strong>与<strong>未来可切换</strong>两个维度。
-</div>
-</div>
-
-<div class="section-title">三、影响范围：按"主体 × 业务"四象限拆解</div>
-
-<div class="subtle mb-2">以下矩阵梳理联动支付退出后，四类业务场景各自的可行路径。</div>
-
-<table class="mb-4">
-<thead>
-<tr><th style="width:18%"></th><th style="width:41%" class="text-center">国企项目</th><th style="width:41%" class="text-center">非国企项目</th></tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>卡券业务</strong></td>
-<td class="bg-green-50"><strong class="text-green-700">可解</strong>——走星恒代运营闭环（现有成熟方案，Tab 2.2）</td>
-<td class="bg-green-50"><strong class="text-green-700">可解</strong>——业主可以商场主体自行开立微信/支付宝商户户，走直连方案</td>
-</tr>
-<tr>
-<td><strong>停车业务</strong></td>
-<td class="bg-red-50 text-red-700"><strong>硬缺口</strong>——停车不涉分账无法进星恒；国企商场不接受以自身主体开立微信/支付宝商户户（无法走直连）。<strong>目前唯一可行解为切银联商务</strong></td>
-<td class="bg-green-50"><strong class="text-green-700">可解</strong>——业主可以商场主体自行开立微信/支付宝商户户，走直连方案</td>
-</tr>
-</tbody>
-</table>
-
-<div class="highlight-box text-sm text-slate-700">
-<strong>关键结论：</strong>
-<ul class="list-disc ml-5 mt-2 space-y-1">
-<li>非国企项目（卡券 + 停车）——业主不介意直连或间连，<strong>放宽集团"必须间连"的内部要求即可走直连</strong>，此类项目不受实际影响。</li>
-<li>国企项目·卡券业务——走星恒代运营闭环即可解决，<strong>无需动到支付方案层面</strong>。</li>
-<li>国企项目·停车业务——<strong>是唯一真正的硬缺口</strong>：星恒进不去（无分账场景）、直连业主不接受——<strong>目前除"切银联商务"外暂无可行替代方案</strong>。</li>
-</ul>
-</div>
-
-<div class="section-title">四、解决路径：三方案对比（按推荐优先级排序）</div>
-
-<div class="note-box">
-<strong>前提说明：</strong>联动支付<strong>对存量项目仍可继续支持</strong>，问题出现在"新开项目无法入网开户"及"存量项目若后续故障无法维护"。因此"联动延续 + 星恒增量"方案是一条<strong>增量触发</strong>的路径——新开项目与故障兜底项目陆续迁入星恒代运营闭环，规模逐年自然增长。
-</div>
-
-<!-- 方案卡片 · 三栏 -->
-<div class="grid grid-cols-3 gap-3 mb-4">
-<div class="rounded-lg overflow-hidden border-2 border-emerald-500 bg-white shadow-sm">
-<div class="px-4 py-3" style="background:#059669;color:#fff;">
-<div class="flex items-center gap-2">
-<span class="text-[11px] font-bold bg-white text-emerald-700 rounded px-2 py-0.5">首选</span>
-<span class="text-sm font-bold">保业务方案</span>
-</div>
-<div class="text-[12px] text-emerald-50 mt-1">15 万保住国企停车，业务不缺角</div>
-</div>
-<div class="p-4 text-[13px] text-slate-700 leading-relaxed">
-影能对接<strong>银联商务</strong>作为新间连供应商，建立一套<strong>独立、可控、合规</strong>的银联分账方案。四象限业务全覆盖（含<strong>国企停车</strong>），维持集团间连合规口径。<br>
-<span class="text-slate-500">原价 30 万，影能承担 50%，集团实付 <strong class="text-rose-600">15 万</strong>（一次性）。</span>
-</div>
-</div>
-
-<div class="rounded-lg overflow-hidden border-2 border-indigo-400 bg-white shadow-sm">
-<div class="px-4 py-3" style="background:#4f46e5;color:#fff;">
-<div class="flex items-center gap-2">
-<span class="text-[11px] font-bold bg-white text-indigo-700 rounded px-2 py-0.5">备选</span>
-<span class="text-sm font-bold">控成本方案</span>
-</div>
-<div class="text-[12px] text-indigo-50 mt-1">0 成本，代价是放弃国企停车</div>
-</div>
-<div class="p-4 text-[13px] text-slate-700 leading-relaxed">
-非国企项目走<strong>直连</strong>（商场自开微信/支付宝商户户），国企卡券由<strong>星恒</strong>承接。集团需放宽"所有项目必须间连"的内部口径。<br>
-<span class="text-rose-700"><strong>核心取舍：放弃国企停车业务的对接方案（停车无解）</strong>，新增国企项目签约需慎重。</span>
-</div>
-</div>
-
-<div class="rounded-lg overflow-hidden border border-slate-300 bg-white shadow-sm">
-<div class="px-4 py-3" style="background:#64748b;color:#fff;">
-<div class="flex items-center gap-2">
-<span class="text-[11px] font-bold bg-white text-slate-700 rounded px-2 py-0.5">兜底</span>
-<span class="text-sm font-bold">观望方案</span>
-</div>
-<div class="text-[12px] text-slate-200 mt-1">0 成本，存量不动，边走边看</div>
-</div>
-<div class="p-4 text-[13px] text-slate-700 leading-relaxed">
-存量项目继续用<strong>联动</strong>，新开项目及联动故障后项目<strong>逐步迁入星恒代运营</strong>闭环。集团 0 切换费，维持间连合规。<br>
-<span class="text-amber-700"><strong>代价：</strong>星恒代运营规模随新项目线性增长；国企停车仍无解。</span>
+<div class="flex-1 rounded-lg border-2 border-indigo-400 bg-indigo-50 p-4 text-center">
+<div class="text-indigo-800 font-bold text-base mb-2">先不花 →</div>
+<div class="text-indigo-700 text-sm"><strong>稳健过渡方案</strong></div>
+<div class="text-indigo-600 text-xs mt-2">0 成本<br>存量联动不动，新项目灵活<br>国企停车逐项沟通推进<br><span class="text-rose-500">枣庄/水街/威海已被拒绝</span></div>
 </div>
 </div>
 </div>
-
-<div class="sub-section-title">维度对比</div>
-<table class="mb-4" style="font-size:13px;">
-<thead>
-<tr>
-<th style="width:18%; background:#f1f5f9;">维度</th>
-<th style="background:#ecfdf5; color:#065f46;">
-<div class="text-[11px] font-bold">首选</div>
-<div>保业务方案</div>
-</th>
-<th style="background:#eef2ff; color:#3730a3;">
-<div class="text-[11px] font-bold">备选</div>
-<div>控成本方案</div>
-</th>
-<th style="background:#f1f5f9; color:#334155;">
-<div class="text-[11px] font-bold">兜底</div>
-<div>观望方案</div>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr class="bg-slate-50"><td colspan="4" class="font-semibold text-slate-700">一、集团侧</td></tr>
-<tr><td>一次性现金支出</td><td class="num text-rose-600">约 150,000</td><td class="num text-emerald-700">0</td><td class="num text-emerald-700">0</td></tr>
-<tr><td>间连合规要求</td><td class="text-emerald-700">维持</td><td class="text-amber-700">放宽</td><td class="text-emerald-700">维持</td></tr>
-
-<tr class="bg-slate-50"><td colspan="4" class="font-semibold text-slate-700">二、国企项目</td></tr>
-<tr><td>卡券业务</td><td>星恒代运营</td><td>星恒代运营</td><td>星恒代运营</td></tr>
-<tr><td><strong>停车业务</strong></td><td class="text-emerald-700"><strong>银联间连覆盖 ✓</strong></td><td class="text-rose-600"><strong>无解 ✗</strong></td><td class="text-rose-600"><strong>无解 ✗</strong></td></tr>
-
-<tr class="bg-slate-50"><td colspan="4" class="font-semibold text-slate-700">三、非国企项目</td></tr>
-<tr><td>卡券业务</td><td>走银联间连</td><td>走直连（商场自开户）</td><td>存量联动 / 新增星恒代运营</td></tr>
-<tr><td>停车业务</td><td>走银联间连</td><td>走直连（商场自开户）</td><td>存量联动 / 新增星恒代运营</td></tr>
-
-<tr class="bg-slate-50"><td colspan="4" class="font-semibold text-slate-700">四、实施影响与代运营规模</td></tr>
-<tr><td>商户签约影响</td><td>无须重新签约</td><td>非国企业主改走直连账户</td><td>新开项目商户签约到星恒</td></tr>
-<tr><td>星恒代运营规模</td><td>仅国企卡券（小）</td><td>仅国企卡券（小）</td><td><strong>逐年增长</strong>（新增全量进代运营）</td></tr>
-<tr><td>项目端年度成本</td><td>低</td><td>低</td><td>中等（随新开线性增长）</td></tr>
-</tbody>
-</table>
-
-<div class="note-box">
-<strong>关于"供应商独立性"的说明</strong>：会员系统为 SaaS 架构，银联/网商银行与系统深度绑定，无论是否切换，供应商集中度都是既有事实。路径选择不以"供应商独立"为判断标准，而以<strong>业务覆盖完整度、集团合规容忍度、现金支出、项目端承载能力</strong>为主要依据。
-</div>
-
-<div class="recommend-box">
-<div class="title">决策判断锚点（两个问题即可定位方案）</div>
-<div class="text-slate-800 text-sm leading-relaxed mt-2">
-<strong>锚点①：是否放弃国企停车业务的对接方案？</strong><br>
-<span class="text-slate-700">—— 不放弃 → 必须选<strong>"保业务方案"</strong>，这是目前国企停车唯一可行的对接路径；<br>
-—— 可放弃 → 进入锚点②。</span><br><br>
-<strong>锚点②：非国企项目是否改走直连（放宽间连口径）？</strong><br>
-<span class="text-slate-700">—— 改走直连 → 选<strong>"控成本方案"</strong>，0 成本闭环；<br>
-—— 维持间连 → 选<strong>"观望方案"</strong>，0 成本但星恒代运营规模线性增长。</span>
 </div>
 </div>
 
 </div>
 
-<!-- Sub Tab B: 代运营收费 -->
+<!-- ===== Sub Tab B: 代运营收费 ===== -->
 <div id="subcontent-b" class="subtab-content hidden">
 
-<div class="section-title">一、业务背景</div>
-<div class="highlight-box">
-<p class="text-slate-700 text-sm leading-relaxed">
-针对国企类项目（商场主体不接受以自身名义开立微信/支付宝商户户）的合规约束（详见 Tab 2.1），集团自去年起引入 <strong>星恒</strong>（影能 CEO 关联企业，非影能旗下企业）为相关项目提供支付分账闭环服务。星恒以其自身主体完成收款、分账、税票、监管户管理等一揽子工作。<br>
-<br>
-<strong>此前影能对该项代运营服务未单独收费</strong>。本年度起，影能提出针对代运营所产生的合理成本（含财务对账、监管户管理、记账、税票等）开始收费，这是过去未发生的新增支出事项。
-</p>
+<div class="grid grid-cols-3 gap-3 mb-4">
+<div class="rounded-lg border border-slate-200 bg-white p-4">
+<div class="text-slate-500 text-[11px] font-bold mb-2">背景</div>
+<div class="text-sm text-slate-800 leading-relaxed">国企项目由 <strong>星恒</strong>（影能 CEO 关联企业）全权代运营。<strong>此前免费，本年起影能提出收费。</strong></div>
+</div>
+<div class="rounded-lg border-2 border-slate-800 bg-slate-50 p-4">
+<div class="text-slate-500 text-[11px] font-bold mb-2">核心原则</div>
+<div class="text-sm text-slate-900 leading-relaxed"><strong>谁用谁付费，集团不支出</strong><br>仅使用星恒代运营的项目承担费用；自行开户（直连）的项目<strong>无需付费</strong>。</div>
+</div>
+<div class="rounded-lg border border-slate-200 bg-white p-4">
+<div class="text-slate-500 text-[11px] font-bold mb-2">存量 6 家项目</div>
+<div class="text-xs text-slate-700 leading-relaxed">衢州 · 金华 · 威海 · 荆门 · 水街 · 威海智慧谷</div>
+</div>
 </div>
 
-<div class="section-title">二、集团原则</div>
-<div class="note-box">
-集团旗下项目为轻资产运营模式，代运营服务的直接受益方是项目端（解决其支付分账合规问题），<strong>由受益方付费</strong>符合集团财务逻辑。建议确立以下原则：<br>
-<br>
-<strong>集团不为此项新增事项单独支出</strong>——所有代运营成本由使用服务的项目端自行承担，不进入集团预算。以此为基本口径评估三方案。
+<div class="section-title">三方案对比</div>
+
+<div class="grid grid-cols-3 gap-3 mb-4">
+<div class="rounded-lg border border-slate-200 bg-white p-4 text-center">
+<div class="text-slate-500 text-[11px] font-bold mb-1">方案一</div>
+<div class="text-slate-800 font-bold text-sm">集团付 9,000/年</div>
+<div class="text-slate-600 text-xs mt-1">项目 2,000/年</div>
+<div class="text-slate-400 text-[11px] mt-2">项目端最便宜<br>但集团要掏钱</div>
+</div>
+<div class="rounded-lg border border-slate-200 bg-white p-4 text-center">
+<div class="text-slate-500 text-[11px] font-bold mb-1">方案二</div>
+<div class="text-slate-800 font-bold text-sm">集团 0</div>
+<div class="text-slate-600 text-xs mt-1">新增项目 5,000/年</div>
+<div class="text-slate-400 text-[11px] mt-2">新项目单价太高<br>推广有阻力</div>
+</div>
+<div class="rounded-lg border-2 border-emerald-500 bg-emerald-50 p-4 text-center">
+<div class="text-emerald-700 text-[11px] font-bold mb-1">方案三 · 推荐</div>
+<div class="text-emerald-900 font-bold text-lg">集团 0</div>
+<div class="text-emerald-700 text-sm mt-1">统一 3,000/年/项目</div>
+<div class="text-emerald-600 text-[11px] mt-2">仅代运营项目付费<br>自开户项目不付</div>
+</div>
 </div>
 
-<div class="section-title">三、存量 6 家项目名单</div>
-<div class="note-box text-sm text-slate-700">
-衢州项目、金华项目、威海项目、荆门项目、水街项目、威海智慧谷项目
-</div>
-
-<div class="section-title">四、三方案汇总对比</div>
-<div class="subtle mb-2">测算口径：以 2026 年为 Y1，假设"<strong>全部项目均纳入代运营</strong>"为上限口径——存量 6 家 + 每年新增 4 家，Y1=10、Y2=14、Y3=18、Y4=22、Y5=26。实际因星恒代运营仅覆盖国企类项目（Tab 2.1"保业务方案"下），真实代运营规模会<strong>显著低于</strong>下表数字，此表仅用于对比三方案的相对差异。</div>
-
-<table class="mb-4">
+<details class="collapsible-detail mb-4">
+<summary class="collapsible-summary">
+<span class="collapsible-ico">▶</span>
+<span>三方案累计支出测算明细</span>
+<span class="collapsible-hint">点击展开</span>
+</summary>
+<div style="padding:0 18px 18px;">
+<div class="text-xs text-slate-500 mb-2">测算口径：存量 6 家 + 每年新增 4 家（上限口径，仅用于对比相对差异）</div>
+<table style="font-size:13px;">
 <thead>
 <tr>
 <th rowspan="2">方案</th>
 <th rowspan="2">集团承担</th>
-<th rowspan="2">项目承担（元/年/项目）</th>
-<th colspan="2" class="text-center">集团累计支出</th>
-<th colspan="2" class="text-center">项目端累计支出</th>
+<th rowspan="2">项目承担</th>
+<th colspan="2" class="text-center">集团累计</th>
+<th colspan="2" class="text-center">项目端累计</th>
 </tr>
 <tr>
-<th class="text-right">3 年</th>
-<th class="text-right">5 年</th>
-<th class="text-right">3 年</th>
-<th class="text-right">5 年</th>
+<th class="text-right">3年</th><th class="text-right">5年</th>
+<th class="text-right">3年</th><th class="text-right">5年</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><strong>方案一</strong><div class="subtle">影能已报价</div></td>
-<td>9,000 元/年基础服务费</td>
-<td>存量 & 新增统一 2,000</td>
-<td class="text-right num">27,000</td>
-<td class="text-right num">45,000</td>
-<td class="text-right num">84,000</td>
-<td class="text-right num">180,000</td>
-</tr>
-<tr>
-<td><strong>方案二</strong><div class="subtle">影能已报价</div></td>
-<td>0</td>
-<td>存量 0；新增 5,000</td>
-<td class="text-right num">0</td>
-<td class="text-right num">0</td>
-<td class="text-right num">120,000</td>
-<td class="text-right num">300,000</td>
-</tr>
-<tr>
-<td><strong>方案三</strong><div class="subtle">均摊模式</div></td>
-<td>0</td>
-<td>存量 & 新增统一 3,000</td>
-<td class="text-right num">0</td>
-<td class="text-right num">0</td>
-<td class="text-right num">126,000</td>
-<td class="text-right num">270,000</td>
-</tr>
+<tr><td><strong>方案一</strong></td><td>9,000/年</td><td>2,000/项目</td><td class="text-right num">27,000</td><td class="text-right num">45,000</td><td class="text-right num">84,000</td><td class="text-right num">180,000</td></tr>
+<tr><td><strong>方案二</strong></td><td>0</td><td>新增5,000</td><td class="text-right num">0</td><td class="text-right num">0</td><td class="text-right num">120,000</td><td class="text-right num">300,000</td></tr>
+<tr><td><strong>方案三</strong></td><td>0</td><td>统一3,000</td><td class="text-right num">0</td><td class="text-right num">0</td><td class="text-right num">126,000</td><td class="text-right num">270,000</td></tr>
 </tbody>
 </table>
-
-<div class="highlight-box">
-<strong>结论（三方案对比要点）：</strong>
-<ul class="list-disc ml-6 mt-2 text-sm text-slate-700 space-y-1">
-<li><strong>方案一</strong>：集团年投入 9,000 元，项目端单价最低（2,000）；优点是项目端推行阻力最小，但<strong>集团需承担固定年费</strong>。</li>
-<li><strong>方案二</strong>：集团零付费，但新增项目单价高达 5,000，随扩张项目端负担迅速堆高，且对新开项目形成签约阻力。</li>
-<li><strong>方案三（推荐）</strong>：集团零付费，所有项目统一 3,000（较方案一 +1,000 均摊至项目端）；<strong>集团不为此新增事项买单</strong>，由受益方项目端承担，符合集团轻资产运营项目"成本随项目"的财务逻辑。</li>
-</ul>
 </div>
+</details>
 
-<div class="recommend-box">
-<div class="title">推荐：方案三（集团零付费 · 每项目 3,000 元/年）</div>
-<div class="text-slate-800 text-sm leading-relaxed">
-集团旗下项目均为<strong>轻资产运营项目</strong>，代运营的受益方为项目端，费用由项目自行承担符合集团财务逻辑。方案三下：<br>
-<br>
-<ul class="list-disc ml-6 mt-1 space-y-1">
-<li><strong>集团支出：0</strong>——不新增任何年度预算项</li>
-<li><strong>项目端单价：3,000 元/年/项目</strong>（原 2,000 + 均摊集团侧 9,000 基础服务费后约 1,000）</li>
-<li>较方案二：新增项目单价从 5,000 降至 3,000，推广阻力显著降低</li>
-<li>存量与新增口径统一，便于政策表达</li>
-</ul><br>
-<strong>下一步：经领导确认后，纳入主合同补充协议执行。</strong>
-</div>
-</div>
-
-<div class="section-title">六、配套条件</div>
-<div class="note-box">
-<ul class="space-y-1 text-sm text-slate-700">
-<li>计费周期锁定为<strong>年费口径</strong></li>
-<li>服务全包（财务对账、监管户管理、记账、税票）</li>
-<li>价格<strong>锁定 2 年不上浮</strong></li>
-</ul>
+<div class="text-sm text-slate-700 leading-relaxed" style="background:#f8fafc;border-radius:6px;padding:12px 16px;">
+<strong>关键说明：</strong>代运营费仅针对<strong>实际使用星恒代运营</strong>的项目，自行开户（直连）的项目<strong>无需付费</strong>。服务全包（财务对账、监管户管理、记账、税票），价格锁定 2 年不上浮。
 </div>
 
 </div>
 
 </div>
 
-<!-- Tab 2: 汇总与决策 -->
-<div id="content2" class="tab-content hidden">
+<!-- ==================== Tab 3: 汇总与决策 ==================== -->
+<div id="content3" class="tab-content hidden">
 
 <div class="mb-5">
 <span class="label-tag ok-badge">汇总与决策</span>
@@ -733,134 +740,138 @@ body.presentation .sub-card .text-\[13px\] { font-size: 15px !important; }
 
 <div class="section-title">2026 年度集团支出测算</div>
 <table class="mb-6">
-<thead>
-<tr><th>支出项</th><th>金额（元）</th><th>性质</th><th>说明</th></tr>
-</thead>
+<thead><tr><th>支出项</th><th>金额（元）</th><th>性质</th><th>说明</th></tr></thead>
 <tbody>
 <tr><td>会员中台年度服务费</td><td class="num">500,000</td><td>年度延续</td><td>主合同约定事项</td></tr>
 <tr><td>新增 5 项目 SCRM 实施费</td><td class="num">50,000</td><td>一次性</td><td>主合同约定事项</td></tr>
-<tr><td>星恒代运营·集团支出</td><td class="num">0</td><td>新增·推荐方案三</td><td>方案三下集团零付费，项目端 3,000 元/年/项目</td></tr>
-<tr><td>支付方案切换费</td><td class="num">A 约 150,000 / B 0 / C 0</td><td>一次性·新增</td><td>A 切银联（原价 30 万，影能承担 50%）；B 增量扩星恒代运营（存量继续用联动）；C 直连 + 星恒组合（非国企走直连 · 国企卡券走星恒 · 国企停车暂无方案）</td></tr>
+<tr><td>星恒代运营·集团支出</td><td class="num">0</td><td>新增·方案三</td><td>仅代运营项目付 3,000/年/项目，集团零付费</td></tr>
+<tr><td>支付方案切换费</td><td class="num">保业务 150,000 / 过渡 0</td><td>一次性·新增</td><td>保业务方案切银联商务（124人天，执行价15万）</td></tr>
 <tr class="dark-row font-semibold">
 <td>集团 2026 年度合计</td>
-<td class="num">A 约 700,000 / B 约 550,000 / C 约 550,000</td>
+<td class="num">保业务 约700,000 / 过渡 约550,000</td>
 <td colspan="2"></td>
 </tr>
 </tbody>
 </table>
-
 <div class="subtle mb-6">
-<strong>项目端单独承担（不进入集团预算）</strong>：星恒代运营 3,000 元/年/项目（方案三），由使用服务的各项目自行支付，集团不承担此项费用。
+<strong>项目端单独承担（不进入集团预算）</strong>：星恒代运营 3,000 元/年/项目（方案三），仅使用代运营服务的项目支付。自行开户（直连）的项目不付。
 </div>
 
+<!-- 银联报价明细 · 折叠 -->
+<details class="collapsible-detail mb-4">
+<summary class="collapsible-summary">
+<span class="collapsible-ico">▶</span>
+<span>银联商务报价明细（124 人天 · 9 大模块 · 执行价 15 万）</span>
+<span class="collapsible-hint">点击展开</span>
+</summary>
+<div style="padding:0 18px 18px;">
+<div class="text-xs text-slate-500 mb-2">报价单号：ZJYN20260414-0001NB &nbsp;|&nbsp; 2026-04-14 &nbsp;|&nbsp; 有效期 30 天 &nbsp;|&nbsp; 含税 13%</div>
+<table style="font-size:13px;">
+<thead><tr><th>功能模块</th><th>说明</th><th class="text-right">人天</th><th class="text-right">金额</th></tr></thead>
+<tbody>
+<tr><td><strong>支付通道核心对接</strong></td><td>SDK封装、统一下单、退款、回调</td><td class="text-right num">25</td><td class="text-right num">55,000</td></tr>
+<tr><td><strong>资金管理对接</strong></td><td>冻结/解冻、划付、余额查询</td><td class="text-right num">34</td><td class="text-right num">74,800</td></tr>
+<tr><td><strong>对账文件处理</strong></td><td>SFTP对账、退票、自动核对</td><td class="text-right num">17</td><td class="text-right num">37,400</td></tr>
+<tr><td><strong>交易中台适配</strong></td><td>枚举扩展、解冻适配、异步补偿</td><td class="text-right num">15</td><td class="text-right num">33,000</td></tr>
+<tr><td><strong>运维后台</strong></td><td>银联配置、分账通道扩展</td><td class="text-right num">6</td><td class="text-right num">13,200</td></tr>
+<tr><td><strong>商管云收银台</strong></td><td>新增银联支付方式</td><td class="text-right num">6</td><td class="text-right num">13,200</td></tr>
+<tr><td><strong>运营后台</strong></td><td>银联筛选、对账报表</td><td class="text-right num">5.5</td><td class="text-right num">12,100</td></tr>
+<tr><td><strong>数据库与配置</strong></td><td>表结构、多环境配置</td><td class="text-right num">5</td><td class="text-right num">11,000</td></tr>
+<tr><td><strong>联调与测试</strong></td><td>全流程联调、异常测试</td><td class="text-right num">10.5</td><td class="text-right num">23,100</td></tr>
+<tr class="bg-slate-50"><td colspan="2" class="font-semibold">标准报价（2,200/人天）</td><td class="text-right num font-semibold">124</td><td class="text-right num font-semibold">272,800</td></tr>
+<tr class="bg-emerald-50"><td colspan="2" class="font-semibold text-emerald-800">执行价 · 集团实付</td><td></td><td class="text-right num font-semibold text-emerald-800" style="font-size:18px;">150,000</td></tr>
+</tbody>
+</table>
+<div class="text-xs text-slate-500 mt-2">覆盖 30 个门店全流程。</div>
+</div>
+</details>
+
+<!-- 决策事项清单 · 前两层折叠 -->
 <div class="section-title">决策事项清单</div>
 
-<div class="mb-4">
-<div class="font-semibold text-slate-700 text-sm mb-2">第一层 · 主合同约定事项 · 推进付款</div>
-<table>
+<details class="collapsible-detail mb-4">
+<summary class="collapsible-summary">
+<span class="collapsible-ico">▶</span>
+<span>第一层 · 主合同推进付款 &nbsp;+&nbsp; 第二层 · 新增需求原则确认</span>
+<span class="collapsible-hint">点击展开</span>
+</summary>
+<div style="padding:0 18px 18px;">
+<div class="font-semibold text-slate-700 text-sm mb-2 mt-2">第一层 · 主合同约定事项</div>
+<table style="font-size:13px;">
 <thead><tr><th>事项</th><th>金额</th><th>建议</th></tr></thead>
 <tbody>
-<tr><td>全域会员经营中台年度续签</td><td class="num">500,000 元</td><td class="text-slate-700">按合同约定<strong>推进付款</strong>，尽快执行到位</td></tr>
-<tr><td>新增 5 项目 SCRM 实施费</td><td class="num">50,000 元</td><td class="text-slate-700">同步<strong>推进付款</strong></td></tr>
+<tr><td>会员中台年度续签</td><td class="num">500,000</td><td>按合同<strong>推进付款</strong></td></tr>
+<tr><td>新增5项目实施费</td><td class="num">50,000</td><td>同步<strong>推进付款</strong></td></tr>
 </tbody>
 </table>
-</div>
-
-<div class="mb-4">
-<div class="font-semibold text-blue-700 text-sm mb-2">第二层 · 新增需求原则确认</div>
-<table>
+<div class="font-semibold text-emerald-700 text-sm mb-2 mt-4">第二层 · 新增需求原则</div>
+<table style="font-size:13px;">
 <thead><tr><th>事项</th><th>建议</th></tr></thead>
 <tbody>
-<tr><td>代运营集团支持边界</td><td>集团<strong>不为代运营新增事项单独支出</strong>（推荐方案三），由受益项目端承担</td></tr>
-<tr><td>代运营方案选择</td><td><strong>方案三</strong>——项目端 3,000 元/年/项目，集团零付费，2 年锁价</td></tr>
-<tr><td>签署补充协议</td><td><strong>按需签署</strong>：根据领导最终选定的支付方案路径，以及是否启用代运营收费，决定是否签署主合同补充协议，用于约定星恒代运营、支付方案切换等新增事项的服务内容与费用框架</td></tr>
+<tr><td>代运营收费</td><td><strong>方案三</strong>：3,000/年/项目，谁用谁付费，集团零支出</td></tr>
+<tr><td>补充协议</td><td><strong>按需签署</strong>，依领导选定路径决定</td></tr>
 </tbody>
 </table>
 </div>
+</details>
 
 <div class="mb-4">
-<div class="font-semibold text-amber-700 text-sm mb-2">第三层 · 支付方案择定（三方案按推荐优先级排序）</div>
-<div class="grid grid-cols-3 gap-3">
-<div class="border-2 border-emerald-500 rounded-lg p-4 bg-emerald-50">
+<div class="font-semibold text-slate-500 text-sm mb-2">第三层 · 支付方案择定</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="border-2 border-emerald-500 rounded-lg p-5 bg-emerald-50">
 <div class="text-xs text-emerald-700 font-bold mb-1">首选</div>
-<div class="font-bold text-emerald-900 mb-2">保业务方案</div>
-<div class="text-xs text-slate-700 leading-relaxed">
+<div class="font-bold text-emerald-900 text-lg mb-3">保业务方案</div>
+<div class="text-sm text-slate-700 leading-relaxed">
 <div><strong>集团支出：</strong>一次性 15 万</div>
 <div><strong>间连合规：</strong>维持</div>
-<div><strong>国企停车：</strong><span class="text-emerald-700">全覆盖 ✓</span></div>
-<div class="mt-2 text-emerald-800">业务全覆盖 · 合规延续</div>
+<div><strong>国企停车：</strong><span class="text-emerald-700 font-bold">系统性覆盖 ✓</span></div>
+<div><strong>联动依赖：</strong>完全脱离</div>
+<div class="mt-3 pt-3 border-t border-emerald-200 text-emerald-800 font-semibold">花 15 万买一个系统级方案<br>国企停车自动解决</div>
 </div>
 </div>
-<div class="border-2 border-indigo-400 rounded-lg p-4 bg-indigo-50">
+<div class="border-2 border-indigo-400 rounded-lg p-5 bg-indigo-50">
 <div class="text-xs text-indigo-700 font-bold mb-1">备选</div>
-<div class="font-bold text-indigo-900 mb-2">控成本方案</div>
-<div class="text-xs text-slate-700 leading-relaxed">
+<div class="font-bold text-indigo-900 text-lg mb-3">稳健过渡方案</div>
+<div class="text-sm text-slate-700 leading-relaxed">
 <div><strong>集团支出：</strong>0</div>
-<div><strong>间连口径：</strong><span class="text-amber-700">非国企放宽</span></div>
-<div><strong>国企停车：</strong><span class="text-rose-600">无解 ✗</span></div>
-<div class="mt-2 text-indigo-800">非国企走直连<br>国企卡券走星恒</div>
-</div>
-</div>
-<div class="border border-slate-300 rounded-lg p-4 bg-slate-50">
-<div class="text-xs text-slate-600 font-bold mb-1">兜底</div>
-<div class="font-bold text-slate-900 mb-2">观望方案</div>
-<div class="text-xs text-slate-700 leading-relaxed">
-<div><strong>集团支出：</strong>0</div>
-<div><strong>间连合规：</strong>维持</div>
-<div><strong>国企停车：</strong><span class="text-rose-600">无解 ✗</span></div>
-<div class="mt-2 text-slate-800">存量继续用联动<br>新开迁入星恒</div>
+<div><strong>间连口径：</strong>灵活放宽</div>
+<div><strong>国企停车：</strong><span class="text-indigo-700 font-bold">逐项沟通推进</span></div>
+<div><strong>联动依赖：</strong>存量仍依赖</div>
+<div class="mt-3 pt-3 border-t border-indigo-200 text-indigo-800 font-semibold">0 成本但靠人逐个去谈<br><span class="text-rose-600 text-xs font-normal">实测：枣庄、水街、威海均已被业主拒绝</span></div>
 </div>
 </div>
 </div>
 <div class="mt-3 text-xs text-slate-600 leading-relaxed px-1">
-<strong>判断锚点：</strong>① 是否放弃国企停车业务对接 → 决定"保业务方案"是否刚需；② 非国企是否改走直连 → 区分"控成本方案"与"观望方案"。
+<strong>判断锚点：</strong>两方案的本质区别——花 15 万买一个系统级方案自动解决，还是 0 成本但靠人一个个去谈、结果不确定。
 </div>
 </div>
 
-<div class="section-title">影能需补齐的信息</div>
-<ol class="list-decimal ml-6 text-sm text-slate-700 space-y-1 mb-6">
-<li>银联商务切换费约 15 万元的明细构成（"保业务方案"下需要：对接费、系统改造费、数据迁移费）</li>
-</ol>
-
-<div class="section-title">落地执行安排</div>
-<div class="note-box">
-<div class="subtle mb-3">本次汇报确认后，需要完成的文件签署与动作清单：</div>
-<table>
-<thead>
-<tr><th style="width:60px">序号</th><th style="width:22%">动作</th><th>具体内容</th></tr>
-</thead>
+<!-- 落地执行 · 折叠 -->
+<details class="collapsible-detail mb-4">
+<summary class="collapsible-summary">
+<span class="collapsible-ico">▶</span>
+<span>落地执行安排（3 步动作清单）</span>
+<span class="collapsible-hint">点击展开</span>
+</summary>
+<div style="padding:0 18px 18px;">
+<table style="font-size:13px;">
+<thead><tr><th style="width:50px">序号</th><th style="width:20%">动作</th><th>具体内容</th></tr></thead>
 <tbody>
-<tr>
-<td><span class="label-tag info-badge">1</span></td>
-<td><strong>主合同年度续签</strong></td>
-<td>按主合同约定续签年度服务（50 万 + 5 万新增 5 项目实施费），尽快安排付款</td>
-</tr>
-<tr>
-<td><span class="label-tag info-badge">2</span></td>
-<td><strong>签署主合同补充协议</strong><div class="subtle mt-1">按需</div></td>
-<td>根据领导选定的方案决定是否签署。若确认启用代运营收费或选择"保业务方案"，则签署补充协议约定：①星恒代运营（方案三：3,000 元/年/项目，集团零付费，2 年锁价）；②支付方案切换的选定方案及对应责任</td>
-</tr>
-<tr>
-<td><span class="label-tag warn-badge">3</span></td>
-<td><strong>执行支付方案</strong><div class="subtle mt-1">依择定路径</div></td>
-<td>
-<strong>若选"保业务方案"：</strong>与影能签署银联对接一次性付款协议（15 万）<br>
-<strong>若选"控成本方案"：</strong>无新增合同，按补充协议执行——非国企走直连 + 国企卡券走星恒<br>
-<strong>若选"观望方案"：</strong>无新增合同，按补充协议执行——维持间连 + 新开项目迁入星恒
-</td>
-</tr>
+<tr><td><span class="label-tag info-badge">1</span></td><td><strong>主合同续签</strong></td><td>55 万按合同付款，尽快执行</td></tr>
+<tr><td><span class="label-tag info-badge">2</span></td><td><strong>补充协议</strong></td><td>按需签署：代运营方案三 + 支付路径</td></tr>
+<tr><td><span class="label-tag warn-badge">3</span></td><td><strong>执行支付方案</strong></td><td>保业务→签银联协议15万；过渡→无新增合同，启动国企沟通</td></tr>
 </tbody>
 </table>
 </div>
+</details>
 
 <div class="recommend-box">
 <div class="title">汇报结论</div>
 <div class="text-slate-800 text-sm leading-relaxed">
-本次汇报建议围绕三个层级的决策展开：<br>
-<br>
+本次汇报建议围绕三个层级的决策展开：<br><br>
 一、<strong>主合同约定事项</strong>——请领导确认年度续签付款按合同安排。<br>
-二、<strong>新增需求原则</strong>——请领导确认代运营收费方案（方案三）及补充协议框架。<br>
-三、<strong>支付方案择定</strong>——请领导在"保业务方案 / 控成本方案 / 观望方案"三方案中择定一项。
+二、<strong>新增需求原则</strong>——请领导确认代运营收费方案（方案三，谁用谁付费）及补充协议框架。<br>
+三、<strong>支付方案择定</strong>——请领导在"保业务方案"与"稳健过渡方案"中择定一项。
 </div>
 </div>
 
@@ -876,7 +887,7 @@ body.presentation .sub-card .text-\[13px\] { font-size: 15px !important; }
 
 <script>
 function showTab(i) {
-  for (let j = 0; j < 3; j++) {
+  for (let j = 0; j < 4; j++) {
     document.getElementById('content' + j).classList.add('hidden');
     document.getElementById('tab' + j).className = 'tab-inactive px-5 py-3 rounded-t-lg text-sm font-medium transition';
   }
@@ -889,16 +900,13 @@ function togglePresentation() {
   const ico = document.querySelector('#modeToggle .mode-ico');
   const isPresent = body.classList.toggle('presentation');
   if (isPresent) {
-    label.textContent = '阅读模式';
-    ico.textContent = '📖';
+    label.textContent = '阅读模式'; ico.textContent = '📖';
     try { localStorage.setItem('pres-mode', '1'); } catch(e) {}
   } else {
-    label.textContent = '演示模式';
-    ico.textContent = '🎤';
+    label.textContent = '演示模式'; ico.textContent = '🎤';
     try { localStorage.setItem('pres-mode', '0'); } catch(e) {}
   }
 }
-// 手机端自动进入演示模式；历史偏好自动恢复
 (function(){
   try {
     const saved = localStorage.getItem('pres-mode');
@@ -920,17 +928,12 @@ function showSubTab(s) {
     var arrow = document.getElementById('subcard-' + k + '-arrow');
     if (k === s) {
       card.style.background = 'linear-gradient(135deg,#1e293b,#334155)';
-      card.style.color = '#fff';
-      card.style.borderColor = '#1e293b';
+      card.style.color = '#fff'; card.style.borderColor = '#1e293b';
       if (state) { state.textContent = '当前查看中'; state.style.color = ''; state.style.opacity = '0.8'; }
       if (arrow) { arrow.textContent = '●'; arrow.style.color = ''; }
-      // tighten inner text colors for active card
-      card.querySelectorAll('.text-slate-600').forEach(function(n){ n.classList.remove('text-slate-600'); n.classList.add('opacity-90'); });
-      card.querySelectorAll('.text-slate-500').forEach(function(n){ n.classList.remove('text-slate-500'); n.classList.add('opacity-80'); });
     } else {
       card.style.background = '#ffffff';
-      card.style.color = '#0f172a';
-      card.style.borderColor = '#cbd5e1';
+      card.style.color = '#0f172a'; card.style.borderColor = '#cbd5e1';
       if (state) { state.textContent = '点击查看 →'; state.style.color = '#64748b'; state.style.opacity = '1'; }
       if (arrow) { arrow.textContent = '○'; arrow.style.color = '#94a3b8'; }
     }
