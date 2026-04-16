@@ -660,8 +660,14 @@ body.presentation .sub-card .text-\[13px\] { font-size: 15px !important; }
 </div>
 </details>
 
-<!-- 为什么推荐银联：5年成本对比 -->
-<div class="section-title" style="margin-top:24px;">为什么推荐银联？—— 5 年总成本算账</div>
+<!-- 为什么推荐银联：5年成本对比 · 默认折叠 -->
+<details class="collapsible-detail mb-4" style="margin-top:20px;">
+<summary class="collapsible-summary" style="padding:12px 16px;font-size:14px;">
+<span class="collapsible-ico">▶</span>
+<span><strong>为什么推荐银联？—— 5 年总成本算账</strong></span>
+<span class="collapsible-hint">点击展开</span>
+</summary>
+<div style="padding:4px 18px 18px;">
 <div class="text-sm text-slate-600 leading-relaxed mb-3">
 如果不花 15 万走银联，而是用星恒代运营来兜底，5 年下来的费用到底是多少？
 </div>
@@ -738,6 +744,8 @@ body.presentation .sub-card .text-\[13px\] { font-size: 15px !important; }
 <strong class="text-emerald-800">结论：</strong>保业务方案集团一次性投入 15 万，<strong>低于</strong>稳健过渡方案项目端 5 年累计费用（18～27 万），且<strong>一步到位解决了国企停车</strong>这个最大难题。从总成本和业务完整性两个维度看，<strong class="text-emerald-800">银联方案都是更优选择</strong>。
 </div>
 </div>
+</div>
+</details>
 
 <!-- 决策树 -->
 <div class="recommend-box" style="padding:16px 20px;">
@@ -857,49 +865,59 @@ body.presentation .sub-card .text-\[13px\] { font-size: 15px !important; }
 
 <div class="section-title">2026 年度集团支出测算</div>
 
-<!-- 年费部分 -->
-<div style="margin-bottom:4px;">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-<span style="background:#059669;color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:4px;">年费 · 主合同约定</span>
-<span style="font-size:13px;color:#64748b;">按合同推进付款，不与新增事项绑定</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+
+<!-- 左：年费 -->
+<div style="border:2px solid #059669;border-radius:10px;overflow:hidden;">
+<div style="background:#059669;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+<div>
+<div style="font-size:11px;opacity:0.85;">主合同约定</div>
+<div style="font-size:16px;font-weight:700;">年费</div>
 </div>
-<table style="margin-bottom:0;">
-<thead><tr><th>支出项</th><th>金额（元）</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td>会员中台年度服务费</td><td class="num">500,000</td><td>年度延续性支出</td></tr>
-<tr><td>新增 5 项目 SCRM 实施费</td><td class="num">50,000</td><td>一次性，主合同约定</td></tr>
-<tr style="background:#f0fdf4;font-weight:600;">
-<td>年费小计</td>
-<td class="num" style="color:#059669;font-size:16px;">550,000</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<div style="font-size:24px;font-weight:800;">¥55<span style="font-size:14px;">万</span></div>
+</div>
+<div style="padding:14px 16px;font-size:13px;">
+<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e2e8f0;">
+<span style="color:#475569;">会员中台年度服务费</span>
+<span class="num">500,000</span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:8px 0;">
+<span style="color:#475569;">新增 5 项目实施费</span>
+<span class="num">50,000</span>
+</div>
+<div style="margin-top:10px;padding:8px 12px;background:#f0fdf4;border-radius:6px;font-size:12px;color:#059669;font-weight:600;text-align:center;">
+按合同推进付款，不与新增事项绑定
+</div>
+</div>
 </div>
 
-<!-- 分隔线 -->
-<div style="border-top:2px dashed #e2e8f0;margin:16px 0;position:relative;">
-<span style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff;padding:0 12px;font-size:11px;color:#94a3b8;font-weight:600;">以上为确定支出 ↑ &nbsp;&nbsp; 以下为新增议题 ↓</span>
+<!-- 右：新增 -->
+<div style="border:2px solid #f59e0b;border-radius:10px;overflow:hidden;">
+<div style="background:#f59e0b;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+<div>
+<div style="font-size:11px;opacity:0.85;">新增 · 需领导决策</div>
+<div style="font-size:16px;font-weight:700;">支付方案切换</div>
+</div>
+<div style="text-align:right;">
+<div style="font-size:18px;font-weight:800;">¥15<span style="font-size:12px;">万</span></div>
+<div style="font-size:10px;opacity:0.85;">或 ¥0</div>
+</div>
+</div>
+<div style="padding:14px 16px;font-size:13px;">
+<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e2e8f0;">
+<span style="color:#475569;">支付方案切换费</span>
+<span class="num">保业务 150,000 / 过渡 0</span>
+</div>
+<div style="display:flex;justify-content:space-between;padding:8px 0;">
+<span style="color:#475569;">星恒代运营 · 集团支出</span>
+<span class="num">0</span>
+</div>
+<div style="margin-top:10px;padding:8px 12px;background:#fefce8;border-radius:6px;font-size:12px;color:#92400e;font-weight:600;text-align:center;">
+与年费无关，独立决策
+</div>
+</div>
 </div>
 
-<!-- 新增费用部分 -->
-<div style="margin-bottom:16px;">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-<span style="background:#f59e0b;color:#fff;font-size:12px;font-weight:700;padding:3px 12px;border-radius:4px;">新增 · 需领导决策</span>
-<span style="font-size:13px;color:#64748b;">与年费无关，独立决策</span>
-</div>
-<table style="margin-bottom:0;">
-<thead><tr><th>支出项</th><th>金额（元）</th><th>说明</th></tr></thead>
-<tbody>
-<tr><td>星恒代运营 · 集团支出</td><td class="num">0</td><td>谁用谁付费（3,000/年/项目），集团零付费</td></tr>
-<tr><td>支付方案切换费</td><td class="num">保业务 150,000 / 过渡 0</td><td>保业务方案切银联商务（执行价15万）</td></tr>
-<tr style="background:#fef3c7;font-weight:600;">
-<td>新增小计</td>
-<td class="num" style="color:#d97706;font-size:16px;">保业务 150,000 / 过渡 0</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 </div>
 
 <!-- 合计 -->
