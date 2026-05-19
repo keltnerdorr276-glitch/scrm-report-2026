@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>恒太会员系统功能评估 v9</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f5f7fa; color: #2c3e50;
+  font-size: 13px; line-height: 1.4; overflow: hidden;
+}
+.app { display: flex; flex-direction: column; height: 100vh; padding: 8px 12px; gap: 6px; }
+
+.header {
+  display: flex; align-items: center; flex-wrap: wrap;
+  background: linear-gradient(90deg, #3d5e4e 0%, #6b8a72 100%);
+  color: white; padding: 6px 14px; border-radius: 6px;
+  gap: 8px; flex-shrink: 0;
+}
+.header h1 { font-size: 15px; font-weight: 600; }
+.header .meta { font-size: 11px; opacity: 0.88; }
+.header .right { margin-left: auto; display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+.kpi { background: rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 9px; font-size: 11px; white-space: nowrap; }
+.kpi b { font-weight: 600; }
+.kpi-rule {
+  background: #ffd54f; color: #4a3500; cursor: help;
+  font-weight: 600; padding: 2px 9px; border-radius: 9px; font-size: 11px;
+  white-space: nowrap; border: 1px solid #ffb300;
+}
+
+.tabs {
+  display: flex; background: white; border-radius: 6px;
+  padding: 3px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); flex-shrink: 0;
+}
+.tab {
+  padding: 8px 18px; cursor: pointer; border-radius: 4px;
+  font-size: 13px; font-weight: 500; color: #555;
+}
+.tab.active { background: #3d5e4e; color: white; }
+.tab .count { opacity: 0.7; margin-left: 4px; font-size: 11px; }
+.tab .badge-todo {
+  background: #fff3cd; color: #856404; font-size: 10px;
+  padding: 1px 6px; border-radius: 8px; margin-left: 4px;
+}
+
+.filters {
+  background: white; border-radius: 6px; padding: 6px 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column; gap: 4px; flex-shrink: 0;
+}
+.frow { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.flbl { font-size: 11px; color: #7f8c8d; font-weight: 600; min-width: 52px; }
+.chip {
+  padding: 2px 9px; border-radius: 11px; background: #ecf0f1;
+  cursor: pointer; font-size: 11px; border: 1px solid transparent; white-space: nowrap;
+}
+.chip:hover { background: #d5dbdb; }
+.chip.active { background: #3d5e4e; color: white; font-weight: 500; }
+.search {
+  padding: 4px 10px; border: 1px solid #ddd; border-radius: 11px;
+  font-size: 11px; flex: 1; min-width: 180px; outline: none;
+}
+.btn {
+  padding: 3px 10px; border: 1px solid #ddd; background: white;
+  border-radius: 4px; cursor: pointer; font-size: 11px; color: #555;
+}
+.btn:hover { background: #f5f7fa; }
+.stats { font-size: 11px; color: #7f8c8d; margin-left: auto; }
+
+.tw { flex: 1; overflow-y: auto; background: transparent; border-radius: 0; box-shadow: none; }
+.dual-tables { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-items: flex-start; }
+/* 类型分段标题行 */
+tr.type-section td {
+  font-weight: 700; font-size: 12px; padding: 6px 8px;
+  letter-spacing: 0.3px;
+  border-top: 1px solid rgba(0,0,0,0.04);
+}
+tr.type-section .sec-count {
+  font-weight: 500; font-size: 10px; color: #7f8c8d; margin-left: 6px;
+}
+tr.type-section.sec-acquire td  { background: #fbf5ee; color: #9b6a3f; border-left: 3px solid #c89b73; }
+tr.type-section.sec-convert td  { background: #faecea; color: #a83a2e; border-left: 3px solid #c87065; }
+tr.type-section.sec-retain  td  { background: #ecf3ef; color: #1e7e6a; border-left: 3px solid #5c9c87; }
+tr.type-section.sec-settle  td  { background: #f0ecf3; color: #6a5599; border-left: 3px solid #8e7fb5; }
+tr.type-section.sec-sys     td  { background: #eef0f2; color: #455a64; border-left: 3px solid #8a9aa6; }
+tr.type-section.sec-report  td  { background: #ecf2f6; color: #2a5a78; border-left: 3px solid #6a8fa8; }
+tr.type-section.sec-merchant td { background: #f7f1e6; color: #6d4c41; border-left: 3px solid #b09573; }
+.dual-tables table { background: white; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+table { width: 100%; border-collapse: collapse; font-size: 11.5px; table-layout: fixed; }
+table td, table th { word-wrap: break-word; overflow-wrap: break-word; }
+.main-tbl thead { background: #f8fafc; position: sticky; top: 0; z-index: 2; }
+.main-tbl thead th { padding: 5px 4px; font-size: 10.5px; }
+.main-tbl td { padding: 2px 5px; font-size: 11px; line-height: 1.25; }
+tr.l2-row { line-height: 1.2; }
+tr.l3-row { line-height: 1.2; }
+tr.type-section td { padding: 4px 8px !important; font-size: 11.5px; }
+thead { background: #f8fafc; position: sticky; top: 0; z-index: 2; }
+th { padding: 7px 6px; text-align: left; font-weight: 600; color: #555; border-bottom: 1px solid #e0e6ed; font-size: 11px; }
+td { padding: 4px 6px; border-bottom: 1px solid #f0f3f7; vertical-align: middle; }
+
+/* L2 行 — 默认显示 */
+
+tr.l1-row { cursor: pointer; background: #f3ede2; font-weight: 600; }
+tr.l1-row:hover { background: #e8dec8; }
+tr.l1-row.expanded { background: #dcd0b4; }
+tr.l2-row.under-l1 { display: none; }
+tr.l2-row.under-l1.show { display: table-row; }
+tr.l2-row.under-l1 td.l2-cell { padding-left: 24px; font-size: 12px; }
+
+tr.l2-row { cursor: pointer; background: #fafbfc; font-weight: 500; }
+tr.l2-row:hover { background: #f5ede0; }
+tr.l2-row.expanded { background: #e2d4b8; }
+
+/* L3 行 — 默认隐藏, l2-row.expanded 后显示 */
+tr.l3-row { display: none; cursor: pointer; background: white; }
+tr.l3-row.show { display: table-row; }
+tr.l3-row:hover { background: #f8fafc; }
+tr.l3-row.expanded { background: #f5ede0; }
+tr.l3-row.no-l3 { display: none; }
+tr.l3-row.no-l3.show { display: none !important; }
+
+/* 详情行 — 默认隐藏 */
+
+tr.l2-detail { display: none; }
+tr.l2-detail.show { display: table-row; }
+tr.l2-detail td { padding: 0; background: #f8fafc; border-bottom: 1px solid #d5dbdb; }
+
+tr.l3-detail { display: none; }
+tr.l3-detail.show { display: table-row; }
+tr.l3-detail td {
+  padding: 0; background: #f8fafc; border-bottom: 1px solid #d5dbdb;
+}
+
+.detail-v2 {
+  padding: 12px 16px;
+  background: #fafbfc;
+  font-size: 12px;
+}
+.dv-section {
+  background: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border-left: 4px solid #6b8a72;
+}
+.dv-section.dv-advice {
+  background: linear-gradient(90deg, #f3ede2, #fff);
+  border-left-color: #3d5e4e;
+}
+.dv-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #3d5e4e;
+  margin-bottom: 6px;
+}
+.dv-content {
+  color: #2c3e50;
+  line-height: 1.6;
+}
+.dv-meta { color: #95a5a6; font-size: 11px; margin-left: 4px; }
+.dv-scores {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.ds-item {
+  background: #f8fafc;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ds-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+  min-width: 56px;
+}
+.ds-desc {
+  font-size: 10px;
+  color: #95a5a6;
+  flex: 1;
+}
+.dv-formula {
+  font-size: 11px;
+  color: #7f8c8d;
+  font-style: italic;
+  background: #f0f4f8;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+.dv-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.dd-item {
+  background: #f8fafc;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border-top: 2px solid #6b8a72;
+}
+.dd-item:nth-child(2) { border-top-color: #27ae60; }
+.dd-item:nth-child(3) { border-top-color: #e67e22; }
+.dd-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 3px;
+}
+.dd-val {
+  font-size: 11px;
+  color: #2c3e50;
+  line-height: 1.5;
+}
+
+.detail-box {
+  padding: 10px 14px; display: grid;
+  grid-template-columns: 1fr 1fr 1fr; gap: 8px; font-size: 11px;
+}
+.dbox { background: white; padding: 7px 10px; border-radius: 4px; border-left: 3px solid #6b8a72; }
+.dbox.full { grid-column: 1 / -1; }
+.dlbl { font-size: 10px; color: #7f8c8d; font-weight: 600; margin-bottom: 3px; }
+.dval { color: #2c3e50; font-size: 11px; line-height: 1.45; }
+.advice {
+  grid-column: 1 / -1;
+  padding: 6px 10px; background: linear-gradient(90deg, #f3ede2, #fff);
+  border-radius: 4px; border-left: 3px solid #3d5e4e;
+  font-size: 11px; color: #1e3a72;
+}
+
+/* L1 badge */
+.l1tag {
+  padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600;
+  color: white; background: #7a6650; display: inline-block; letter-spacing: 0.2px; min-width: 72px; text-align: center;
+  white-space: nowrap;
+  background: #6b8a72;
+}
+/* 商户小程序 一级 */
+/* 消费者小程序 一级 */
+.ttag { padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 500; }
+
+.t-获客 { background: #fce4ec; color: #c2185b; }
+.t-营销 { background: #fff3e0; color: #e65100; }
+.t-会员 { background: #e8f5e9; color: #2e7d32; }
+.t-交易 { background: #e3f2fd; color: #1565c0; }
+
+.t-报表 { background: #e2eff5; color: #2a5a78; }
+
+.t-底层 { background: #ebe7ee; color: #574069; }
+
+.score {
+  font-weight: 700; padding: 1px 0;
+  border-radius: 8px; display: inline-block;
+  min-width: 24px; text-align: center; font-size: 11px;
+}
+.score.s5 { background: #2e7d32; color: white; }
+.score.s4 { background: #a5d6a7; color: #1b5e20; }
+.score.s3 { background: #fff59d; color: #5d4037; }
+.score.s2 { background: #ffb74d; color: #5d2c00; }
+.score.s1 { background: #ef9a9a; color: #5d0000; }
+.score.s0 { background: #c62828; color: white; }
+.score.s- { background: #eef0f3; color: #95a5a6; }
+.score.compo { font-size: 12px; font-weight: 800; border: 1px solid rgba(0,0,0,0.12); }
+.breadth {
+  display: inline-block; font-size: 10px; color: #444;
+  background: #ecf0f1; padding: 1px 6px; border-radius: 7px;
+  font-weight: 600; min-width: 28px; text-align: center;
+}
+.breadth.b-high { background: #d4edda; color: #155724; }
+.breadth.b-mid { background: #fff3cd; color: #856404; }
+.breadth.b-low { background: #ffe0c2; color: #8a4500; }
+
+.cnc { padding: 1px 7px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+.cnc-core { background: #e3eee5; color: #2d6a3a; }
+.cnc-retain { background: #f5ecd0; color: #7a6320; }
+.cnc-optional { background: #f0e1cf; color: #7a4f25; }
+
+.l3-name { color: #555; padding-left: 24px; font-size: 11px; }
+.l2-name { font-weight: 600; color: #2c3e50; font-size: 11.5px; padding-left: 8px; display: inline-block; }
+.l3-count { color: #95a5a6; font-size: 10px; font-weight: 400; margin-left: 2px; }
+.icon-toggle { font-size: 11px; color: #95a5a6; display: inline-block; min-width: 12px; }
+
+.section-hide { display: none !important; }
+
+
+table.hide-cols .col-scene,
+table.hide-cols .col-group { display: none; }
+
+.placeholder-tab {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; flex-direction: column; gap: 16px; color: #95a5a6;
+}
+.placeholder-tab .big { font-size: 48px; }
+.placeholder-tab .msg { font-size: 14px; }
+.placeholder-tab .sub { font-size: 11px; max-width: 500px; text-align: center; line-height: 1.6; }
+
+/* === 选型决策视图 Tab 2 === */
+.main-tabs {
+  display: flex; gap: 4px; background: white; border-radius: 6px;
+  padding: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); flex-shrink: 0;
+}
+.main-tab {
+  flex: 1; padding: 8px 16px; cursor: pointer; border: none; background: transparent;
+  border-radius: 4px; font-size: 13px; font-weight: 600; color: #7f8c8d;
+  font-family: inherit; transition: all 0.15s;
+}
+.main-tab:hover { background: #f5f7fa; color: #2c3e50; }
+.main-tab.active { background: #3d5e4e; color: white; }
+.main-tab .sub { opacity: 0.75; font-size: 11px; margin-left: 5px; font-weight: 400; }
+
+#exec-view { flex: 1; overflow-y: auto; padding: 4px 0; min-height: 0; }
+.exec-intro {
+  background: linear-gradient(135deg, #faf6ec 0%, #e8f0fe 100%);
+  border-left: 3px solid #3d5e4e; border-radius: 4px;
+  padding: 8px 12px; margin-bottom: 8px; font-size: 11px; color: #2c3e50;
+}
+.exec-intro b { color: #2c4a3e; }
+
+.tier-block {
+  background: white; border-radius: 6px; padding: 10px 12px;
+  margin-bottom: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.tier-head {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  padding-bottom: 6px; border-bottom: 1px solid #f0f3f7;
+}
+.tier-head h3 { font-size: 14px; font-weight: 700; margin: 0; }
+.tier-head .count { color: #7f8c8d; font-size: 11px; font-weight: 500; }
+.tier-head .verdict { font-size: 10px; padding: 2px 8px; border-radius: 9px; font-weight: 600; }
+
+.tier-core .tier-head { border-bottom-color: #c8e6c9; }
+.tier-core .tier-head h3 { color: #1b5e20; }
+.tier-core .verdict { background: #d4edda; color: #155724; }
+
+.tier-retain .tier-head { border-bottom-color: #ffe082; }
+.tier-retain .tier-head h3 { color: #856404; }
+.tier-retain .verdict { background: #fff3cd; color: #856404; }
+
+.tier-opt .tier-head { border-bottom-color: #ffccbc; }
+.tier-opt .tier-head h3 { color: #8a4500; }
+.tier-opt .verdict { background: #ffe0c2; color: #8a4500; }
+
+.exec-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+}
+
+/* 紧凑全景图样式 */
+.panorama { display: flex; flex-direction: column; gap: 5px; }
+.funnel-row {
+  display: grid; grid-template-columns: 0.85fr 1.4fr 1fr 0.85fr; gap: 6px;
+}
+.foundation-row {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 6px;
+}
+.bottom-row {
+  display: grid; grid-template-columns: 0.8fr 0.5fr 2.4fr; gap: 6px;
+}
+.stage {
+  background: white; border-radius: 5px; padding: 5px 7px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  border-top: 2px solid #95a5a6;
+  display: flex; flex-direction: column; min-height: 0;
+}
+.stage-acquire { border-top-color: #e67e22; }
+.stage-convert { border-top-color: #c0392b; }
+.stage-retain  { border-top-color: #16a085; }
+.stage-settle  { border-top-color: #8e44ad; }
+.stage-sys     { border-top-color: #34495e; }
+.stage-merchant { border-top-color: #8d6e63; background: linear-gradient(135deg, #fffbf0 0%, #faf4dc 50%, #ffffff 100%); }
+.merchant-app-row { display: block; }
+.merchant-app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.stage-report  { border-top-color: #8b6f47; }
+
+.stage-head {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11.5px; font-weight: 700; color: #2c3e50;
+  padding-bottom: 3px; border-bottom: 1px solid #f0f3f7; margin-bottom: 4px;
+}
+.stage-head .icon { font-size: 13px; }
+.stage-head .count { color: #95a5a6; font-size: 10px; font-weight: 500; margin-left: auto; }
+.stage-head .arrow { color: #bdc3c7; font-size: 16px; margin-left: 4px; }
+
+.stage-cards { display: flex; flex-direction: column; gap: 3px; }
+
+.mini-card {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 3px 6px; border-radius: 4px; font-size: 11px;
+  background: #fafbfc; border-left: 2px solid #ecf0f1;
+  cursor: default; transition: background 0.1s;
+}
+.mini-card:hover { background: #faf6ec; border-left-color: #6b8a72; }
+.mini-row { display: flex; align-items: center; gap: 6px; }
+.mini-l3-row {
+  display: flex; gap: 3px; flex-wrap: wrap;
+  padding-left: 4px; margin-top: 1px;
+}
+.l3-chip {
+  font-size: 9.5px; padding: 0px 5px; border-radius: 7px;
+  background: rgba(255,255,255,0.85); color: #1b5e20; font-weight: 500;
+  border: 1px solid rgba(46,125,50,0.35);
+  white-space: nowrap;
+}
+.l3-chip.l3-d5 { background: rgba(232,245,233,0.95); color: #1b5e20; border-color: rgba(46,125,50,0.5); font-weight: 600; }
+.l3-chip.l3-d4 { background: rgba(241,248,233,0.95); color: #33691e; border-color: rgba(165,214,167,0.7); }
+.l3-chip.l3-more { background: rgba(0,0,0,0.05); color: #777; border-color: rgba(0,0,0,0.1); font-style: italic; }
+
+/* 商户端能力专属样式 */
+.mini-card.is-merchant {
+  background: linear-gradient(135deg, #fff8e1 0%, #faf4dc 100%) !important;
+  border: 1px dashed #a1887f !important;
+  border-left: 2px dashed #8d6e63 !important;
+}
+.mini-card.is-merchant .mini-l2::before {
+  content: "🏪 "; font-size: 9px; opacity: 0.75;
+}
+.mini-card.d5 { background: #e8f5e9; border-left-color: #2e7d32; }
+.mini-card.d4 { background: #f1f8e9; border-left-color: #a5d6a7; }
+.mini-card.d3 { background: #fffde7; border-left-color: #fff59d; }
+.mini-card.d2 { background: #fff3e0; border-left-color: #ffb74d; }
+.mini-card.d1 { background: #ffebee; border-left-color: #ef9a9a; }
+.mini-card.d0 { background: #fce4ec; border-left-color: #c62828; opacity: 0.7; }
+
+.mini-depth {
+  display: inline-block; min-width: 18px; height: 18px; line-height: 18px;
+  text-align: center; font-weight: 800; font-size: 11px;
+  border-radius: 4px; flex-shrink: 0;
+}
+.mini-depth.d5 { background: #2e7d32; color: white; }
+.mini-depth.d4 { background: #a5d6a7; color: #1b5e20; }
+.mini-depth.d3 { background: #fff59d; color: #5d4037; }
+.mini-depth.d2 { background: #ffb74d; color: #5d2c00; }
+.mini-depth.d1 { background: #ef9a9a; color: #5d0000; }
+.mini-depth.d0 { background: #c62828; color: white; }
+
+.mini-l2 { font-weight: 600; color: #2c3e50; flex: 1; line-height: 1.2; min-width: 0; }
+.mini-l2 .sub { color: #95a5a6; font-size: 9.5px; font-weight: 400; margin-left: 3px; }
+.mini-brd {
+  font-size: 9.5px; padding: 1px 5px; border-radius: 5px;
+  background: rgba(0,0,0,0.06); color: #555; font-weight: 600;
+  flex-shrink: 0;
+}
+/* 评分可视化: 5个圆点 + 数字 */
+.depth-rating {
+  display: inline-flex; align-items: center; gap: 1px;
+  flex-shrink: 0;
+}
+.depth-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #d8dde2;
+}
+.depth-dot.f5 { background: #2e7d32; }
+.depth-dot.f4 { background: #689f38; }
+.depth-dot.f3 { background: #fbc02d; }
+.depth-dot.f2 { background: #f57c00; }
+.depth-dot.f1 { background: #d32f2f; }
+.depth-dot.f0 { background: #757575; }
+.depth-num {
+  font-size: 10px; font-weight: 800; margin-left: 3px;
+  min-width: 8px; text-align: center;
+  color: #2c3e50;
+}
+.mini-card.d5 .depth-num { color: #1b5e20; }
+.mini-card.d4 .depth-num { color: #33691e; }
+.mini-card.d3 .depth-num { color: #5d4037; }
+.mini-card.d2 .depth-num { color: #8a4500; }
+.mini-card.d1 .depth-num { color: #5d0000; }
+.mini-card.d0 .depth-num { color: #777; }
+.exec-card {
+  border: 1px solid #e0e6ed; border-radius: 5px; padding: 8px 10px;
+  background: #fdfdfd; transition: all 0.15s; cursor: default;
+  display: flex; flex-direction: column; min-height: 110px;
+}
+.exec-card:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.1); transform: translateY(-1px); }
+
+.tier-core .exec-card { border-left: 3px solid #2e7d32; }
+.tier-retain .exec-card { border-left: 3px solid #f9a825; }
+.tier-opt .exec-card { border-left: 3px solid #e67e22; }
+
+.ec-top {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;
+}
+.ec-l1 {
+  font-size: 9px; padding: 1px 6px; border-radius: 7px; font-weight: 600;
+  background: #ecf0f1; color: #555;
+}
+.ec-depth {
+  font-size: 12px; font-weight: 800; min-width: 22px; padding: 1px 6px;
+  border-radius: 8px; text-align: center;
+}
+.ec-depth.s5 { background: #2e7d32; color: white; }
+.ec-depth.s4 { background: #a5d6a7; color: #1b5e20; }
+.ec-depth.s3 { background: #fff59d; color: #5d4037; }
+.ec-depth.s2 { background: #ffb74d; color: #5d2c00; }
+.ec-depth.s1 { background: #ef9a9a; color: #5d0000; }
+.ec-depth.s0 { background: #c62828; color: white; }
+
+.ec-name {
+  font-size: 13px; font-weight: 700; color: #2c3e50; margin-bottom: 4px; line-height: 1.2;
+}
+.ec-breadth {
+  display: inline-block; font-size: 9.5px; background: #f0f3f7; color: #555;
+  padding: 1px 5px; border-radius: 6px; font-weight: 600; margin-left: 4px;
+}
+.ec-data {
+  font-size: 10.5px; color: #555; line-height: 1.45; margin-bottom: 5px;
+  flex: 1; word-break: break-word;
+}
+.ec-l3-chips { display: flex; flex-wrap: wrap; gap: 3px; }
+.ec-l3-chip {
+  font-size: 9.5px; padding: 1px 6px; border-radius: 6px;
+  background: #f3ede2; color: #2c4a3e; font-weight: 500;
+}
+.ec-l3-chip.imp { background: #d4edda; color: #155724; }
+
+.exec-filter-row {
+  background: white; border-radius: 6px; padding: 6px 10px; margin-bottom: 8px;
+  display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06); flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>🛒 恒太会员系统功能评估 v9</h1>
+    <span class="meta">2026-05-15 实测</span>
+    <div class="right">
+      <span class="kpi-rule" title="【L3 单项使用深度 0-5】&#10;0 = 未启用&#10;1 = 极少 (1-5 条)&#10;2 = 低频 (10-50)&#10;3 = 中频 (50-200)&#10;4 = 高频 (200-1000)&#10;5 = 核心刚需 (>1000条 或 集团必备)&#10;&#10;【L2/L1 聚合】&#10;峰值 = MAX(子项深度)&#10;广度 = 核心刚需数/总数 (深度≥4计核心)&#10;&#10;【结论】&#10;峰值≥4 且 广度≥50% → 🟢核心刚需&#10;峰值≥4 且 广度<50% → 🟡重要保留&#10;峰值=3 → 🟡重要保留&#10;峰值≤2 → 🟠选配&#10;峰值=0 → 🔴暂未启用">📏 评分标准</span>
+      <span class="kpi"><b>263万</b>会员</span>
+      <span class="kpi"><b>41,792</b>月新增</span>
+      <span class="kpi" title="集团月卡券: 投放83,123 / 核销50,304 / 反核销439"><b>50,304</b>月核销</span>
+      <span class="kpi" title="拥有积分会员81.7万(占总会员31%); 但30天内真实消耗会员仅1.6万(2%) — 大量积分沉淀,3.41亿即将过期"><b>81.7万</b>积分会员</span>
+      <span class="kpi" title="集团30天积分循环 (31店实测): 产生5,427万 / 消耗2,148万 / 消耗率39.6%&#10;消耗结构: 积分兑换31.7% / 消费抵现膨胀21.5% / 盲盒21.2% / 抵停车费19.9% / 其他5.6%"><b>5427万/2148万</b>月积分循环</span>
+      <span class="kpi" title="集团商户入驻规模: 25个分账组 / 33个商场 / 2,943个结算户(网商银行多级户分账)"><b>2,943</b>商户结算户</span>
+    </div>
+  </div>
+
+  
+
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="switchMainTab('detail')" id="tab-btn-detail">📋 详细评估视图<span class="sub">业务条线 / 数据探查</span></button>
+    <button class="main-tab" onclick="switchMainTab('exec')" id="tab-btn-exec">🎯 选型决策视图<span class="sub">高管 / 数字化中心</span></button>
+  </div>
+
+  <div id="cat-view" style="display:flex;flex-direction:column;gap:6px;flex:1;min-height:0;">
+    <div class="filters">
+      <div class="frow">
+        <span class="flbl">一级:</span>
+        <span class="chip active" data-f="l1" data-v="all">全部</span>
+        <span class="chip" data-f="l1" data-v="商户中心">商户中心</span>
+        <span class="chip" data-f="l1" data-v="系统配置">系统配置</span>
+        <span class="chip" data-f="l1" data-v="顾客中心">顾客中心</span>
+        <span class="chip" data-f="l1" data-v="会员小程序运营">会员小程序运营</span>
+        <span class="chip" data-f="l1" data-v="智慧营销">智慧营销</span>
+        <span class="chip" data-f="l1" data-v="智慧商城">智慧商城</span>
+        <span class="chip" data-f="l1" data-v="闪电买单">闪电买单</span>
+        <span class="chip" data-f="l1" data-v="商户小程序">商户小程序</span>
+        <span class="chip" data-f="l1" data-v="智慧停车">智慧停车</span>
+        <span class="chip" data-f="l1" data-v="服务中心">服务中心</span>
+        <span class="chip" data-f="l1" data-v="财务管理">财务管理</span>
+        <span class="chip" data-f="l1" data-v="数据分析">数据分析</span>
+      </div>
+      <div class="frow">
+        <span class="flbl">类型:</span>
+        <span class="chip active" data-f="t" data-v="all">全部</span>
+        <span class="chip" data-f="t" data-v="🎯">🎯获客触达(15)</span>
+        <span class="chip" data-f="t" data-v="🔥">🔥营销转化(37)</span>
+        <span class="chip" data-f="t" data-v="💎">💎会员经营(16)</span>
+        <span class="chip" data-f="t" data-v="💰">💰交易结算(14)</span>
+        <span class="chip" data-f="t" data-v="⚙️">⚙️系统底层(16)</span>
+        <span class="chip" data-f="t" data-v="📊">📊报表(4)</span>
+        <span class="flbl" style="margin-left: 8px;">结论:</span>
+        <span class="chip active" data-f="c" data-v="all">全部</span>
+        <span class="chip" data-f="c" data-v="核心刚需">🟢核心</span>
+        <span class="chip" data-f="c" data-v="重要保留">🟡保留</span>
+        <span class="chip" data-f="c" data-v="选配">🟠选配</span>
+        <span class="flbl" style="margin-left: 8px;">使用:</span>
+        <span class="chip active" data-f="depth" data-v="all">全部</span>
+        <span class="chip" data-f="depth" data-v="high">≥4高频</span>
+        <span class="chip" data-f="depth" data-v="mid">2-3中</span>
+        <span class="chip" data-f="depth" data-v="low">≤1低频</span>
+        <span class="chip" data-f="depth" data-v="zero">=0未启用</span>
+        <input type="text" class="search" id="search" placeholder="🔎 搜索...">
+        <button class="btn" onclick="expandAllL2()">展开全部</button>
+        <button class="btn" onclick="collapseAllL2()">折叠全部</button>
+                <span class="stats" id="stats"></span>
+      </div>
+    </div>
+
+    <div class="tw">
+      <table class="hide-cols main-tbl" id="main-table">
+        <thead>
+          <tr>
+            <th style="width: 22px;"></th>
+            <th style="width: 86px;">一级</th>
+            <th style="width: 200px;">二级模块</th>
+            <th style="width: 84px;">类型</th>
+            <th style="width: 50px;" title="L3=单项使用深度0-5; L2/L1聚合=MAX(子项深度)">深度</th>
+            <th style="width: 50px;" title="L2/L1聚合: 核心刚需子项数/总数(深度≥4计核心)">广度</th>
+            <th style="width: 84px;">结论</th>
+            <th>关键场景+数据</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="exec-view" style="display:none;">
+    <div class="exec-intro">
+      <b>📌 会员系统营销全景图</b> · 按获客→转化→经营→结算 4 阶段串联,底层系统/报表横跨支撑全链路。
+      <span style="display:inline-block;margin-top:3px;">色深 = 使用深度(集团 33 商场实测),色越深越重要,选型必须支持 depth≥4 的模块。<b>核心刚需(depth=5)的 L2 模块会展开关键子能力,选型时这些是必须验证的接口</b>。</span>
+      <span style="display:inline-block;margin-top:3px;padding-top:3px;border-top:1px dashed #ccc;width:100%;">
+        <b>🏪 商户端独立产品</b>(底部独立区) = 给商户店长/店员用的独立小程序APP · 其他模块用 <b>深度色块</b>区分必备性(深绿=核心刚需 / 浅绿=必备 / 黄=低频 / 灰=未启用)
+      </span>
+    </div>
+    <div id="exec-panorama"></div>
+  </div>
+</div>
+
+<script>
+const DATA = {"modules": [{"l1": "商户中心", "l2": "商场商户管理", "l3": "分账组&结算户管理", "type": "⚙️系统底层", "scene": "结算账户创建+入驻;网商银行多级户", "group": "在用", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "集团资金分账必备", "trust": "🟡 单店实测", "trustNote": "在用但具体多少户未深查", "category": "系统后台"}, {"l1": "商户中心", "l2": "商场商户管理", "l3": "商场&门店管理", "type": "⚙️系统底层", "scene": "集团→分组→商场→门店组织架构;商场分组/列表/详情/门店列表/详情/成员", "group": "已配", "quzhou": "已配", "xinyu": "已配", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "集团版必备,需多级架构&门店成员", "trust": "✅ 集团数据", "trustNote": "33商场列表清单", "category": "系统后台"}, {"l1": "商户中心", "l2": "商场商户管理", "l3": "门店业态管理", "type": "⚙️系统底层", "scene": "业态字典维护(卡券适用门店&数据筛选依据)", "group": "已配", "quzhou": "已配", "xinyu": "已配", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 4, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备(底层字典)", "trust": "🟡 单店实测", "trustNote": "已配置但具体数量未抓", "category": "系统后台"}, {"l1": "商户中心", "l2": "商场商户管理", "l3": "门店标签管理", "type": "⚙️系统底层", "scene": "门店标签维护(多维筛选)", "group": "已配", "quzhou": "已配", "xinyu": "已配", "sysIO": "内", "depth": 4, "demand": 4, "industry": 4, "future": 4, "composite": 4.0, "conclusion": "🟡重要保留", "advice": "必备(底层字典)", "trust": "🟡 单店实测", "trustNote": "已配置但具体数量未抓", "category": "系统后台"}, {"l1": "商户中心", "l2": "商户入驻管理", "l3": null, "type": "⚙️系统底层", "scene": "商户结算户入驻管理(支付宝商管云入驻流程)", "group": "集团25个分账组/33个商场/2,943个结算户(网商银行多级户分账)", "quzhou": "在用", "xinyu": "新余222户", "sysIO": "内", "depth": 5, "industry": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(商户接入底座)", "trust": "✅ 集团口径", "trustNote": "25分账组/33商场/2943结算户", "category": "系统后台"}, {"l1": "系统配置", "l2": "审核设置", "l3": "短信群发审核", "type": "⚙️系统底层", "scene": "短信群发成本管控审核", "group": "集团各门店全量开启;角色/审核员已配置", "quzhou": "已开启", "xinyu": "已开启", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(成本管控)", "trust": "🟡 单店实测", "trustNote": "已查audit-settings页,4类审核状态明确", "category": "系统后台"}, {"l1": "系统配置", "l2": "审核设置", "l3": "有价券商家审核", "type": "⚙️系统底层", "scene": "有价券创建/编辑审核", "group": "集团各门店全量开启;角色/审核员已配置", "quzhou": "已开启", "xinyu": "已开启", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "🟡 单店实测", "trustNote": "已查audit-settings页,4类审核状态明确", "category": "系统后台"}, {"l1": "系统配置", "l2": "审核设置", "l3": "手工调整积分审核", "type": "⚙️系统底层", "scene": "积分调整审核", "group": "集团各门店全量开启;角色/审核员已配置", "quzhou": "已开启", "xinyu": "已开启", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "🟡 单店实测", "trustNote": "已查audit-settings页,4类审核状态明确", "category": "系统后台"}, {"l1": "系统配置", "l2": "审核设置", "l3": "闪买退款审核", "type": "⚙️系统底层", "scene": "闪买退款审核员/规则配置", "group": "集团各店均未启用", "quzhou": "未启用", "xinyu": "未启用", "sysIO": "内", "depth": 1, "demand": 4, "industry": 5, "future": 5, "composite": 3.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "⚠️ 需复检", "trustNote": "按门店配置,可能与异常会员预警类似存在盲区,需切换多店复检", "category": "系统后台"}, {"l1": "系统配置", "l2": "风控策略", "l3": "店员权益屏蔽", "type": "⚙️系统底层", "scene": "门店成员消费权益屏蔽(防店员舞弊)", "group": "集团各门店基本全部开启;防店员舞弊核心配置", "quzhou": "已开启", "xinyu": "已开启", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(防舞弊)", "trust": "⚠️ 需复检", "trustNote": "按门店配置,可能与异常会员预警类似存在盲区,需切换多店复检", "category": "系统后台"}, {"l1": "系统配置", "l2": "风控策略", "l3": "异常会员&积分预警", "type": "⚙️系统底层", "scene": "风控规则配置+异常会员预警明细+白名单(按门店配置);防羊毛防舞弊", "group": "各店按门店配置 — 衢州20条/新余6条/潜山3条(超高消费/高频次等)规则", "quzhou": "20条规则(已配置上限)", "xinyu": "6条规则", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(防羊毛配套)", "trust": "✅ 多店实测", "trustNote": "合并自异常会员预警;衢州20/新余6", "category": "系统后台"}, {"l1": "系统配置", "l2": "基础配置", "l3": "成员&角色管理", "type": "⚙️系统底层", "scene": "管理员+权限+角色模板", "group": "589个账号在用", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 集团数据", "trustNote": "589账号在用", "category": "系统后台"}, {"l1": "系统配置", "l2": "基础配置", "l3": "小程序管理", "type": "⚙️系统底层", "scene": "微信/支付宝/抖音 多端小程序授权管理", "group": "微信已授权(月新增37,677主入口)/支付宝已授权(月新增1,465)/抖音已授权(月新增2,650+生服核销4,327)", "quzhou": "三端已授权", "xinyu": "三端已授权", "sysIO": "内", "depth": 5, "industry": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(各端打通前提)", "trust": "✅ 直接观察", "trustNote": "应用管理页直接可见", "category": "系统后台"}, {"l1": "系统配置", "l2": "基础配置", "l3": "运营策略", "type": "⚙️系统底层", "scene": "下单前引导用户注册/开卡", "group": "开卡引导是会员转化TOP1(12493/月)间接验证", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(已是TOP1转化场景底座)", "trust": "✅ 间接验证", "trustNote": "开卡引导转化TOP1间接证明策略生效", "category": "系统后台"}, {"l1": "系统配置", "l2": "基础配置", "l3": "商管信息管理", "type": "⚙️系统底层", "scene": "营业执照(C端展示)", "group": "已配", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备(合规)", "trust": "🟡 单店实测", "trustNote": "已配置;无具体数据", "category": "系统后台"}, {"l1": "系统配置", "l2": "基础配置", "l3": "下载中心", "type": "⚙️系统底层", "scene": "统一管理当前账号在商管后台的所有下载记录", "group": "辅助运维工具,后台无计数可查 - 在用(各模块导出都用)", "quzhou": "可用", "xinyu": "可用", "sysIO": "内", "depth": 4, "demand": 4, "industry": 4, "future": 4, "composite": 4.0, "conclusion": "🟢核心刚需", "advice": "必备(各模块数据导出依赖)", "trust": "✅ 直接观察", "trustNote": "所有模块支持下载,都通过下载中心管理", "category": "系统后台"}, {"l1": "顾客中心", "l2": "顾客管理", "l3": "人群筛选器", "type": "💎会员经营", "scene": "多维度组合筛选(等级/积分/消费/品牌等)", "group": "在用,支撑1226+营销计划", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备,需增强标签体系", "trust": "🟡 单店实测", "trustNote": "默认", "category": "系统后台"}, {"l1": "顾客中心", "l2": "顾客管理", "l3": "会员列表(OneID)", "type": "💎会员经营", "scene": "跨渠道OneID会员管理,可视化查询/筛选/详情", "group": "总2,625,655会员", "quzhou": "南湖新增9388/月", "xinyu": "新余新增2393/月", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备,OneID是底座", "trust": "✅ 集团数据", "trustNote": "会员总数2,625,655直接来自集团报表", "category": "系统后台"}, {"l1": "顾客中心", "l2": "顾客管理", "l3": "定向人群包(DMP)", "type": "💎会员经营", "scene": "基于消费/会员维度建模并贴标签+导出,支持人群画像分类管理", "group": "集团多店在用;衢州25+人群包(会员画像19+消费频次6)/新余9+(会员等级6+积分通知2+消费频次1)", "quzhou": "25个人群包(会员画像TOP:普卡15.4万/客单100以下2.9万/银卡3604)", "xinyu": "9个人群包(会员等级6+积分通知2+消费频次1)", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备!DMP在用,选型时供应商必须有同等或更强的标签/人群建模能力(RFM/AI预测)", "trust": "🚧 用户纠偏", "trustNote": "衢州25/新余9,多店在用", "category": "系统后台"}, {"l1": "顾客中心", "l2": "会员卡管理", "l3": "", "type": "💎会员经营", "scene": "卡名/卡号/会员码+等级+权益+开卡协议", "group": "完整配置(API动态码/恒太荟/品牌id5439)", "quzhou": "已配", "xinyu": "已配", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 已配置", "trustNote": "集团已完整配置,品牌id5439", "category": "系统后台"}, {"l1": "顾客中心", "l2": "积分管理", "l3": "商户积分账单", "type": "💎会员经营", "scene": "商户承担比例+账单统计", "group": "在用", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备(财务结算依据)", "trust": "🟡 单店实测", "trustNote": "消费积分规则等基于单店配置抽样", "category": "系统后台"}, {"l1": "顾客中心", "l2": "积分管理", "l3": "基础配置", "type": "💎会员经营", "scene": "支付方式选择+积分有效期+过期清零提醒", "group": "已配", "quzhou": "已配", "xinyu": "已配", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(底层规则)", "trust": "🟡 单店实测", "trustNote": "消费积分规则等基于单店配置抽样", "category": "系统后台"}, {"l1": "顾客中心", "l2": "积分管理", "l3": "快速积分排查工具", "type": "💎会员经营", "scene": "通过支付流水号查未通过支付即积分获得积分的原因", "group": "辅助运维工具,后台无计数可查 - 客服支撑", "quzhou": "可用", "xinyu": "可用", "sysIO": "内", "depth": 3, "demand": 3, "industry": 3, "future": 3, "composite": 3.0, "conclusion": "🟡重要保留", "advice": "保留(运维必备),客服支撑工具,不影响选型核心打分", "trust": "🟡 单店实测", "trustNote": "后台无计数,但功能存在", "category": "系统后台"}, {"l1": "顾客中心", "l2": "积分管理", "l3": "手动调整积分", "type": "💎会员经营", "scene": "积分增减(带审核流)", "group": "近期多人多笔(彭丹/竹林/余淑颖)", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(审核流必备)", "trust": "✅ 直接观察", "trustNote": "管理记录页可见多人多笔操作", "category": "系统后台"}, {"l1": "顾客中心", "l2": "积分管理", "l3": "消费积分规则", "type": "💎会员经营", "scene": "门店积分比例+成本结算规则", "group": "按门店配置;线下消费贡献2836万积分/期", "quzhou": "已配", "xinyu": "已配", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(底层规则)", "trust": "🟡 单店实测", "trustNote": "消费积分规则等基于单店配置抽样", "category": "系统后台"}, {"l1": "顾客中心", "l2": "积分管理", "l3": "积分明细", "type": "💎会员经营", "scene": "积分变更明细查询+下载", "group": "百万级明细", "quzhou": "可查", "xinyu": "可查", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 集团数据", "trustNote": "积分趋势报表佐证", "category": "系统后台"}, {"l1": "顾客中心", "l2": "积分管理", "l3": "积分通兑账单", "type": "💎会员经营", "scene": "跨商场积分应收/应付自动出账", "group": "集团多商场在用", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 2, "demand": 4, "industry": 5, "future": 5, "composite": 2.0, "conclusion": "🟠选配", "advice": "选配(为轻资产公司核算预设;集团尚未启用)", "trust": "🟡 业务确认", "trustNote": "用户业务说明:集团未启用,为后期轻资产预设", "category": "系统后台"}, {"l1": "顾客中心", "l2": "积分管理", "l3": "多倍消费积分", "type": "🔥营销转化", "scene": "时段多倍消费积分(集团积分体系一部分,与闪买不绑定)", "group": "集团30天:多倍奖励529万分/16,489笔/13,015会员(占总产生9.7%);8循环规则", "quzhou": "集团统计", "xinyu": "集团统计", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(高价值积分活动)", "trust": "✅ 集团31店实测", "trustNote": "集团31店实测;529万分/16489笔/13015会员", "category": "系统后台"}, {"l1": "顾客中心", "l2": "权益策略", "l3": "会员折上折策略", "type": "💎会员经营", "scene": "等级×门店折上折比例+结算", "group": "集团/各店暂无策略配置(未来支撑会员权益的重要部分)", "quzhou": "0条策略", "xinyu": "0条策略", "sysIO": "内", "depth": 2, "demand": 2, "industry": 4, "future": 4, "composite": 3.0, "conclusion": "🟡重要保留", "advice": "保留", "trust": "✅ 多店实测", "trustNote": "衢州/新余/集团均未配置策略", "category": "系统后台"}, {"l1": "顾客中心", "l2": "权益策略", "l3": "积分抵现策略", "type": "💎会员经营", "scene": "门店抵现比例+成本结算规则", "group": "集团/各店暂无策略配置(未来支撑会员权益的重要部分)", "quzhou": "0条策略", "xinyu": "0条策略", "sysIO": "内", "depth": 2, "demand": 2, "industry": 4, "future": 4, "composite": 3.0, "conclusion": "🟡重要保留", "advice": "保留(闪买依赖),不需复杂分摊引擎", "trust": "✅ 多店实测", "trustNote": "衢州/新余/集团均未配置策略", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "支持平台", "l3": "微信小程序", "type": "🎯获客触达", "scene": "微信小程序授权运营(集团主入口,月新增37,677会员)", "group": "已授权;集团主入口;月新增37,677会员", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 5, "industry": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(集团主入口)", "trust": "✅ 集团口径", "trustNote": "月新增37,677主入口", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "支持平台", "l3": "支付宝小程序", "type": "🎯获客触达", "scene": "支付宝小程序授权运营(月新增1,465会员)", "group": "已授权;月新增1,465会员", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 4, "industry": 4, "composite": 4.0, "conclusion": "🟢核心刚需", "advice": "必备(支付宝端入口)", "trust": "✅ 集团口径", "trustNote": "月新增1,465", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "支持平台", "l3": "抖音小程序", "type": "🎯获客触达", "scene": "抖音小程序对接(原生商品96/月核销4,327/抖音月新增2,650)", "group": "原生商品96条;月核销4,327条;抖音月新增2,650会员;来客POI已配", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 5, "industry": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(抖音生服核销集团关键能力)", "trust": "✅ 集团口径", "trustNote": "原生商品96;月核销4327", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "推广配置", "l3": "二维码管理", "type": "🎯获客触达", "scene": "小程序二维码+服务号二维码(普通/原生/多端)", "group": "在用,推广物料核心", "quzhou": "--", "xinyu": "在用", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(开卡引导TOP1场景靠这个支撑)", "trust": "🟡 单店实测", "trustNote": "其他店未单独抓", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "推广配置", "l3": "小程序短链", "type": "🎯获客触达", "scene": "短链嵌入短信/H5", "group": "部分门店在用,频次低但独有性强 (短信触发的唯一短链方式)", "quzhou": "0 条", "xinyu": "0 条", "sysIO": "内", "depth": 3, "demand": 3, "industry": 3, "future": 4, "composite": 2.5, "conclusion": "🟡重要保留", "advice": "可作为选型加分项", "trust": "✅ 多店实测", "trustNote": "部分店启用,频次低", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "推广配置", "l3": "广告位(弹窗)", "type": "🎯获客触达", "scene": "弹窗广告(首次登录展示)", "group": "集团各门店均在用;衢州2条/新余15条", "quzhou": "2 条", "xinyu": "15 条", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备(独立的会员触达)", "trust": "✅ 多店实测", "trustNote": "衢州2/新余15;各店日常在用", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "推广配置", "l3": "推广渠道管理", "type": "🎯获客触达", "scene": "渠道参数统一管理+流量来源归因", "group": "在用", "quzhou": "--", "xinyu": "在用", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备(归因分析依据)", "trust": "🟡 单店实测", "trustNote": "其他店未单独抓", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "推广配置", "l3": "链接提取器", "type": "🎯获客触达", "scene": "辅助工具:提取小程序所有页面路径,用于推广物料&短链生成", "group": "辅助运维工具,后台无计数可查 - 在用", "quzhou": "可用", "xinyu": "可用", "sysIO": "内", "depth": 4, "demand": 4, "industry": 4, "future": 4, "composite": 4.0, "conclusion": "🟡重要保留", "advice": "保留(运维必备),数据不需考量", "trust": "🟡 单店实测", "trustNote": "后台无计数可查,通过页面在用与否判断", "category": "系统后台"}, {"l1": "会员小程序运营", "l2": "推广配置", "l3": "页面装修", "type": "🎯获客触达", "scene": "首页装修+自定义页面(可视化)", "group": "集团各店活跃使用;衢州22条/新余95条 自定义页面", "quzhou": "22 条自定义页面", "xinyu": "95 条自定义页面", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备,需更强可视化装修能力", "trust": "✅ 多店实测", "trustNote": "衢州22/新余95", "category": "系统后台"}, {"l1": "智慧营销", "l2": "卡券管理", "l3": "代金券/普通券", "type": "🔥营销转化", "scene": "代金券/普通券母版 (抵金券=百货POS对接;普通券=通用业态)", "group": "集团30天:抵金券19,906笔(39.9%)+普通券13,588笔(27.2%)=33,494笔/月;集团TOP1核销类型", "quzhou": "集团统计", "xinyu": "集团统计", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(集团核销TOP1)", "trust": "✅ 集团49925条流水实测", "trustNote": "集团30天:抵金券19906+普通券13588=33494笔/占核销67%", "category": "系统后台"}, {"l1": "智慧营销", "l2": "卡券管理", "l3": "单品券母版", "type": "🔥营销转化", "scene": "兑换指定商品的兑换券", "group": "集团30天:核销15,294笔(占30.6%);TOP2核销类型", "quzhou": "集团统计", "xinyu": "集团统计", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(集团核销TOP2)", "trust": "✅ 集团49925条流水实测", "trustNote": "集团30天15,294笔/占核销30.6%", "category": "系统后台"}, {"l1": "智慧营销", "l2": "卡券管理", "l3": "团购套餐券", "type": "🔥营销转化", "scene": "团购套餐兑换券(抖音生服重点)", "group": "抖音生服核销4,327条/月(独立核销渠道);母版按业态在集团/品牌侧配置", "quzhou": "0条(衢州抖音生服业态以单品为主)", "xinyu": "0条(同上)", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 多店实测", "trustNote": "母版0条但抖音核销端4327/月,说明母版在集团/品牌侧配置", "category": "系统后台"}, {"l1": "智慧营销", "l2": "卡券管理", "l3": "停车券母版", "type": "🔥营销转化", "scene": "停车费用减免券(与停车系统对接)", "group": "集团30天:核销312笔(占0.6%);月转化6,739新会员开卡(TOP3获客)", "quzhou": "0条", "xinyu": "0条", "sysIO": "外", "depth": 5, "demand": 4, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(停车场景配套)", "trust": "✅ 集团49925条流水实测", "trustNote": "核销312笔;停车开卡6739/月新会员TOP3", "category": "系统后台"}, {"l1": "智慧营销", "l2": "卡券管理", "l3": "权益包", "type": "🔥营销转化", "scene": "代金券组合营销:多业态券打包销售/赠送(如520权益包);多门店在用", "group": "集团30天:核销824笔(1.7%);520节点统一权益包配置", "quzhou": "集团配置", "xinyu": "集团配置", "sysIO": "内", "depth": 4, "demand": 5, "industry": 4, "future": 5, "composite": 4.0, "conclusion": "🟢核心刚需", "advice": "集团特色营销工具;与权益卡(闪买促销)是不同产品", "trust": "✅ 集团49925条流水实测", "trustNote": "集团30天824笔/占核销1.7%", "category": "系统后台"}, {"l1": "智慧营销", "l2": "卡券管理", "l3": "免费券展架", "type": "🔥营销转化", "scene": "可供用户自主领取的免费券+周期/限时", "group": "集团 575 条;门店级页面=0(集团统一配置)", "quzhou": "0条(集团统一)", "xinyu": "0条(集团统一)", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 集团报表", "trustNote": "集团级575条;门店级=0是设计", "category": "系统后台"}, {"l1": "智慧营销", "l2": "卡券管理", "l3": "卡券记录", "type": "🔥营销转化", "scene": "投放/核销/反核销记录浏览+下载", "group": "集团30天:投放83,123条/核销49,924条/反核销443条(0.9%);全集团高频浏览", "quzhou": "反核销439", "xinyu": "反核销在用", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(运维查证依据)", "trust": "✅ 集团49925条流水实测", "trustNote": "集团30天 投放83123/核销49924/反核销443", "category": "系统后台"}, {"l1": "智慧营销", "l2": "卡券管理", "l3": "快速核销/反核销", "type": "🔥营销转化", "scene": "商管后台核销小工具", "group": "集团30天:443条反核销(0.9%)+大量快速核销操作;商管后台必备工具", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.0, "conclusion": "🟡重要保留", "advice": "必备", "trust": "✅ 集团49925条流水实测", "trustNote": "集团30天443反核销;快速核销日常工具", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "核销有礼", "type": "🔥营销转化", "scene": "核销指定卡券后触发奖励", "group": "376个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "消费有礼", "type": "🔥营销转化", "scene": "在指定门店消费指定金额后触发奖励", "group": "543个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(核心营销引擎)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "开卡有礼", "type": "🔥营销转化", "scene": "顾客开卡/绑卡后奖励", "group": "148个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(获客TOP1配套)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "生日有礼", "type": "🔥营销转化", "scene": "会员生日前X天或当月礼包", "group": "116个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(会员关怀)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "升级有礼", "type": "🔥营销转化", "scene": "会员升级后奖励", "group": "24个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 3, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "积分过期营销", "type": "🔥营销转化", "scene": "积分即将过期前触发唤醒", "group": "2个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 2, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟡重要保留", "advice": "必备(会员唤醒核心)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "活动有礼", "type": "🔥营销转化", "scene": "活动报名/核销后奖励", "group": "2个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 2, "demand": 4, "industry": 5, "future": 5, "composite": 4.0, "conclusion": "🟡重要保留", "advice": "保留(与活动报名联动)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "到店有礼", "type": "🔥营销转化", "scene": "通过消费/核销/GPS识别到场+推送", "group": "3个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 2, "demand": 4, "industry": 4, "future": 5, "composite": 3.5, "conclusion": "🟡重要保留", "advice": "保留(LBS到店能力)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "周期营销", "type": "🔥营销转化", "scene": "定期向人群循环营销(休眠唤醒)", "group": "2个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 2, "demand": 4, "industry": 4, "future": 5, "composite": 3.5, "conclusion": "🟡重要保留", "advice": "保留(沉睡唤醒)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "触点通知(短信)", "type": "🔥营销转化", "scene": "订单待支付/支付后待核销/卡券即将过期", "group": "3类全未配(订单待支付/支付后待核销/卡券即将过期)", "quzhou": "暂无", "xinyu": "暂无", "sysIO": "内", "depth": 0, "demand": 3, "industry": 4, "future": 5, "composite": 3.0, "conclusion": "🟠选配", "advice": "未来选型重点(转化关键)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "自动化营销", "l3": "关注有礼", "type": "🔥营销转化", "scene": "关注服务号后奖励", "group": "0个计划 (集团)", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 0, "demand": 2, "industry": 3, "future": 3, "composite": 2.0, "conclusion": "🟠选配", "advice": "选配(服务号生态依赖度低)", "trust": "✅ 集团报表", "trustNote": "场景营销按类型逐个筛选拿到精确计数", "category": "系统后台"}, {"l1": "智慧营销", "l2": "游戏营销", "l3": "天降盲盒", "type": "🔥营销转化", "scene": "商场周边LBS抽奖", "group": "集团30天:产生2.78万分(196笔/146会员);LBS触发量低", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 2, "demand": 3, "industry": 3, "future": 4, "composite": 2.5, "conclusion": "🟡重要保留", "advice": "保留", "trust": "✅ 集团报表", "trustNote": "集团31店实测;2.78万分/196笔/146会员,辐射小", "category": "系统后台"}, {"l1": "智慧营销", "l2": "游戏营销", "l3": "幸运盲盒机", "type": "🔥营销转化", "scene": "抽奖+积分加钱购+邀请好友", "group": "集团30天:产生629万分(70,935笔/1,630会员) + 消耗455万分(58,788笔/1,355会员);积分流通1083万/月(占总流通11.6%产生+21.2%消耗)", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(集团TOP积分场景)", "trust": "✅ 集团报表", "trustNote": "集团31店实测;1083万积分流通/月,会员粘性核心场景", "category": "系统后台"}, {"l1": "智慧营销", "l2": "群发管理", "l3": "卡券群发", "type": "🔥营销转化", "scene": "定向卡券发放", "group": "集团多店在用;衢州51条/新余88条", "quzhou": "51 条", "xinyu": "88 条", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 4, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备", "trust": "✅ 多店实测", "trustNote": "衢州51/新余88", "category": "系统后台"}, {"l1": "智慧营销", "l2": "群发管理", "l3": "短信群发", "type": "🔥营销转化", "scene": "定向短信(带审核)", "group": "集团多店在用;衢州46条/新余51条", "quzhou": "46 条", "xinyu": "51 条", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 4, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备,关注成本", "trust": "✅ 多店实测", "trustNote": "衢州46/新余51", "category": "系统后台"}, {"l1": "智慧商城", "l2": "有价券商城", "l3": "", "type": "🔥营销转化", "scene": "有价券+限时售卖+售卖明细+退款明细+订单/售后(整体)", "group": "集团5个月权威:97,207笔/¥2,212.5万销售额;月均19,441笔/¥442.5万;5月核销98,079单;涉及27商场", "quzhou": "南湖¥96.2万/月(TOP1)", "xinyu": "集团均值约¥16万/月", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(高频高客单价业务)", "trust": "✅ 5月权威导出", "trustNote": "集团5月权威:97207订单/¥2212万销售;月均19441笔/¥442万;27商场参与", "category": "系统后台"}, {"l1": "智慧商城", "l2": "本地生活", "l3": "抖音(已对接)", "type": "🎯获客触达", "scene": "抖音生服全套(原生商品+验券核销+撤销核销+来客账户/POI/客服号配置)", "group": "原生商品96条;月核销4327条;抖音月新增2,650会员;来客POI已配", "quzhou": "抖音核销在用", "xinyu": "抖音核销在用", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(抖音生态核心)", "trust": "✅ 集团报表", "trustNote": "集团抖音生服核销4327/月已交叉验证", "category": "系统后台"}, {"l1": "智慧商城", "l2": "本地生活", "l3": "美团(水街试点)", "type": "🎯获客触达", "scene": "美团本地生活对接(团购/到店/会员通);水街单项目试点中", "group": "水街试点对接中;集团其他门店未对接", "quzhou": "未对接", "xinyu": "未对接", "sysIO": "外", "depth": 3, "demand": 4, "industry": 5, "future": 5, "composite": 4.0, "conclusion": "🟢核心刚需", "advice": "必备(集团多平台战略);选型需评估美团商户通/会员通对接能力", "trust": "🚧 用户反馈", "trustNote": "水街单项目试点;具体使用数据未查", "category": "系统后台"}, {"l1": "智慧商城", "l2": "积分商城", "l3": "", "type": "🔥营销转化", "scene": "积分礼品货架+订单+售后(整体)", "group": "集团30天:积分兑换681万分(占月消耗31.7%);7,020笔/3,453会员;礼品货架151条+", "quzhou": "集团统计", "xinyu": "集团统计", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(积分变现/会员粘性核心场景)", "trust": "✅ 集团口径", "trustNote": "集团31店404,904条流水实测;681万分/7020笔/3453会员;占消耗31.7%", "category": "系统后台"}, {"l1": "闪电买单", "l2": "促销活动", "l3": "满立减", "type": "🔥营销转化", "scene": "门店满立减(闪买结算时)", "group": "集团15店实测536条活动;TOP3:万联96/南湖94/枣庄78;集团33店推算约1179条", "quzhou": "94 条(南湖)", "xinyu": "50 条", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(集团高频核心促销)", "trust": "✅ 15店实测", "trustNote": "15店共536条活动;TOP3:万联96/南湖94/枣庄78", "category": "系统后台"}, {"l1": "闪电买单", "l2": "促销活动", "l3": "积分膨胀抵现", "type": "🔥营销转化", "scene": "时段积分膨胀+抵现", "group": "集团30天:消耗积分462万分(2,104笔/1,825会员);占月总消耗21.5%(消耗事由TOP2)", "quzhou": "集团统计", "xinyu": "集团统计", "sysIO": "内", "depth": 5, "demand": 4, "industry": 4, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(消耗事由TOP2,占月消耗21.5%)", "trust": "✅ 集团31店实测", "trustNote": "集团31店实测;462万分/2104笔/1825会员/占消耗21.5%", "category": "系统后台"}, {"l1": "闪电买单", "l2": "促销活动", "l3": "权益卡", "type": "🔥营销转化", "scene": "闪电买单促销工具:满减/折扣/满送权益卡(用户购买,在闪买时享受优惠)", "group": "集团17条 (多为2024年活动)", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 2, "demand": 4, "industry": 4, "future": 4, "composite": 3.5, "conclusion": "🟡重要保留", "advice": "闪买配套促销工具,与权益包(代金券组合)是不同产品", "trust": "🟡 单店实测", "trustNote": "基于闪买使用与否+用户业务反馈,具体计数未逐店复检", "category": "系统后台"}, {"l1": "闪电买单", "l2": "促销活动", "l3": "消费红包", "type": "🔥营销转化", "scene": "消费红包明细+策略+发放(单/批量);门店成员补贴+导购返佣+员工补贴;仅闪买可用", "group": "集团/各店暂无策略配置;明细数据=0", "quzhou": "0条", "xinyu": "0条", "sysIO": "内", "depth": 2, "demand": 2, "industry": 3, "future": 3, "composite": 2.5, "conclusion": "🟠选配", "advice": "选配(用得少+闪买强依赖)", "trust": "✅ 多店实测", "trustNote": "集团暂未启用", "category": "系统后台"}, {"l1": "闪电买单", "l2": "促销活动", "l3": "满立送", "type": "🔥营销转化", "scene": "消费满送积分/卡券", "group": "集团12店实测86个活动/3,764+条规则(部分未完全显示);最高:枣庄20活动/964+条,固始24活动/464+条,潜山13活动/736+条;33店推算约15,000条规则", "quzhou": "集团多店重点使用", "xinyu": "3活动/258条规则", "sysIO": "内", "depth": 5, "demand": 4, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(集团高频促销;3,764+条活动规则)", "trust": "✅ 12店实测", "trustNote": "集团12店实测86活动/3764+规则;集团推算约15000条规则", "category": "系统后台"}, {"l1": "闪电买单", "l2": "促销活动", "l3": "优惠口令", "type": "🔥营销转化", "scene": "用户输入口令享受满减/折扣", "group": "集团2条已过期;衢州/新余=0", "quzhou": "0 条", "xinyu": "0 条", "sysIO": "内", "depth": 1, "demand": 4, "industry": 4, "future": 4, "composite": 3.5, "conclusion": "🟠选配", "advice": "必备(闪买配套)", "trust": "🟡 单店实测", "trustNote": "基于闪买使用与否+用户业务反馈,具体计数未逐店复检", "category": "系统后台"}, {"l1": "闪电买单", "l2": "闪买设备", "l3": "", "type": "💰交易结算", "scene": "云音箱管理(闪买语音播报)", "group": "集团/各店均未启用云音箱", "quzhou": "未启用", "xinyu": "未启用", "sysIO": "内", "depth": 0, "demand": 4, "industry": 4, "future": 4, "composite": 2.0, "conclusion": "🟠选配", "advice": "保留(闪买配套)", "trust": "🟡 单店实测", "trustNote": "集团各店未启用", "category": "系统后台"}, {"l1": "商户小程序", "l2": "账号管理", "l3": null, "type": "⚙️系统底层", "scene": "手机号/扫码登录;门店成员管理(店长+店员);切换门店", "group": "所有门店店长/店员必备入口", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(商户端入口)", "trust": "✅ 集团数据", "trustNote": "商户小程序必备功能", "category": "系统后台"}, {"l1": "商户小程序", "l2": "卡券核销", "l3": null, "type": "💰交易结算", "scene": "门店扫码核销卡券+核销记录查看+反核销操作", "group": "集团抖音生服核销4,327条/月通过商管云;门店日常使用", "quzhou": "在用(单品券320条衢州)", "xinyu": "在用(单品券205条新余)", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(门店核销基础能力)", "trust": "✅ 集团报表", "trustNote": "集团卡券记录4327核销/月", "category": "系统后台"}, {"l1": "商户小程序", "l2": "闪电买单", "l3": null, "type": "💰交易结算", "scene": "门店当日/历史订单查看+退款审核+订单数据下载", "group": "闪买店店长必备;集团30天3,917+笔闪买", "quzhou": "未启闪买", "xinyu": "1,856笔/月(集团TOP1)", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(闪买店店长入口)", "trust": "✅ 多店实测", "trustNote": "闪买商户日常使用", "category": "系统后台"}, {"l1": "商户小程序", "l2": "资金管理", "l3": null, "type": "💰交易结算", "scene": "实名认证(结算户入驻)+日账单+余额变动+提现(仅店长)+自动提现设置", "group": "所有有营销资金的商户必备;支付宝商管云入驻", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(商户资金提现底座);选型需评估入驻流程&提现到账时效", "trust": "✅ 集团数据", "trustNote": "网商银行入驻流程,商户必经", "category": "系统后台"}, {"l1": "商户小程序", "l2": "商户停车券", "l3": null, "type": "🎯获客触达", "scene": "商户自采停车券+给顾客动态领券码扫码发放", "group": "与停车系统对接;部分商户使用", "quzhou": "在用(衢州停车系统对接)", "xinyu": "在用", "sysIO": "外", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(商户营销联动)", "trust": "🚧 用户反馈", "trustNote": "与停车系统对接,数据外部", "category": "系统后台"}, {"l1": "商户小程序", "l2": "消费积分账单", "l3": null, "type": "💰交易结算", "scene": "商户承担积分总额查看+订单明细+月度汇总+excel导出", "group": "所有参与积分的门店都有;线下消费贡献2,836万积分/期", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(商户积分结算依据)", "trust": "✅ 集团报表", "trustNote": "积分通兑账单财务依据", "category": "系统后台"}, {"l1": "商户小程序", "l2": "营销补差", "l3": "补贴明细", "type": "💰交易结算", "scene": "清算单/营销补差明细查看 — 每条补贴的卡券/门店/金额/时间", "group": "集团8店实测8,779条/月;TOP3:新余1,560/南湖1,990/潜山1,889;推算全集团约36,000条/月", "quzhou": "集团统计", "xinyu": "1,560条/¥14.2万", "sysIO": "内", "depth": 5, "industry": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(费用流程基础;全量门店每月使用)", "trust": "✅ 8店实测", "trustNote": "8店8779条/¥38.8万;集团约36000条/¥160万/月", "category": "系统后台"}, {"l1": "商户小程序", "l2": "营销补差", "l3": "补贴账单", "type": "💰交易结算", "scene": "每月初自动生成上月补贴账单,商户查看/申请结算/上传发票", "group": "集团8店实测;每月3号自动生成;参与营销的商户必备", "quzhou": "每月3号自动生成", "xinyu": "每月3号自动生成", "sysIO": "内", "depth": 5, "industry": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(费用流程对账核心)", "trust": "✅ 全量必备", "trustNote": "集团所有参与营销商户每月必经流程", "category": "系统后台"}, {"l1": "商户小程序", "l2": "营销补差", "l3": "结算申请记录", "type": "💰交易结算", "scene": "商户对账单提结算申请;商场审核;查看申请历史/进度", "group": "集团多店在用;商户对账后必经环节", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 4, "industry": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(结算流转节点)", "trust": "✅ 全量必备", "trustNote": "结算流程必需,商户对账后申请使用", "category": "系统后台"}, {"l1": "商户小程序", "l2": "营销补差", "l3": "账单结算设置", "type": "⚙️系统底层", "scene": "账单生成日期/结算周期/审核流程配置", "group": "集团统一配置;按品牌/业态可分别设置", "quzhou": "已配", "xinyu": "已配", "sysIO": "内", "depth": 4, "industry": 5, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备(配置类,集团统配)", "trust": "🟢 集团配置", "trustNote": "账单生成规则配置项", "category": "系统后台"}, {"l1": "智慧停车", "l2": "智慧停车", "l3": "停车场管理", "type": "🎯获客触达", "scene": "创建和维护商场车场信息,与停车系统服务商绑定", "group": "集团33商场停车系统对接;月转化6,739新会员通过停车开卡(集团获客TOP3)", "quzhou": "在用", "xinyu": "在用", "sysIO": "外", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备!车场基础配置;选型需对接主流停车系统(科拓/捷顺等)或自有方案", "trust": "✅ 多店实测", "trustNote": "太平洋国际等多店在用,缴费单", "category": "系统后台"}, {"l1": "智慧停车", "l2": "智慧停车", "l3": "停车缴费单", "type": "🎯获客触达", "scene": "浏览停车缴费记录(车场/车辆/会员/费用/优惠/支付明细)+excel导出对账", "group": "集团;太平洋国际单店30天4,019条缴费单", "quzhou": "在用", "xinyu": "在用", "sysIO": "外", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(财务对账依据);选型需评估明细导出&对账能力", "trust": "✅ 多店实测", "trustNote": "太平洋国际4019条/30天,集团规模巨大", "category": "系统后台"}, {"l1": "智慧停车", "l2": "智慧停车", "l3": "停车配置规则", "type": "🎯获客触达", "scene": "配置各车场停车费用计算规则(费用模型/会员优惠/时段)", "group": "集团各店按门店配置计费规则,与会员积分/卡券联动", "quzhou": "已配", "xinyu": "已配", "sysIO": "外", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(计费基础);选型需评估计费规则灵活性", "trust": "🟡 单店实测", "trustNote": "配置类,具体数未单独抓取", "category": "系统后台"}, {"l1": "智慧停车", "l2": "智慧停车", "l3": "商户停车券", "type": "🎯获客触达", "scene": "给商户分配停车券,商户向顾客投放停车券用于停车费减免(商户自采权益)", "group": "集团多店在用,商户自采停车券回馈顾客;与卡券补差联动", "quzhou": "在用", "xinyu": "在用", "sysIO": "外", "depth": 5, "demand": 4, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(商户营销联动);选型需与卡券体系打通", "trust": "✅ 多店实测", "trustNote": "商户营销联动场景", "category": "系统后台"}, {"l1": "服务中心", "l2": "门店订单管理", "l3": "POS订单", "type": "💰交易结算", "scene": "POS同步订单数据", "group": "POS对接所有店", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(线下交易底座)", "trust": "✅ 多店实测", "trustNote": "集团销售趋势报表", "category": "系统后台"}, {"l1": "服务中心", "l2": "门店订单管理", "l3": "快速积分订单", "type": "💰交易结算", "scene": "支付即积分订单(微信/支付宝)", "group": "线下消费贡献2836万积分", "quzhou": "南湖15428/月", "xinyu": "新余35671/月(集团TOP1)", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(主流积分通道)", "trust": "✅ 多店实测", "trustNote": "集团销售趋势报表", "category": "系统后台"}, {"l1": "服务中心", "l2": "门店订单管理", "l3": "拍照积分订单", "type": "💰交易结算", "scene": "拍照积分订单(顾客侧)", "group": "在用", "quzhou": "--", "xinyu": "新余1496/月", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备(现金支付补充)", "trust": "✅ 多店实测", "trustNote": "集团销售趋势报表", "category": "系统后台"}, {"l1": "服务中心", "l2": "门店订单管理", "l3": "闪电买单订单", "type": "💰交易结算", "scene": "闪买消费/退款订单", "group": "集团30天3917+笔", "quzhou": "暂无(未启用)", "xinyu": "1856/月(集团TOP1)", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(部分店核心交易方式)", "trust": "✅ 多店实测", "trustNote": "集团销售趋势+闪买实付结算多店验证", "category": "系统后台"}, {"l1": "服务中心", "l2": "拍照积分", "l3": "", "type": "💎会员经营", "scene": "拍照积分客服端审核", "group": "集团高频客服审核;新余146,828条/衢州2,915条", "quzhou": "2,915 条", "xinyu": "146,828 条 ()", "sysIO": "内", "depth": 5, "demand": 4, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟡重要保留", "advice": "必备(拍照积分配套)", "trust": "✅ 多店实测", "trustNote": "新余146828/衢州2915", "category": "系统后台"}, {"l1": "服务中心", "l2": "活动管理", "l3": "活动报名", "type": "🎯获客触达", "scene": "免费/积分/现金报名+核销", "group": "集团月转化8,865新会员(获客TOP2);活动管理在集团/分组级配置", "quzhou": "集团/分组级管理", "xinyu": "集团/分组级管理", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(获客TOP2)", "trust": "✅ 集团报表", "trustNote": "集团月转化8865新会员", "category": "系统后台"}, {"l1": "服务中心", "l2": "活动管理", "l3": "问卷管理", "type": "🎯获客触达", "scene": "问卷调研+问卷有礼", "group": "集团75+问卷;月转化366新会员(通过问卷表单场景开卡)", "quzhou": "集团级管理", "xinyu": "集团级管理", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(调研&获客入口)", "trust": "✅ 集团报表", "trustNote": "集团75问卷/月转化366新会员", "category": "系统后台"}, {"l1": "财务管理", "l2": "销售与资金明细", "l3": "权益卡销售", "type": "💰交易结算", "scene": "权益卡销售款划拨", "group": "集团少量;衢州/新余0条 (权益卡使用本身少)", "quzhou": "0 条", "xinyu": "0 条", "sysIO": "内", "depth": 1, "demand": 3, "industry": 4, "future": 4, "composite": 3.0, "conclusion": "🟠选配", "advice": "必备(权益卡配套)", "trust": "✅ 多店实测", "trustNote": "衢州/新余实测0", "category": "系统后台"}, {"l1": "财务管理", "l2": "销售与资金明细", "l3": "权益包销售", "type": "💰交易结算", "scene": "权益包(代金券组合)销售款划拨;多门店使用", "group": "集团多店在用(520等节点高频)", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 4, "industry": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(代金券组合营销结算依据)", "trust": "✅ 多店实测", "trustNote": "权益包多门店在用", "category": "系统后台"}, {"l1": "财务管理", "l2": "销售与资金明细", "l3": "有价券销售", "type": "💰交易结算", "scene": "有价券销售款划拨", "group": "集团高频;新余386条划拨单", "quzhou": ["在用"], "xinyu": "386 条", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 多店实测", "trustNote": "新余386条", "category": "系统后台"}, {"l1": "财务管理", "l2": "销售与资金明细", "l3": "活动报名销售", "type": "💰交易结算", "scene": "活动现金报名款划拨", "group": "集团少量;新余0条 (活动以免费/积分报名为主,现金报名少)", "quzhou": "0 条", "xinyu": "0 条", "sysIO": "内", "depth": 2, "demand": 4, "industry": 5, "future": 4, "composite": 3.0, "conclusion": "🟡重要保留", "advice": "保留", "trust": "✅ 多店实测", "trustNote": "现金报名少", "category": "系统后台"}, {"l1": "财务管理", "l2": "销售与资金明细", "l3": "闪电买单实付", "type": "💰交易结算", "scene": "闪买实付款划拨", "group": "集团30天数千笔(新余/长兴/建德等闪买高频店)", "quzhou": "0 条 (未启闪买)", "xinyu": "1,856 笔同步划拨", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 多店实测", "trustNote": "集团多店抽样+用户业务确认", "category": "系统后台"}, {"l1": "财务管理", "l2": "销售与资金明细", "l3": "分佣划拨单", "type": "💰交易结算", "scene": "商场代售分佣(抖音生服)", "group": "集团高频(抖音生服分佣等);新余290条", "quzhou": "在用", "xinyu": "290 条", "sysIO": "内", "depth": 4, "demand": 4, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "✅ 多店实测", "trustNote": "集团多店抽样+用户业务确认", "category": "系统后台"}, {"l1": "财务管理", "l2": "销售与资金明细", "l3": "结算管理", "type": "💰交易结算", "scene": "划拨单结算+补差账单审核打款+调账", "group": "集团结算单;新余等高频店日常处理", "quzhou": "在用", "xinyu": "高频", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备", "trust": "🟡 单店实测", "trustNote": "集团多店抽样+用户业务确认", "category": "系统后台"}, {"l1": "财务管理", "l2": "销售与资金明细", "l3": "资金管理", "type": "💰交易结算", "scene": "监管户+商场结算户+商户结算户+划账", "group": "网商银行多级户在用", "quzhou": "--", "xinyu": "--", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(集团资金分账底座)", "trust": "🟡 单店实测", "trustNote": "集团多店抽样+用户业务确认", "category": "系统后台"}, {"l1": "财务管理", "l2": "营销补差", "l3": "补贴明细", "type": "💰交易结算", "scene": "集团/商场视角:查看所有商户被补贴的卡券明细,可过滤门店/卡券/时间", "group": "集团8店实测8,779条/月;TOP3:新余1,560/南湖1,990/潜山1,889;集团约36,000条/月", "quzhou": "集团统计", "xinyu": "1,560条/¥14.2万", "sysIO": "内", "depth": 5, "industry": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(全量门店每月使用,费用流程基础)", "trust": "✅ 8店实测", "trustNote": "8店8779条/¥38.8万;集团约36000条/¥160万/月", "category": "系统后台"}, {"l1": "财务管理", "l2": "营销补差", "l3": "补贴账单", "type": "💰交易结算", "scene": "商场视角:每月3号自动生成上月商户应付补差账单,审核/打款", "group": "每月3号自动生成;集团商户必备", "quzhou": "月度自动生成", "xinyu": "月度自动生成", "sysIO": "内", "depth": 5, "industry": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备(费用流程核心)", "trust": "✅ 全量必备", "trustNote": "每月自动生成,商场审核打款必经", "category": "系统后台"}, {"l1": "财务管理", "l2": "营销补差", "l3": "结算申请记录", "type": "💰交易结算", "scene": "商场视角:接收商户结算申请,审核/驳回/打款,留存历史记录", "group": "商户对账后必经环节", "quzhou": "在用", "xinyu": "在用", "sysIO": "内", "depth": 4, "industry": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备(结算流转节点)", "trust": "✅ 全量必备", "trustNote": "结算流程必需", "category": "系统后台"}, {"l1": "财务管理", "l2": "营销补差", "l3": "账单结算设置", "type": "⚙️系统底层", "scene": "账单生成日期/结算周期/审核流程配置;按品牌可分别设置", "group": "集团统一配置", "quzhou": "已配", "xinyu": "已配", "sysIO": "内", "depth": 4, "industry": 5, "composite": 4.5, "conclusion": "🟡重要保留", "advice": "必备(配置类)", "trust": "🟢 集团配置", "trustNote": "账单生成规则", "category": "系统后台"}, {"l1": "数据分析", "l2": "数据分析", "l3": "会员分析", "type": "📊报表", "scene": "会员新增趋势+开卡渠道+商场来源+11类转化场景明细数据", "group": "/", "quzhou": "✅", "xinyu": "✅", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备,数据维度齐全,选型需保留并加强RFM分群/画像BI", "trust": "✅ 集团报表", "trustNote": "4个数据分析报表的覆盖度评估", "category": "系统后台"}, {"l1": "数据分析", "l2": "数据分析", "l3": "小程序分析", "type": "📊报表", "scene": "各端访问/PV/UV/开卡数趋势数据(微信+支付宝+抖音+小红书)", "group": "/", "quzhou": "✅", "xinyu": "✅", "sysIO": "内", "depth": 4, "demand": 5, "industry": 5, "future": 5, "composite": 4.5, "conclusion": "🟢核心刚需", "advice": "必备,业务数据丰富但缺埋点能力,选型需关注用户行为埋点&漏斗", "trust": "✅ 集团报表", "trustNote": "4个数据分析报表的覆盖度评估", "category": "系统后台"}, {"l1": "数据分析", "l2": "数据分析", "l3": "积分分析", "type": "📊报表", "scene": "积分产生/消耗趋势+事由透视+商场分布+即将过期监控", "group": "/", "quzhou": "✅", "xinyu": "✅", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备,数据相对充实;选型可加强积分负债财务视图", "trust": "✅ 集团报表", "trustNote": "4个数据分析报表的覆盖度评估", "category": "系统后台"}, {"l1": "数据分析", "l2": "数据分析", "l3": "销售分析", "type": "📊报表", "scene": "闪买+快速积分销售趋势+门店明细+按时间筛选", "group": "/", "quzhou": "✅", "xinyu": "✅", "sysIO": "内", "depth": 5, "demand": 5, "industry": 5, "future": 5, "composite": 5.0, "conclusion": "🟢核心刚需", "advice": "必备,核心销售数据透视;选型需加强品类/品牌/ROI维度", "trust": "✅ 集团报表", "trustNote": "4个数据分析报表的覆盖度评估", "category": "系统后台"}]};
+
+
+function toggleCols() {
+  const tbl = document.getElementById('main-table');
+  const btn = document.getElementById('col-btn');
+  if (tbl.classList.contains('hide-cols')) {
+    tbl.classList.remove('hide-cols');
+    btn.textContent = '隐藏明细列';
+  } else {
+    tbl.classList.add('hide-cols');
+    btn.textContent = '显示明细列';
+  }
+}
+
+function esc(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function sCls(v) {
+  if (v === null || v === undefined || v === -1) return 's-';
+  if (v >= 5) return 's5'; if (v >= 4) return 's4';
+  if (v >= 3) return 's3'; if (v >= 2) return 's2';
+  if (v >= 1) return 's1'; return 's0';
+}
+function compoCls(v) {
+  if (v === null || v === undefined) return 's-';
+  if (v >= 4.5) return 's5'; if (v >= 3.5) return 's4';
+  if (v >= 2.5) return 's3'; if (v >= 1.5) return 's2';
+  if (v >= 0.5) return 's1'; return 's0';
+}
+function getCC(c) {
+  if (c.includes('核心刚需')) return 'cnc-core';
+  if (c.includes('重要保留')) return 'cnc-retain';
+  if (c.includes('选配')) return 'cnc-optional';
+  return '';
+}
+function getTC(t) {
+  if (t.includes('🎯')) return 't-获客';
+  if (t.includes('🔥')) return 't-营销';
+  if (t.includes('💎')) return 't-会员';
+  if (t.includes('💰')) return 't-交易';
+  if (t.includes('⚙️')) return 't-底层';
+  if (t.includes('📊')) return 't-报表';
+  return '';
+}
+
+// 按 category 过滤后,按 l1+l2 分组
+let currentCat = '系统后台';
+
+function groupModules() {
+  const filtered = DATA.modules.filter(m => m.category === currentCat);
+  const groups = [];
+  let last = null;
+  filtered.forEach(m => {
+    const key = m.l1 + '||' + m.l2;
+    if (!last || last.key !== key) {
+      last = { key, l1: m.l1, l2: m.l2, items: [] };
+      groups.push(last);
+    }
+    last.items.push(m);
+  });
+  return groups;
+}
+
+// 聚合统计: 返回 {maxD(峰值深度), core(核心数), total, ratioStr, breadthCls, conc(结论)}
+function aggStats(items) {
+  const depths = items.map(it => it.depth || 0);
+  const maxD = depths.length ? Math.max(...depths) : 0;
+  const core = depths.filter(d => d >= 4).length;
+  const total = depths.length;
+  const ratio = total ? core/total : 0;
+  let conc;
+  if (maxD === 0) conc = '🔴暂未启用';
+  else if (maxD >= 4 && ratio >= 0.5) conc = '🟢核心刚需';
+  else if (maxD >= 4) conc = '🟡重要保留';
+  else if (maxD >= 3) conc = '🟡重要保留';
+  else conc = '🟠选配';
+  let breadthCls = 'b-low';
+  if (ratio >= 0.5) breadthCls = 'b-high';
+  else if (ratio >= 0.25) breadthCls = 'b-mid';
+  return { maxD, core, total, ratio, breadthCls, conc };
+}
+
+function render() {
+  const groups = groupModules();
+  // 使用 tbody-left / tbody-right
+  const rows = [];
+  let l3Idx = 0;
+  // 一级折叠的清单(默认折叠为一级行)
+  const aggregateL1 = [];
+  // 按 l1 分组的索引,用于在每个新的 l1 第一次出现时插入 l1-row
+  const l1SeenGroups = {};
+  groups.forEach((g, gi) => {
+    // 如果是聚合一级且还没生成 l1-row,生成一个
+    if (aggregateL1.includes(g.l1) && !l1SeenGroups[g.l1]) {
+      l1SeenGroups[g.l1] = true;
+      // 收集该 l1 下所有 group 计算聚合
+      const allGroups = groups.filter(x => x.l1 === g.l1);
+      const allItems = allGroups.flatMap(x => x.items);
+      const aggAll = aggStats(allItems);
+      const l2Names = allGroups.map(x => x.l2).join(' / ');
+      rows.push(`
+      <tr class="l1-row" data-l1="${esc(g.l1)}" data-t="${esc([...new Set(allItems.map(x=>x.type))].join(' '))}" data-search="${esc(g.l1.toLowerCase()+' '+l2Names.toLowerCase())}" data-c="${esc(aggAll.conc)}" data-depth="${aggAll.maxD}" data-compo="${aggAll.maxD}" onclick="toggleL1('${esc(g.l1)}')">
+        <td><span class="icon-toggle l1-toggle-${esc(g.l1)}">▶</span></td>
+        <td><span class="l1tag l1-${esc(g.l1)}">${esc(g.l1)}</span></td>
+        <td><span class="l2-name">${esc(g.l1)}</span><span class="l3-count"> · ${allGroups.length}项</span></td>
+        <td>${esc(allItems[0].type)}</td>
+        <td style="text-align:center;"><span class="score ${sCls(aggAll.maxD)}">${aggAll.maxD}</span></td>
+        <td style="text-align:center;"><span class="breadth ${aggAll.breadthCls}" title="核心刚需子项数/总数(深度≥4计核心)">${aggAll.core}/${aggAll.total}</span></td>
+        <td><span class="cnc ${getCC(aggAll.conc)}">${esc(aggAll.conc)}</span></td>
+        <td style="font-size:11px; color:#7f8c8d;">展开看子模块明细</td>
+      </tr>`);
+    }
+
+    // 聚合二级行
+    const items = g.items;
+    const hasL3 = items.some(it => it.l3);
+    // type
+    const types = [...new Set(items.map(it => it.type))];
+    const typeStr = types.join('/');
+    const underL1cls = aggregateL1.includes(g.l1) ? ' under-l1' : '';
+    const underL1attr = aggregateL1.includes(g.l1) ? ` data-parent-l1="${esc(g.l1)}"` : '';
+
+    let scoreCell, concCell, dataDepth, dataConc;
+    if (hasL3) {
+      // 多个L3: 用aggStats(峰值+广度) 重新计算结论
+      const agg = aggStats(items);
+      dataDepth = agg.maxD; dataConc = agg.conc;
+      scoreCell = `<span class="score ${sCls(agg.maxD)}">${agg.maxD}</span></td><td style="text-align:center;"><span class="breadth ${agg.breadthCls}" title="核心刚需子项数/总数(深度≥4计核心)">${agg.core}/${agg.total}</span>`;
+      concCell = `<span class="cnc ${getCC(agg.conc)}">${esc(agg.conc)}</span>`;
+    } else {
+      // 单个L3(或无L3) — 直接取该项的真实分数和结论,不聚合
+      const m = items[0];
+      const d = m.depth || 0;
+      dataDepth = d; dataConc = m.conclusion;
+      scoreCell = `<span class="score ${sCls(d)}">${d}</span></td><td style="text-align:center;color:#bdc3c7;">—`;
+      concCell = `<span class="cnc ${getCC(m.conclusion)}">${esc(m.conclusion)}</span>`;
+    }
+
+    rows.push(`
+    <tr class="l2-row${underL1cls}"${underL1attr} data-gi="${gi}" data-l1="${esc(g.l1)}" data-t="${esc(types.join(' '))}" data-search="${esc((g.l1+' '+g.l2+' '+items.map(x=>x.l3||'').join(' ')+' '+items.map(x=>x.scene).join(' ')).toLowerCase())}" data-depth="${dataDepth}" data-compo="${dataDepth}" data-c="${esc(dataConc)}" onclick="toggleL2(${gi})">
+      <td><span class="icon-toggle">▶</span></td>
+      <td><span class="l1tag l1-${esc(g.l1)}">${esc(g.l1)}</span></td>
+      <td class="l2-cell"><span class="l2-name">${esc(g.l2)}</span>${hasL3?`<span class="l3-count"> · ${items.length}项</span>`:''}</td>
+      <td>${types.map(t => `<span class="ttag ${getTC(t)}">${esc(t)}</span>`).join(' ')}</td>
+      <td style="text-align:center;">${scoreCell}</td>
+      <td>${concCell}</td>
+      <td style="font-size:11px; color:#444; line-height:1.4;">${hasL3 ? (function(){
+        const cores = items.filter(it=>(it.depth||0)>=4);
+        const top = cores.slice(0,4).map(it=>it.l3).filter(Boolean);
+        const rep = cores.find(it => it.group && it.group.length>10) || items[0];
+        const dataSummary = (rep.group || '').split(';')[0];
+        return top.length ? '<span style="color:#5d4037;">📌 核心子项: <b>'+top.join(' · ')+'</b></span>' + (dataSummary ? ' <span style="color:#7f8c8d;">· '+esc(dataSummary).slice(0,80)+'</span>' : '') : '<span style="color:#95a5a6;">展开看子项数据</span>';
+      })() : esc(items[0].group)}</td>
+    </tr>`);
+
+    if (!hasL3) {
+      // 无三级的二级: 生成一个 detail 行,展开后看详情
+      const m = items[0];
+      rows.push(`
+      <tr class="l2-detail" data-gi="${gi}">
+        <td colspan="8">
+          <div class="detail-v2">
+            <div class="dv-section">
+              <div class="dv-title">🎯 关键场景</div>
+              <div class="dv-content">${esc(m.scene)} <span class="dv-meta">| 系统内/外: ${esc(m.sysIO)}</span></div>
+            </div>
+            <div class="dv-section">
+              <div class="dv-title">📊 标杆店实测对比</div>
+              <div class="dv-data">
+                <div class="dd-item" style="border-top-color:#27ae60;"><div class="dd-label">🏬 衢州 · 南湖</div><div class="dd-val">${esc(m.quzhou)}</div></div>
+                <div class="dd-item" style="border-top-color:#e67e22;"><div class="dd-label">🏬 新余</div><div class="dd-val">${esc(m.xinyu)}</div></div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>`);
+    } else {
+      // 按峰值深度降序排序,depth相同保持原顺序
+      const sortedItems = [...items].sort((a,b) => (b.depth||0) - (a.depth||0));
+      sortedItems.forEach(m => {
+        rows.push(`
+        <tr class="l3-row" data-gi="${gi}" data-i="${l3Idx}" onclick="toggleL3(${l3Idx})">
+          <td><span class="icon-toggle">▶</span></td>
+          <td></td>
+          <td class="l3-name">└─ ${esc(m.l3||'(整体)')}</td>
+          <td><span class="ttag ${getTC(m.type)}">${esc(m.type)}</span></td>
+          <td style="text-align:center;"><span class="score ${sCls(m.depth)}">${m.depth ?? '-'}</span></td>
+          <td style="text-align:center;color:#bdc3c7;font-size:10px;">—</td>
+          <td><span class="cnc ${getCC(m.conclusion)}">${esc(m.conclusion)}</span></td>
+          <td style="font-size:11px; color:#444; line-height:1.4;">${esc(m.group)}</td>
+        </tr>
+        <tr class="l3-detail" data-d="${l3Idx}">
+          <td colspan="8">
+            <div class="detail-v2">
+              <div class="dv-section">
+                <div class="dv-title">🎯 关键场景</div>
+                <div class="dv-content">${esc(m.scene)} <span class="dv-meta">| 系统内/外: ${esc(m.sysIO)}</span></div>
+              </div>
+              <div class="dv-section">
+                <div class="dv-title">📊 标杆店实测对比</div>
+                <div class="dv-data">
+                  <div class="dd-item" style="border-top-color:#27ae60;"><div class="dd-label">🏬 衢州 · 南湖</div><div class="dd-val">${esc(m.quzhou)}</div></div>
+                  <div class="dd-item" style="border-top-color:#e67e22;"><div class="dd-label">🏬 新余</div><div class="dd-val">${esc(m.xinyu)}</div></div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>`);
+        l3Idx++;
+      });
+    }
+  });
+  // 计算 group 边界 + primary type
+  const groupBoundaries = [];
+  let cursor = 0;
+  groups.forEach((g) => {
+    const items = g.items;
+    const hasL3 = items.some(it => it.l3);
+    const rowsPerGroup = 1 + (hasL3 ? items.length : 1);
+    const typeCount = {};
+    items.forEach(it => { typeCount[it.type] = (typeCount[it.type]||0) + 1; });
+    const primaryType = Object.entries(typeCount).sort((a,b)=>b[1]-a[1])[0][0];
+    const maxDepth = Math.max(...(items.map(it => it.depth||0)));
+    groupBoundaries.push({
+      l1: g.l1, l2: g.l2, primaryType, maxDepth,
+      start: cursor, end: cursor + rowsPerGroup, itemCount: items.length
+    });
+    cursor += rowsPerGroup;
+  });
+  // 与 Tab2 一致: 商户小程序 L1 单独作为"商户端独立产品" section, 其他按 type 分
+  const merchantBoundaries = groupBoundaries.filter(b => b.l1 === '商户小程序');
+  const otherBoundaries = groupBoundaries.filter(b => b.l1 !== '商户小程序');
+  const typeOrder = ['🎯获客触达', '🔥营销转化', '💎会员经营', '💰交易结算', '⚙️系统底层', '📊报表'];
+  const byType = {};
+  typeOrder.forEach(t => byType[t] = []);
+  otherBoundaries.forEach(b => {
+    if (byType[b.primaryType]) byType[b.primaryType].push(b);
+  });
+  // 类型内按 maxDepth desc 排
+  Object.keys(byType).forEach(t => {
+    byType[t].sort((a,b) => b.maxDepth - a.maxDepth);
+  });
+  merchantBoundaries.sort((a,b) => b.maxDepth - a.maxDepth);
+  // 类型 meta
+  const typeMeta = {
+    '🎯获客触达': { cls: 'sec-acquire', label: '🎯 获客触达' },
+    '🔥营销转化': { cls: 'sec-convert', label: '🔥 营销转化' },
+    '💎会员经营': { cls: 'sec-retain',  label: '💎 会员经营' },
+    '💰交易结算': { cls: 'sec-settle',  label: '💰 交易结算' },
+    '⚙️系统底层': { cls: 'sec-sys',     label: '⚙️ 系统底层' },
+    '📊报表':    { cls: 'sec-report',  label: '📊 报表' },
+  };
+  // 渲染 - 6 个 type sections + 1 商户端 section
+  const allRows = [];
+  typeOrder.forEach(t => {
+    const bucket = byType[t];
+    if (!bucket.length) return;
+    const itemTotal = bucket.reduce((s,b)=>s+b.itemCount, 0);
+    allRows.push(`<tr class="type-section ${typeMeta[t].cls}"><td colspan="8">${typeMeta[t].label} <span class="sec-count">${bucket.length} 个模块 · ${itemTotal} 项能力</span></td></tr>`);
+    bucket.forEach(b => {
+      allRows.push(...rows.slice(b.start, b.end));
+    });
+  });
+  if (merchantBoundaries.length) {
+    const mTotal = merchantBoundaries.reduce((s,b)=>s+b.itemCount, 0);
+    allRows.push(`<tr class="type-section sec-merchant"><td colspan="8">🏪 商户端独立产品 <small style="font-weight:400;color:#7f8c8d;">· 独立小程序APP,需单独评估供应商</small> <span class="sec-count">${merchantBoundaries.length} 个模块 · ${mTotal} 项能力</span></td></tr>`);
+    merchantBoundaries.forEach(b => {
+      allRows.push(...rows.slice(b.start, b.end));
+    });
+  }
+  document.getElementById('tbody').innerHTML = allRows.join('');
+  apply();
+}
+
+
+function toggleL1(l1) {
+  // 找到该 l1-row
+  const l1row = document.querySelector(`tr.l1-row[data-l1="${l1}"]`);
+  if (!l1row) return;
+  const isExpanded = l1row.classList.toggle('expanded');
+  l1row.querySelector('.icon-toggle').textContent = isExpanded ? '▼' : '▶';
+  // 切换该 l1 下所有 l2-row.under-l1 的 show
+  document.querySelectorAll(`tr.l2-row.under-l1[data-parent-l1="${l1}"]`).forEach(r => {
+    if (isExpanded) {
+      r.classList.add('show');
+    } else {
+      r.classList.remove('show');
+      r.classList.remove('expanded');
+      r.querySelector('.icon-toggle').textContent = '▶';
+      // 也要隐藏该 l2 的 l2-detail
+      const gi = r.dataset.gi;
+      const l2d = document.querySelector(`tr.l2-detail[data-gi="${gi}"]`);
+      if (l2d) l2d.classList.remove('show');
+      // 隐藏该 l2 的 l3-row 和 detail
+      document.querySelectorAll(`tr.l3-row[data-gi="${gi}"]`).forEach(lr => {
+        lr.classList.remove('show');
+        lr.classList.remove('expanded');
+        lr.querySelector('.icon-toggle').textContent = '▶';
+      });
+      document.querySelectorAll(`tr.l3-row[data-gi="${gi}"]`).forEach(lr => {
+        const i = lr.dataset.i;
+        const d = document.querySelector(`tr.l3-detail[data-d="${i}"]`);
+        if (d) d.classList.remove('show');
+      });
+    }
+  });
+}
+
+function toggleL2(gi) {
+  const l2 = document.querySelector(`tr.l2-row[data-gi="${gi}"]`);
+  if (!l2) return;
+  const isExpanded = l2.classList.toggle('expanded');
+  l2.querySelector('.icon-toggle').textContent = isExpanded ? '▼' : '▶';
+  // 切换 l3 行 (如果有)
+  const l3rows = document.querySelectorAll(`tr.l3-row[data-gi="${gi}"]`);
+  l3rows.forEach(r => {
+    if (isExpanded) r.classList.add('show');
+    else {
+      r.classList.remove('show');
+      r.classList.remove('expanded');
+      r.querySelector('.icon-toggle').textContent = '▶';
+      const i = r.dataset.i;
+      const d = document.querySelector(`tr.l3-detail[data-d="${i}"]`);
+      if (d) d.classList.remove('show');
+    }
+  });
+  // 切换 l2-detail (无三级时使用)
+  const l2detail = document.querySelector(`tr.l2-detail[data-gi="${gi}"]`);
+  if (l2detail) {
+    if (isExpanded) l2detail.classList.add('show');
+    else l2detail.classList.remove('show');
+  }
+}
+
+function toggleL3(i) {
+  // 阻止冒泡到 l2(由 onclick 绑定避免)
+  event.stopPropagation();
+  const l3 = document.querySelector(`tr.l3-row[data-i="${i}"]`);
+  const detail = document.querySelector(`tr.l3-detail[data-d="${i}"]`);
+  if (!l3 || !detail) return;
+  const isExpanded = l3.classList.toggle('expanded');
+  detail.classList.toggle('show');
+  l3.querySelector('.icon-toggle').textContent = isExpanded ? '▼' : '▶';
+}
+
+function expandAllL2() {
+  document.querySelectorAll('tr.l1-row').forEach(r => {
+    if (r.style.display !== 'none' && !r.classList.contains('expanded')) r.click();
+  });
+  document.querySelectorAll('tr.l2-row').forEach(r => {
+    if (r.style.display !== 'none' && !r.classList.contains('expanded')) r.click();
+  });
+}
+function collapseAllL2() {
+  document.querySelectorAll('tr.l2-row.expanded').forEach(r => r.click());
+  document.querySelectorAll('tr.l1-row.expanded').forEach(r => r.click());
+}
+
+const fs = { l1: 'all', t: 'all', c: 'all', depth: 'all', s: '' };
+function apply() {
+  let v = 0;
+  // 先处理 l1-row
+  document.querySelectorAll('tr.l1-row').forEach(row => {
+    let show = true;
+    if (fs.l1 !== 'all' && row.dataset.l1 !== fs.l1) show = false;
+    if (fs.t !== 'all' && !(row.dataset.t||'').includes(fs.t)) show = false;
+    if (fs.c !== 'all' && !row.dataset.c.includes(fs.c)) show = false;
+    if (fs.s && !row.dataset.s.includes(fs.s.toLowerCase())) show = false;
+    if (fs.depth !== 'all') {
+      const d = parseFloat(row.dataset.depth);
+      if (fs.depth === 'high' && !(d >= 4)) show = false;
+      else if (fs.depth === 'mid' && !(d >= 2 && d < 4)) show = false;
+      else if (fs.depth === 'low' && !(d <= 1 && d > 0)) show = false;
+      else if (fs.depth === 'zero' && !(d === 0)) show = false;
+    }
+    row.style.display = show ? '' : 'none';
+    if (show) v++;
+    // 隐藏对应的 l2-row.under-l1
+    const l1 = row.dataset.l1;
+    if (!show) {
+      document.querySelectorAll(`tr.l2-row.under-l1[data-parent-l1="${l1}"]`).forEach(r => {
+        r.style.display = 'none';
+      });
+    }
+  });
+  document.querySelectorAll('tr.l2-row').forEach(row => {
+    let show = true;
+    if (fs.l1 !== 'all' && row.dataset.l1 !== fs.l1) show = false;
+    if (fs.t !== 'all' && !(row.dataset.t||'').includes(fs.t)) show = false;
+    if (fs.c !== 'all' && !row.dataset.c.includes(fs.c)) show = false;
+    if (fs.s && !row.dataset.s.includes(fs.s.toLowerCase())) show = false;
+    if (fs.depth !== 'all') {
+      const d = parseFloat(row.dataset.depth);
+      if (fs.depth === 'high' && !(d >= 4)) show = false;
+      else if (fs.depth === 'mid' && !(d >= 2 && d < 4)) show = false;
+      else if (fs.depth === 'low' && !(d <= 1 && d > 0)) show = false;
+      else if (fs.depth === 'zero' && !(d === 0)) show = false;
+    }
+    row.style.display = show ? '' : 'none';
+    const gi = row.dataset.gi;
+    document.querySelectorAll(`tr.l3-row[data-gi="${gi}"]`).forEach(r => {
+      r.style.display = show ? '' : 'none';
+    });
+    const l2d = document.querySelector(`tr.l2-detail[data-gi="${gi}"]`);
+    if (l2d) l2d.style.display = show ? '' : 'none';
+    if (show) v++;
+  });
+  document.getElementById('stats').innerText = `${v} / ${document.querySelectorAll('tr.l2-row').length} 二级模块`;
+}
+
+document.querySelectorAll('[data-f]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const f = chip.dataset.f;
+    document.querySelectorAll(`[data-f="${f}"]`).forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    fs[f] = chip.dataset.v;
+    apply();
+  });
+});
+document.getElementById('search').addEventListener('input', e => {
+  fs.s = e.target.value;
+  apply();
+});
+
+function switchCat(el, cat) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentCat = cat;
+  // 重置筛选器为全部
+  fs.l1 = 'all'; fs.t = 'all'; fs.c = 'all'; fs.depth = 'all'; fs.s = '';
+  document.querySelectorAll('.chip').forEach(c => {
+    if (c.dataset.v === 'all') c.classList.add('active');
+    else c.classList.remove('active');
+  });
+  // 重建一级 chips
+  rebuildL1Chips();
+  document.getElementById('search').value = '';
+  render();
+}
+function rebuildL1Chips() {
+  const filtered = DATA.modules.filter(m => m.category === currentCat);
+  const l1Set = [...new Set(filtered.map(m => m.l1))];
+  // 找到一级 chip 容器(包含 data-f="l1")
+  const allChip = document.querySelector('.chip[data-f="l1"][data-v="all"]');
+  if (!allChip) return;
+  const parent = allChip.parentElement;
+  // 移除现有非 all 的 l1 chips
+  Array.from(parent.querySelectorAll('.chip[data-f="l1"]')).forEach(c => {
+    if (c.dataset.v !== 'all') c.remove();
+  });
+  // 添加新 chips
+  l1Set.forEach(l1 => {
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.dataset.f = 'l1';
+    chip.dataset.v = l1;
+    chip.textContent = l1;
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('[data-f="l1"]').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      fs.l1 = l1;
+      apply();
+    });
+    parent.appendChild(chip);
+  });
+}
+
+rebuildL1Chips();
+render();
+
+function switchMainTab(view) {
+  const detail = document.getElementById('cat-view');
+  const exec = document.getElementById('exec-view');
+  const btnD = document.getElementById('tab-btn-detail');
+  const btnE = document.getElementById('tab-btn-exec');
+  if (view === 'exec') {
+    detail.style.display = 'none';
+    exec.style.display = 'block';
+    btnD.classList.remove('active'); btnE.classList.add('active');
+    renderExec();
+  } else {
+    detail.style.display = 'flex';
+    exec.style.display = 'none';
+    btnD.classList.add('active'); btnE.classList.remove('active');
+  }
+}
+
+function execGetTier(conc) {
+  if (conc.includes('核心刚需')) return 'core';
+  if (conc.includes('重要保留')) return 'retain';
+  return 'opt';
+}
+
+function renderExec() {
+  const container = document.getElementById('exec-panorama');
+  const groups = groupModules();
+  // 按主类型聚合L2
+  const byType = {
+    '🎯获客触达': [], '🔥营销转化': [], '💎会员经营': [],
+    '💰交易结算': [], '⚙️系统底层': [], '📊报表': []
+  };
+  const merchantApp = []; // L1=商户小程序 独立产品的能力
+  groups.forEach(g => {
+    const items = g.items;
+    const typeCount = {};
+    items.forEach(it => { typeCount[it.type] = (typeCount[it.type]||0) + 1; });
+    const primary = Object.entries(typeCount).sort((a,b)=>b[1]-a[1])[0][0];
+    const hasL3 = items.some(it => it.l3);
+    let depth, breadth = '';
+    if (hasL3) {
+      const agg = aggStats(items);
+      depth = agg.maxD; breadth = agg.core + '/' + agg.total;
+    } else {
+      depth = items[0].depth || 0;
+    }
+    const card = {
+      l1: g.l1, l2: g.l2, depth, breadth,
+      total: items.length, hasL3, items,
+      data: ((items.find(it=>(it.depth||0)>=5) || items[0]).group || '').split(';')[0]
+    };
+    // L1=商户小程序 单独到 merchantApp 区,不进 funnel
+    if (g.l1 === '商户小程序') {
+      merchantApp.push(card);
+    } else if (byType[primary]) {
+      byType[primary].push(card);
+    }
+  });
+  merchantApp.sort((a,b) => b.depth - a.depth);
+  Object.keys(byType).forEach(t => byType[t].sort((a,b) => b.depth - a.depth));
+
+  // 仅 L1=商户小程序 卡片标记为商户端 (商户小程序卡片已在底部独立区,这里其实不会触发)
+  const isMerchantCard = (c) => c.l1 === '商户小程序';
+  // 取核心 L3 子项 (depth>=4),按 depth desc 排序,全部显示
+  const getKeyL3s = (c) => {
+    if (!c.hasL3) return { chips: [], more: 0 };
+    const sorted = c.items
+      .filter(it => it.l3 && (it.depth||0) >= 4)
+      .sort((a,b) => (b.depth||0) - (a.depth||0));
+    return {
+      chips: sorted.map(it => ({ name: it.l3, d: it.depth || 0 })),
+      more: 0
+    };
+  };
+  const renderCard = c => {
+    const tip = (c.l1 + ' / ' + c.l2 + (c.total>1?' · '+c.total+'项':'') + (c.data ? ' · ' + c.data : '')).replace(/"/g,"'");
+    const merchantCls = isMerchantCard(c) ? ' is-merchant' : '';
+    // depth>=4 的 L2 卡片才展开关键 L3 (depth=3及以下保持紧凑)
+    const keyL3Info = c.depth >= 4 ? getKeyL3s(c) : { chips: [], more: 0 };
+    const l3Row = keyL3Info.chips.length ? `
+      <div class="mini-l3-row">
+        ${keyL3Info.chips.map(o => `<span class="l3-chip l3-d${o.d}">${esc(o.name)}</span>`).join('')}${keyL3Info.more ? `<span class="l3-chip l3-more">+${keyL3Info.more}</span>` : ''}
+      </div>` : '';
+    const depthTone = `f${c.depth}`;
+    const dots = [1,2,3,4,5].map(i => `<span class="depth-dot${i<=c.depth?' '+depthTone:''}"></span>`).join('');
+    return `<div class="mini-card d${c.depth}${merchantCls}" title="${esc(tip)}">
+      <div class="mini-row">
+        <span class="mini-l2">${esc(c.l2)}${c.total>1 ? '<span class="sub">·'+c.total+'</span>' : ''}</span>
+        ${c.breadth ? `<span class="mini-brd">${c.breadth}核</span>` : ''}
+        <span class="depth-rating" title="使用深度 ${c.depth}/5">${dots}<span class="depth-num">${c.depth}</span></span>
+      </div>${l3Row}
+    </div>`;
+  };
+  const stageBlock = (typeKey, cls, icon, label, withArrow) => `
+    <div class="stage ${cls}">
+      <div class="stage-head">
+        <span class="icon">${icon}</span>
+        <span>${label}</span>
+        <span class="count">${byType[typeKey].length}项</span>
+        ${withArrow ? '<span class="arrow">→</span>' : ''}
+      </div>
+      <div class="stage-cards">
+        ${byType[typeKey].map(renderCard).join('')}
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = `
+    <div class="panorama">
+      <div class="funnel-row">
+        ${stageBlock('🎯获客触达', 'stage-acquire', '🎯', '获客触达', true)}
+        ${stageBlock('🔥营销转化', 'stage-convert', '🔥', '营销转化', true)}
+        ${stageBlock('💎会员经营', 'stage-retain', '💎', '会员经营', true)}
+        ${stageBlock('💰交易结算', 'stage-settle', '💰', '交易结算', false)}
+      </div>
+      <div class="bottom-row">
+        ${stageBlock('⚙️系统底层', 'stage-sys', '⚙️', '系统底层', false)}
+        ${stageBlock('📊报表', 'stage-report', '📊', '报表', false)}
+        <div class="stage stage-merchant">
+          <div class="stage-head">
+            <span class="icon">🏪</span>
+            <span>商户端独立产品 <small style="color:#7f8c8d;font-weight:400;font-size:9.5px;">· 独立小程序APP</small></span>
+            <span class="count">${merchantApp.length}项</span>
+          </div>
+          <div class="merchant-app-grid">
+            ${merchantApp.map(renderCard).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
