@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>影能科技26年续约进展说明</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.8; }
+
+  /* ===== Toggle Bar ===== */
+  .toggle-bar { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid #e2e8f0; padding: 10px 0; display: flex; justify-content: center; }
+  .toggle-group { display: inline-flex; background: #f1f5f9; border-radius: 8px; padding: 3px; gap: 2px; }
+  .toggle-btn { border: none; background: transparent; padding: 6px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; transition: all .2s; font-family: inherit; }
+  .toggle-btn.active { background: #fff; color: #1e40af; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+  .toggle-btn:hover:not(.active) { color: #334155; }
+  .toggle-icon { margin-right: 4px; }
+
+  /* ===== Container ===== */
+  .page { max-width: 480px; margin: 0 auto; padding: 28px 24px 40px; background: #fff; min-height: calc(100vh - 50px); }
+  body.desktop .page { max-width: 860px; padding: 40px 56px 48px; }
+
+  /* ===== Typography ===== */
+  h1 { font-size: 18px; font-weight: 700; color: #1e293b; text-align: center; margin-bottom: 4px; }
+  body.desktop h1 { font-size: 22px; margin-bottom: 6px; }
+  .meta { font-size: 12px; color: #94a3b8; text-align: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
+  body.desktop .meta { font-size: 13px; margin-bottom: 32px; }
+
+  .section { margin-bottom: 22px; }
+  body.desktop .section { margin-bottom: 30px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #1e3a5f; margin-bottom: 10px; padding-left: 10px; border-left: 3px solid #2563eb; }
+  body.desktop .section-title { font-size: 17px; margin-bottom: 14px; }
+
+  p { font-size: 13px; color: #334155; margin-bottom: 8px; text-indent: 2em; }
+  body.desktop p { font-size: 14px; margin-bottom: 10px; }
+  p.no-indent { text-indent: 0; }
+
+  /* ===== Risk Box ===== */
+  .risk-box { background: #fffbeb; border-left: 3px solid #f59e0b; border-radius: 4px; padding: 10px 14px; margin: 10px 0 14px; }
+  .risk-box p { font-size: 12px; color: #92400e; text-indent: 0; margin: 0; }
+  body.desktop .risk-box { padding: 14px 20px; }
+  body.desktop .risk-box p { font-size: 13px; }
+
+  /* ===== Status Tags ===== */
+  .st { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px; font-weight: 600; }
+  .st-done { background: #dcfce7; color: #16a34a; }
+  .st-wait { background: #fef3c7; color: #b45309; }
+
+  .green { color: #059669; font-weight: 600; }
+  .red { color: #dc2626; font-weight: 600; }
+  .orange { color: #d97706; font-weight: 600; }
+
+  /* ===== Mobile: Card Layout ===== */
+  .card-list { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
+  .card-item { border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; }
+  .card-item .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .card-item .card-title { font-size: 14px; font-weight: 700; color: #1e293b; }
+  .card-item .card-rows { display: flex; flex-direction: column; gap: 6px; }
+  .card-row { display: flex; font-size: 12px; }
+  .card-label { color: #94a3b8; width: 80px; flex-shrink: 0; }
+  .card-value { color: #334155; flex: 1; }
+
+  /* ===== Desktop: Table Layout ===== */
+  .desk-table { display: none; }
+  body.desktop .card-list { display: none; }
+  body.desktop .desk-table { display: table; width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  .desk-table th, .desk-table td { border: 1px solid #e2e8f0; padding: 10px 14px; text-align: left; vertical-align: top; }
+  .desk-table th { background: #f8fafc; color: #475569; font-weight: 600; font-size: 12px; white-space: nowrap; }
+  .desk-table td:first-child { font-weight: 700; color: #1e293b; white-space: nowrap; width: 160px; }
+  .desk-table td:last-child { width: 80px; text-align: center; }
+
+  /* ===== Summary ===== */
+  .summary { font-size: 12px; color: #64748b; margin: 8px 0 0; padding: 8px 0 0; border-top: 1px dashed #e2e8f0; }
+  body.desktop .summary { font-size: 13px; margin: 12px 0 0; padding: 12px 0 0; }
+
+  /* ===== Recommendation Box ===== */
+  .rec-box { background: #eff6ff; border-radius: 8px; padding: 16px 18px; margin-top: 10px; }
+  body.desktop .rec-box { padding: 22px 28px; margin-top: 14px; }
+  .rec-box h3 { font-size: 13px; font-weight: 700; color: #1e40af; margin-bottom: 10px; }
+  body.desktop .rec-box h3 { font-size: 15px; margin-bottom: 14px; }
+  .rec-item { font-size: 13px; color: #1e40af; margin-bottom: 8px; text-indent: 0; }
+  body.desktop .rec-item { font-size: 14px; margin-bottom: 10px; }
+  .rec-item:last-child { margin-bottom: 0; }
+  .rec-item strong { font-weight: 700; }
+
+  .footer { margin-top: 28px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #c0c8d4; text-align: center; }
+
+  /* ===== Print: hide toggle ===== */
+  @media print { .toggle-bar { display: none; } .page { max-width: none; } }
+</style>
+</head>
+<body>
+
+  <!-- Toggle -->
+  <div class="toggle-bar">
+    <div class="toggle-group">
+      <button class="toggle-btn active" onclick="switchMode('mobile')" id="btn-mobile"><span class="toggle-icon">📱</span>手机版</button>
+      <button class="toggle-btn" onclick="switchMode('desktop')" id="btn-desktop"><span class="toggle-icon">💻</span>电脑版</button>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <h1>关于影能科技2026年度<br>系统续约的进展说明</h1>
+    <div class="meta">2026年5月</div>
+
+    <!-- 一、背景 -->
+    <div class="section">
+      <div class="section-title">一、背景说明</div>
+      <p>影能科技TwinsPower系统为集团线上会员运营的核心平台，覆盖微信、支付宝、抖音三个平台，当前服务集团28个项目的日常运营（合同包含30个项目）。</p>
+      <p>2026年度续约合同自年初开始沟通，我方就一期合同中的核心权益（源代码归属、本地化部署权、永久使用权等）与影能进行了多轮谈判。</p>
+      <div class="risk-box">
+        <p><strong>当前风险：</strong>合同谈判至今尚未签约，26年度系统处于无合同运行状态，对系统稳定性保障和供应商服务响应造成一定影响。</p>
+      </div>
+    </div>
+
+    <!-- 二、核心条款 -->
+    <div class="section">
+      <div class="section-title">二、核心条款谈判进展</div>
+      <p class="no-indent" style="margin-bottom:10px;">经多轮沟通，一期合同核心权益追回情况如下：</p>
+
+      <!-- Mobile: Cards -->
+      <div class="card-list">
+        <div class="card-item">
+          <div class="card-head">
+            <span class="card-title">源代码交付与使用权</span>
+            <span class="st st-done">已达成</span>
+          </div>
+          <div class="card-rows">
+            <div class="card-row"><span class="card-label">一期权益</span><span class="card-value green">双方共有（5.2(4)条）</span></div>
+            <div class="card-row"><span class="card-label">初版合同</span><span class="card-value red">著作权完全归乙方（5.2(3)条）</span></div>
+            <div class="card-row"><span class="card-label">谈判结果</span><span class="card-value green">合同终止后无偿交付一期范围源代码（6.3条），甲方享有永久内部使用权，可自行修改（6.4条）</span></div>
+          </div>
+        </div>
+
+        <div class="card-item">
+          <div class="card-head">
+            <span class="card-title">本地化部署权</span>
+            <span class="st st-done">已达成</span>
+          </div>
+          <div class="card-rows">
+            <div class="card-row"><span class="card-label">一期权益</span><span class="card-value green">有，甲方本地部署（3.5.4条）</span></div>
+            <div class="card-row"><span class="card-label">初版合同</span><span class="card-value red">无，SaaS云端，无迁移权约定</span></div>
+            <div class="card-row"><span class="card-label">谈判结果</span><span class="card-value green">对方同意按我方要求进行一期合同范围内的本地化部署，实施时间配合我方节奏安排，费用不超过20万</span></div>
+          </div>
+        </div>
+
+        <div class="card-item">
+          <div class="card-head">
+            <span class="card-title">永久使用权</span>
+            <span class="st st-done">已达成</span>
+          </div>
+          <div class="card-rows">
+            <div class="card-row"><span class="card-label">一期权益</span><span class="card-value green">有，买断后持续使用（3.1(3)条）</span></div>
+            <div class="card-row"><span class="card-label">初版合同</span><span class="card-value red">无，旧合同覆盖后失效（6.1-6.2条）</span></div>
+            <div class="card-row"><span class="card-label">谈判结果</span><span class="card-value green">通过源代码归属+本地化部署，实质性恢复永久使用权</span></div>
+          </div>
+        </div>
+
+        <div class="card-item" style="border-color:#fde68a;">
+          <div class="card-head">
+            <span class="card-title">超出30个项目费用</span>
+            <span class="st st-wait">待协商</span>
+          </div>
+          <div class="card-rows">
+            <div class="card-row"><span class="card-label">当前情况</span><span class="card-value green">在运营28个项目，剩余2个项目余量，26年度费用不超预算</span></div>
+            <div class="card-row"><span class="card-label">初版合同</span><span class="card-value orange">超30店：2万/项目/年；超50店：1.6万/项目/年</span></div>
+            <div class="card-row"><span class="card-label">谈判结果</span><span class="card-value orange">定价合理性待讨论，当前尚未触发</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop: Table -->
+      <table class="desk-table">
+        <thead>
+          <tr>
+            <th>条款</th>
+            <th>一期权益</th>
+            <th>初版合同</th>
+            <th>谈判结果</th>
+            <th>状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>源代码交付与使用权</td>
+            <td class="green">双方共有（5.2(4)条）</td>
+            <td class="red">著作权完全归乙方（5.2(3)条）</td>
+            <td class="green">合同终止后无偿交付一期范围源代码（6.3条），甲方享有永久内部使用权，可自行修改（6.4条）</td>
+            <td><span class="st st-done">已达成</span></td>
+          </tr>
+          <tr>
+            <td>本地化部署权</td>
+            <td class="green">有，甲方本地部署（3.5.4条）</td>
+            <td class="red">无，SaaS云端，无迁移权约定</td>
+            <td class="green">对方同意按我方要求进行一期合同范围内的本地化部署，实施时间配合我方节奏安排，费用不超过20万</td>
+            <td><span class="st st-done">已达成</span></td>
+          </tr>
+          <tr>
+            <td>永久使用权</td>
+            <td class="green">有，买断后持续使用（3.1(3)条）</td>
+            <td class="red">无，旧合同覆盖后失效（6.1-6.2条）</td>
+            <td class="green">通过源代码归属+本地化部署，实质性恢复永久使用权</td>
+            <td><span class="st st-done">已达成</span></td>
+          </tr>
+          <tr style="background:#fffbeb;">
+            <td>超出30个项目费用</td>
+            <td colspan="2" class="orange">超30店：2万/项目/年；超50店：1.6万/项目/年<br><span class="green" style="font-size:12px;">当前运营28个项目，剩余2个余量，26年度费用不超预算</span></td>
+            <td class="orange">定价合理性待讨论，当前尚未触发</td>
+            <td><span class="st st-wait">待协商</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="summary">谈判已追回一期合同三项核心权益，剩余超出项目费用定价尚待协商。以上达成事项需在正式合同或补充协议中书面落实。</p>
+    </div>
+
+    <!-- 三、中长期 -->
+    <div class="section">
+      <div class="section-title">三、中长期评估安排</div>
+      <p>张伟总已组建专项团队，计划于6月底前完成对现有系统架构、业务需求匹配度及市场替代方案的充分调研，评估后续合作模式和系统替换的可行性，为集团中长期数字化运营决策提供依据。</p>
+    </div>
+
+    <!-- 四、建议 -->
+    <div class="section">
+      <div class="section-title">四、当前建议</div>
+      <p>鉴于26年度已过近半年仍未签约，系统持续处于无合同保障状态。同时核心权益已基本追回，建议采取以下策略：</p>
+      <div class="rec-box">
+        <h3>建议：先行续约，未决事项以补充协议方式持续沟通</h3>
+        <p class="rec-item"><strong>1. 尽快完成26年度续约签署</strong>，确保系统运行有合同保障。已达成的核心条款（源代码归属、本地化部署）需在合同中书面确认。</p>
+        <p class="rec-item"><strong>2. 超出30个项目费用等未达成一致的条款</strong>，约定以补充协议方式继续协商，不阻断主合同签署进程。当前集团在运营项目为28个，25-26年度仍有2个项目余量，该条款短期内不产生实际费用影响。</p>
+        <p class="rec-item"><strong>3. 中长期替代方案评估同步推进</strong>，由张伟总团队完成充分调研后再行决策后续合作方向。</p>
+      </div>
+    </div>
+
+    <div class="footer">2026年5月</div>
+
+  </div>
+
+  <script>
+    function switchMode(mode) {
+      document.body.className = mode === 'desktop' ? 'desktop' : '';
+      document.getElementById('btn-mobile').className = mode === 'mobile' ? 'toggle-btn active' : 'toggle-btn';
+      document.getElementById('btn-desktop').className = mode === 'desktop' ? 'toggle-btn active' : 'toggle-btn';
+    }
+  </script>
+
+</body>
+</html>
